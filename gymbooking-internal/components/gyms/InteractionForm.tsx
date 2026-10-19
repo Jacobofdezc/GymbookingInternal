@@ -136,7 +136,7 @@ export function InteractionForm({
         gymUpdatePayload.next_followup_date = values.next_step_date
       }
 
-      await supabase.from('gyms').update(gymUpdatePayload).eq('id', gymId)
+      await supabase.from('gyms').update(gymUpdatePayload as any).eq('id', gymId)
 
       // 3. If next_step_date is set, automatically create follow-up task
       if (values.next_step_date) {

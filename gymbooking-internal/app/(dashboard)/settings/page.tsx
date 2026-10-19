@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { requireAuth } from '@/lib/auth/permissions'
+import { requireAuth } from '@/lib/auth/server'
 import { createClient } from '@/lib/supabase/server'
 import { SettingsClient } from '@/components/settings/SettingsClient'
 import type { Metadata } from 'next'

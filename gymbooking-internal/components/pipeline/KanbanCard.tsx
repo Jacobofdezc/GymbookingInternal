@@ -53,7 +53,10 @@ export function KanbanCard({ gym, statusId, isOverlay = false }: KanbanCardProps
       }
     : undefined
 
-  const priorityInfo = gym.priority ? PRIORITY_CONFIG[gym.priority] : null
+  const priorityInfo =
+    gym.priority && gym.priority in PRIORITY_CONFIG
+      ? PRIORITY_CONFIG[gym.priority as keyof typeof PRIORITY_CONFIG]
+      : null
   const followupOverdue = isOverdue(gym.next_followup_date)
 
   const ownerInitials = gym.owner?.full_name

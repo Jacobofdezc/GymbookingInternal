@@ -19,6 +19,7 @@ import {
   type IssueWithDetails,
 } from '@/services/issues/issue.service'
 import { formatDate } from '@/lib/utils'
+import type { IssueStatus } from '@/types/database'
 import {
   AlertTriangle,
   Building2,
@@ -99,7 +100,7 @@ export function IssueDetailModal({
 
     try {
       setUpdatingStatus(true)
-      await updateIssue(issue.id, { status: newStatus })
+      await updateIssue(issue.id, { status: newStatus as IssueStatus })
       const updated = await getIssueById(issue.id)
       setIssue(updated)
       onUpdate()

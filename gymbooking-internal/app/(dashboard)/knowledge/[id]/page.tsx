@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
-import { requireAuth, canWrite } from '@/lib/auth/permissions'
+import { requireAuth } from '@/lib/auth/server'
+import { canWrite } from '@/lib/auth/permissions'
+import { createClient } from '@/lib/supabase/server'
 import { getKnowledgePage } from '@/services/knowledge/knowledge.service'
 import { KnowledgePage } from '@/components/knowledge/KnowledgePage'
 import type { Metadata } from 'next'
@@ -8,7 +10,8 @@ export async function generateMetadata(props: {
   params: Promise<{ id: string }>
 }): Promise<Metadata> {
   const { id } = await props.params
-  const page = await getKnowledgePage(id)
+  const supabase = await createClient()
+  const page = await getKnowledgePage(id, supabase)
 
   return {
     title: page ? `${page.title} | Base de Conocimiento` : 'Artículo',
@@ -21,8 +24,9 @@ export default async function KnowledgeDetailPage(props: {
 }) {
   const { id } = await props.params
   const user = await requireAuth()
+  const supabase = await createClient()
 
-  const page = await getKnowledgePage(id)
+  const page = await getKnowledgePage(id, supabase)
 
   if (!page) {
     notFound()

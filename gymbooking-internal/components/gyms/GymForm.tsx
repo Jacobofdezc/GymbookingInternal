@@ -44,7 +44,7 @@ export function GymForm({ initialData, isEditing = false }: GymFormProps) {
     setValue,
     formState: { errors },
   } = useForm<GymFormValues>({
-    resolver: zodResolver(gymSchema),
+    resolver: zodResolver(gymSchema) as any,
     defaultValues: {
       name: initialData?.name || '',
       legal_name: initialData?.legal_name || '',

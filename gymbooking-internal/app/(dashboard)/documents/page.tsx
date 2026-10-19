@@ -1,4 +1,4 @@
-import { requireAuth } from '@/lib/auth/permissions'
+import { requireAuth } from '@/lib/auth/server'
 import { createClient } from '@/lib/supabase/server'
 import { getDocuments } from '@/services/documents/document.service'
 import { DocumentListClient } from '@/components/documents/DocumentListClient'
@@ -15,7 +15,7 @@ export default async function DocumentsPage() {
 
   // Fetch initial documents and gym options
   const [documents, { data: gyms }] = await Promise.all([
-    getDocuments(),
+    getDocuments(undefined, supabase),
     supabase
       .from('gyms')
       .select('id, name')

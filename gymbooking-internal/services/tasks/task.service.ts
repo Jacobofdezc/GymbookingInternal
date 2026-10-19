@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
-import type { PriorityLevel, TaskStatus } from '@/types/database'
+import type { PriorityLevel, TaskStatus, TaskPriority } from '@/types/database'
 
 export interface TaskAssignee {
   id: string
@@ -130,11 +130,11 @@ export async function getTasks(filters?: TaskFilters): Promise<TaskWithRelations
   }
 
   if (filters?.status && filters.status !== 'all') {
-    query = query.eq('status', filters.status)
+    query = query.eq('status', filters.status as TaskStatus)
   }
 
   if (filters?.priority && filters.priority !== 'all') {
-    query = query.eq('priority', filters.priority)
+    query = query.eq('priority', filters.priority as TaskPriority)
   }
 
   if (filters?.gym_id && filters.gym_id !== 'all') {
@@ -279,14 +279,14 @@ export async function updateTask(
   if (data.status === 'completed') {
     patch.completed_at = data.completed_at || new Date().toISOString()
     patch.completed_by = user?.id || null
-  } else if (data.status && data.status !== 'completed') {
+  } else if (data.status) {
     patch.completed_at = null
     patch.completed_by = null
   }
 
   const { data: updated, error } = await supabase
     .from('tasks')
-    .update(patch)
+    .update(patch as any)
     .eq('id', id)
     .select(`
       id,

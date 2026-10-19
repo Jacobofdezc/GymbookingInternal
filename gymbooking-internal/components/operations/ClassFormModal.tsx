@@ -110,10 +110,9 @@ export function ClassFormModal({
         name: name.trim(),
         description: description.trim() || null,
         level,
-        default_capacity: capacity ? parseInt(capacity, 10) : null,
-        price_eur: price ? parseFloat(price) : null,
+        capacity: capacity ? parseInt(capacity, 10) : null,
+        price: price ? parseFloat(price) : null,
         publication_status: publicationStatus,
-        is_active: true,
       })
 
       setNotification({ type: 'success', message: 'Clase añadida con éxito' })

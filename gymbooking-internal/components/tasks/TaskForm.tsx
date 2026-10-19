@@ -67,7 +67,7 @@ export function TaskForm({
     watch,
     formState: { errors },
   } = useForm<TaskFormValues>({
-    resolver: zodResolver(taskSchema),
+    resolver: zodResolver(taskSchema) as any,
     defaultValues: {
       title: '',
       description: '',

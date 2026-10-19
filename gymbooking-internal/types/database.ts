@@ -94,6 +94,10 @@ export type KnowledgePageCategory =
 
 export type KnowledgePageStatus = 'draft' | 'published'
 
+export type KnowledgeCategory = KnowledgePageCategory
+export type KnowledgeStatus = KnowledgePageStatus
+export type PriorityLevel = TaskPriority
+
 export type DecisionStatus = 'active' | 'replaced' | 'discarded'
 
 export type EntityType =
@@ -2006,37 +2010,6 @@ export interface Database {
             columns: ['tag_id']
             isOneToOne: false
             referencedRelation: 'tags'
-            referencedColumns: ['id']
-          }
-        ]
-      }
-
-      task_tags: {
-        Row: {
-          task_id: string
-          tag_id: string
-        }
-        Insert: {
-          task_id: string
-          tag_id: string
-        }
-        Update: {
-          task_id?: string
-          tag_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'task_tags_tag_id_fkey'
-            columns: ['tag_id']
-            isOneToOne: false
-            referencedRelation: 'tags'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'task_tags_task_id_fkey'
-            columns: ['task_id']
-            isOneToOne: false
-            referencedRelation: 'tasks'
             referencedColumns: ['id']
           }
         ]

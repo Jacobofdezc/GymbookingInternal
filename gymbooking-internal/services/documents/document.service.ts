@@ -1,3 +1,4 @@
+import { createClient } from '@/lib/supabase/client'
 import type {
   Document,
   DocumentInsert,
@@ -5,14 +6,9 @@ import type {
   DocumentCategory,
 } from '@/types/database'
 
-async function getSupabase() {
-  if (typeof window === 'undefined') {
-    const { createClient } = await import('@/lib/supabase/server')
-    return await createClient()
-  } else {
-    const { createClient } = await import('@/lib/supabase/client')
-    return createClient()
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getSupabase(client?: any) {
+  return client || createClient()
 }
 
 export interface DocumentFilters {
@@ -23,9 +19,11 @@ export interface DocumentFilters {
 }
 
 export async function getDocuments(
-  filters?: DocumentFilters
+  filters?: DocumentFilters,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  client?: any
 ): Promise<DocumentWithRelations[]> {
-  const supabase = await getSupabase()
+  const supabase = getSupabase(client)
 
   let query = supabase
     .from('documents')
@@ -70,7 +68,7 @@ export async function uploadDocument(
   file: File,
   metadata: DocumentInsert
 ): Promise<Document> {
-  const supabase = await getSupabase()
+  const supabase = getSupabase()
 
   // Generate unique path: {org_id}/{category}/{uuid}-{filename}
   const cleanFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
@@ -129,7 +127,7 @@ export async function uploadDocument(
 }
 
 export async function getSignedUrl(storagePath: string): Promise<string> {
-  const supabase = await getSupabase()
+  const supabase = getSupabase()
 
   const { data, error } = await supabase.storage
     .from('documents')
@@ -144,7 +142,7 @@ export async function getSignedUrl(storagePath: string): Promise<string> {
 }
 
 export async function deleteDocument(id: string, storagePath: string): Promise<void> {
-  const supabase = await getSupabase()
+  const supabase = getSupabase()
 
   // Remove from storage
   if (storagePath) {

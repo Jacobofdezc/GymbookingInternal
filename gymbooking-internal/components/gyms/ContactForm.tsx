@@ -56,7 +56,7 @@ export function ContactForm({
     reset,
     formState: { errors },
   } = useForm<ContactFormValues>({
-    resolver: zodResolver(contactSchema),
+    resolver: zodResolver(contactSchema) as any,
     defaultValues: {
       full_name: '',
       job_title: '',

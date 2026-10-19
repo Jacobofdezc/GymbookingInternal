@@ -9,7 +9,6 @@ import {
   Phone,
   Mail,
   Globe,
-  Instagram,
   MapPin,
   Clock,
   CheckCircle2,
@@ -47,6 +46,16 @@ import { formatDate, formatDateTime, formatRelative } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 import type { FullGymDetail } from '@/services/gyms/gym.service'
 import type { GymContact, Task, GymOnboardingItem, TaskPriority } from '@/types/database'
+
+function InstagramIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  )
+}
 
 interface GymDetailClientProps {
   initialGym: FullGymDetail
@@ -442,7 +451,7 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
                 )}
                 {gym.instagram && (
                   <div className="flex items-center gap-1">
-                    <Instagram className="h-3.5 w-3.5 text-slate-400" />
+                    <InstagramIcon className="h-3.5 w-3.5 text-slate-400" />
                     <span>{gym.instagram}</span>
                   </div>
                 )}

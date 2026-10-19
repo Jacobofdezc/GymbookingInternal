@@ -65,7 +65,7 @@ export async function getIssues(filters?: {
     if (filters.status === 'open_all') {
       query = query.not('status', 'in', '("resolved","closed")')
     } else {
-      query = query.eq('status', filters.status)
+      query = query.eq('status', filters.status as any)
     }
   }
 
@@ -74,7 +74,7 @@ export async function getIssues(filters?: {
   }
 
   if (filters?.type && filters.type !== 'all') {
-    query = query.eq('type', filters.type)
+    query = query.eq('type', filters.type as any)
   }
 
   if (filters?.assignee_id && filters.assignee_id !== 'all') {

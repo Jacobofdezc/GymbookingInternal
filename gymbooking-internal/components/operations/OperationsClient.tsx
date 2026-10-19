@@ -357,7 +357,7 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
                           </td>
 
                           <td className="px-4 py-3.5 whitespace-nowrap text-xs text-muted-foreground">
-                            {cls.verified_at ? formatDate(cls.verified_at) : 'Sin verificar'}
+                            {cls.last_verified_at ? formatDate(cls.last_verified_at) : 'Sin verificar'}
                           </td>
 
                           <td className="px-4 py-3.5 whitespace-nowrap text-xs text-muted-foreground">

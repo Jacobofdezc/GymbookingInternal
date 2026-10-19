@@ -1,4 +1,4 @@
-import { requireAuth } from '@/lib/auth/permissions'
+import { requireAuth } from '@/lib/auth/server'
 import { createClient } from '@/lib/supabase/server'
 import { TeamPageClient } from '@/components/team/TeamPageClient'
 import type { Metadata } from 'next'

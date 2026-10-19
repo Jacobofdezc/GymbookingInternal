@@ -16,6 +16,19 @@ export function formatDate(date: string | Date | null | undefined): string {
   }).format(d)
 }
 
+export function formatDateTime(date: string | Date | null | undefined): string {
+  if (!date) return ''
+  const d = typeof date === 'string' ? new Date(date) : date
+  if (isNaN(d.getTime())) return ''
+  return new Intl.DateTimeFormat('es-ES', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(d)
+}
+
 export function formatRelativeDate(date: string | Date | null | undefined): string {
   if (!date) return 'Sin fecha'
   const d = typeof date === 'string' ? new Date(date) : date
@@ -36,6 +49,8 @@ export function formatRelativeDate(date: string | Date | null | undefined): stri
     month: 'short',
   }).format(d)
 }
+
+export const formatRelative = formatRelativeDate
 
 export function isOverdue(date: string | Date | null | undefined): boolean {
   if (!date) return false

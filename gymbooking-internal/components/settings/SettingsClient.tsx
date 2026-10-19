@@ -182,16 +182,22 @@ export function SettingsClient({
           ? Math.max(...commercialStatuses.map((s) => s.sort_order)) + 1
           : 0
 
+      const slug = newCommName
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/(^_|_$)/g, '')
+
       const { data, error } = await supabase
         .from('commercial_statuses')
         .insert({
           organization_id: organization.id,
           name: newCommName.trim(),
+          slug,
           color: newCommColor,
           sort_order: nextSortOrder,
           is_pipeline_stage: newCommPipeline,
           is_active: true,
-          is_default: false,
         })
         .select()
         .single()
@@ -212,8 +218,8 @@ export function SettingsClient({
     const targetIndex = direction === 'up' ? index - 1 : index + 1
     if (targetIndex < 0 || targetIndex >= commercialStatuses.length) return
 
-    const current = commercialStatuses[index]
-    const target = commercialStatuses[targetIndex]
+    const current = { ...commercialStatuses[index] }
+    const target = { ...commercialStatuses[targetIndex] }
 
     const nextList = [...commercialStatuses]
     const tempOrder = current.sort_order
@@ -260,15 +266,21 @@ export function SettingsClient({
           ? Math.max(...onboardingStatuses.map((s) => s.sort_order)) + 1
           : 0
 
+      const slug = newOnbName
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/(^_|_$)/g, '')
+
       const { data, error } = await supabase
         .from('onboarding_statuses')
         .insert({
           organization_id: organization.id,
           name: newOnbName.trim(),
+          slug,
           color: newOnbColor,
           sort_order: nextSortOrder,
           is_active: true,
-          is_default: false,
         })
         .select()
         .single()
@@ -302,7 +314,6 @@ export function SettingsClient({
           organization_id: organization.id,
           name: newDisciplineName.trim(),
           slug,
-          is_active: true,
         })
         .select()
         .single()
@@ -318,17 +329,10 @@ export function SettingsClient({
     }
   }
 
-  // Discipline Toggle
-  const handleToggleDiscipline = async (disc: Discipline) => {
-    const nextState = !disc.is_active
-    setDisciplines((prev) =>
-      prev.map((d) => (d.id === disc.id ? { ...d, is_active: nextState } : d))
-    )
-
-    await supabase
-      .from('disciplines')
-      .update({ is_active: nextState })
-      .eq('id', disc.id)
+  // Discipline Delete
+  const handleDeleteDiscipline = async (disc: Discipline) => {
+    setDisciplines((prev) => prev.filter((d) => d.id !== disc.id))
+    await supabase.from('disciplines').delete().eq('id', disc.id)
   }
 
   // Logout
@@ -756,20 +760,16 @@ export function SettingsClient({
                 {disciplines.map((d) => (
                   <span
                     key={d.id}
-                    className={`inline-flex items-center gap-2 px-3 py-1 rounded-xl text-xs font-semibold border ${
-                      d.is_active
-                        ? 'bg-blue-50 text-blue-700 border-blue-200'
-                        : 'bg-gray-100 text-gray-400 border-gray-200'
-                    }`}
+                    className="inline-flex items-center gap-2 px-3 py-1 rounded-xl text-xs font-semibold border bg-blue-50 text-blue-700 border-blue-200"
                   >
                     <span>{d.name}</span>
                     <button
                       type="button"
-                      onClick={() => handleToggleDiscipline(d)}
-                      className="text-gray-400 hover:text-gray-600 font-bold"
-                      title={d.is_active ? 'Desactivar' : 'Activar'}
+                      onClick={() => handleDeleteDiscipline(d)}
+                      className="text-gray-400 hover:text-red-600 font-bold ml-1 cursor-pointer"
+                      title="Eliminar disciplina"
                     >
-                      {d.is_active ? '×' : '+'}
+                      ×
                     </button>
                   </span>
                 ))}

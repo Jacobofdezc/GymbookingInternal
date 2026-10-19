@@ -148,7 +148,7 @@ export async function initializeChecklistFromTemplate(
   }
 
   // Look for items from template if provided or default
-  let templateItems: Array<{ id?: string; title: string; description?: string | null; sort_order: number; category?: string }> = []
+  let templateItems: Array<{ id?: string; title: string; description?: string | null; sort_order: number; category?: string | null }> = []
 
   let selectedTemplateId = templateId
   if (!selectedTemplateId) {
@@ -258,7 +258,7 @@ export async function getClasses(filters?: {
   }
 
   if (filters?.publication_status && filters.publication_status !== 'all') {
-    query = query.eq('publication_status', filters.publication_status)
+    query = query.eq('publication_status', filters.publication_status as any)
   }
 
   const { data, error } = await query

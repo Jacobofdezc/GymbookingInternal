@@ -28,6 +28,36 @@ interface KnowledgeEditorProps {
   editable?: boolean
 }
 
+const ToolbarButton = ({
+  onClick,
+  isActive = false,
+  disabled = false,
+  title,
+  children,
+}: {
+  onClick: () => void
+  isActive?: boolean
+  disabled?: boolean
+  title: string
+  children: React.ReactNode
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+    title={title}
+    className={`p-1.5 rounded-md transition-colors text-xs flex items-center justify-center ${
+      disabled
+        ? 'text-gray-300 cursor-not-allowed'
+        : isActive
+        ? 'bg-blue-100 text-blue-700 font-semibold'
+        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+    }`}
+  >
+    {children}
+  </button>
+)
+
 export function KnowledgeEditor({
   content,
   onChange,
@@ -78,36 +108,6 @@ export function KnowledgeEditor({
       </div>
     )
   }
-
-  const ToolbarButton = ({
-    onClick,
-    isActive = false,
-    disabled = false,
-    title,
-    children,
-  }: {
-    onClick: () => void
-    isActive?: boolean
-    disabled?: boolean
-    title: string
-    children: React.ReactNode
-  }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      title={title}
-      className={`p-1.5 rounded-md transition-colors text-xs flex items-center justify-center ${
-        disabled
-          ? 'text-gray-300 cursor-not-allowed'
-          : isActive
-          ? 'bg-blue-100 text-blue-700 font-semibold'
-          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-      }`}
-    >
-      {children}
-    </button>
-  )
 
   return (
     <div className="border border-gray-200/90 rounded-xl overflow-hidden bg-white shadow-xs focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition-all flex flex-col">

@@ -78,7 +78,7 @@ export async function getGymInteractions(gymId: string): Promise<InteractionWith
 }
 
 export async function createInteraction(
-  data: InteractionInsert,
+  data: Omit<InteractionInsert, 'organization_id'> & { organization_id?: string },
   createTaskFlag?: boolean,
   taskData?: {
     title?: string
@@ -113,7 +113,7 @@ export async function createInteraction(
 
   const payload: InteractionInsert = {
     ...data,
-    organization_id: orgId || data.organization_id,
+    organization_id: (orgId || data.organization_id)!,
     registered_by: userId || data.registered_by,
     created_by: userId || data.created_by,
   }
@@ -141,7 +141,7 @@ export async function createInteraction(
       gymUpdate.next_action = data.next_step
     }
 
-    await supabase.from('gyms').update(gymUpdate).eq('id', data.gym_id)
+    await supabase.from('gyms').update(gymUpdate as any).eq('id', data.gym_id)
   }
 
   // Optionally create linked task

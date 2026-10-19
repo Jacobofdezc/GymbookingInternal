@@ -1,3 +1,4 @@
+import { createClient } from '@/lib/supabase/client'
 import type {
   KnowledgePage,
   KnowledgePageInsert,
@@ -7,14 +8,9 @@ import type {
   KnowledgeStatus,
 } from '@/types/database'
 
-async function getSupabase() {
-  if (typeof window === 'undefined') {
-    const { createClient } = await import('@/lib/supabase/server')
-    return await createClient()
-  } else {
-    const { createClient } = await import('@/lib/supabase/client')
-    return createClient()
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getSupabase(client?: any) {
+  return client || createClient()
 }
 
 export interface KnowledgeFilters {
@@ -30,9 +26,11 @@ export interface ExtendedKnowledgePage extends KnowledgePageWithRelations {
 }
 
 export async function getKnowledgePages(
-  filters?: KnowledgeFilters
+  filters?: KnowledgeFilters,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  client?: any
 ): Promise<KnowledgePageWithRelations[]> {
-  const supabase = await getSupabase()
+  const supabase = getSupabase(client)
 
   let query = supabase
     .from('knowledge_pages')
@@ -70,8 +68,12 @@ export async function getKnowledgePages(
   return (data || []) as KnowledgePageWithRelations[]
 }
 
-export async function getKnowledgePage(id: string): Promise<ExtendedKnowledgePage | null> {
-  const supabase = await getSupabase()
+export async function getKnowledgePage(
+  id: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  client?: any
+): Promise<ExtendedKnowledgePage | null> {
+  const supabase = getSupabase(client)
 
   const { data: page, error } = await supabase
     .from('knowledge_pages')
@@ -111,7 +113,7 @@ export async function getKnowledgePage(id: string): Promise<ExtendedKnowledgePag
 export async function createKnowledgePage(
   data: KnowledgePageInsert
 ): Promise<KnowledgePage> {
-  const supabase = await getSupabase()
+  const supabase = getSupabase()
 
   const { data: created, error } = await supabase
     .from('knowledge_pages')
@@ -132,7 +134,7 @@ export async function updateKnowledgePage(
   data: Partial<KnowledgePageInsert>,
   changedByUserId?: string
 ): Promise<KnowledgePageWithRelations> {
-  const supabase = await getSupabase()
+  const supabase = getSupabase()
 
   // 1. Fetch current state to save in history before updating
   const { data: current } = await supabase
@@ -173,7 +175,7 @@ export async function updateKnowledgePage(
 }
 
 export async function deleteKnowledgePage(id: string): Promise<void> {
-  const supabase = await getSupabase()
+  const supabase = getSupabase()
 
   const { error } = await supabase
     .from('knowledge_pages')

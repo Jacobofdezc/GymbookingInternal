@@ -153,10 +153,13 @@ export function TaskListClient() {
     return tasks.slice(start, start + pageSize)
   }, [tasks, page, pageSize])
 
-  // Reset page when filters change
-  React.useEffect(() => {
+  // Reset page when filters change (React-recommended pattern instead of useEffect)
+  const filterKey = `${viewTab}-${subFilter}-${statusFilter}-${priorityFilter}-${search}`
+  const [prevFilterKey, setPrevFilterKey] = React.useState(filterKey)
+  if (filterKey !== prevFilterKey) {
+    setPrevFilterKey(filterKey)
     setPage(1)
-  }, [viewTab, subFilter, statusFilter, priorityFilter, search])
+  }
 
   const hasActiveFilters =
     subFilter !== 'all' ||
