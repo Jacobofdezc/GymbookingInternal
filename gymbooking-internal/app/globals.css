@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(222 47% 11%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 47% 11%);
+  --color-primary: hsl(221 83% 53%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(215 28% 17%);
+  --color-secondary-foreground: hsl(0 0% 100%);
+  --color-muted: hsl(216 12% 96%);
+  --color-muted-foreground: hsl(215 16% 47%);
+  --color-accent: hsl(216 12% 96%);
+  --color-accent-foreground: hsl(222 47% 11%);
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(214 32% 91%);
+  --color-input: hsl(214 32% 91%);
+  --color-ring: hsl(221 83% 53%);
+  --radius: 0.5rem;
+}
+
+* {
+  box-sizing: border-box;
+  border-color: hsl(214 32% 91%);
+}
+
+body {
+  background-color: hsl(0 0% 100%);
+  color: hsl(222 47% 11%);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: hsl(214 32% 91%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(215 16% 47%);
+}
+
+/* Status badge colors */
+.status-identified { background-color: #f3f4f6; color: #374151; }
+.status-contacted { background-color: #dbeafe; color: #1d4ed8; }
+.status-interested { background-color: #dcfce7; color: #15803d; }
+.status-negotiation { background-color: #fef9c3; color: #a16207; }
+.status-confirmed { background-color: #d1fae5; color: #065f46; }
+.status-discarded { background-color: #fee2e2; color: #b91c1c; }
+.status-paused { background-color: #f1f5f9; color: #64748b; }
+
+/* Priority colors */
+.priority-low { background-color: #f1f5f9; color: #475569; }
+.priority-medium { background-color: #dbeafe; color: #1d4ed8; }
+.priority-high { background-color: #ffedd5; color: #c2410c; }
+.priority-urgent { background-color: #fee2e2; color: #b91c1c; }
+
+/* Tiptap editor */
+.tiptap-content {
+  min-height: 12rem;
+  outline: none;
+}
+.tiptap-content p { margin-bottom: 0.75rem; }
+.tiptap-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; margin-top: 1.5rem; }
+.tiptap-content h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; margin-top: 1.25rem; }
+.tiptap-content h3 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; margin-top: 1rem; }
+.tiptap-content ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap-content ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap-content blockquote { border-left: 4px solid hsl(214 32% 91%); padding-left: 1rem; font-style: italic; color: hsl(215 16% 47%); margin-bottom: 0.75rem; }
+.tiptap-content code { background-color: hsl(216 12% 96%); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.875rem; font-family: monospace; }
+.tiptap-content pre { background-color: hsl(216 12% 96%); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.75rem; overflow-x: auto; }
+.tiptap-content a { color: hsl(221 83% 53%); text-decoration: underline; }
+.tiptap-content p.is-editor-empty:first-child::before {
+  color: hsl(215 16% 47%);
+  pointer-events: none;
+  float: left;
+  height: 0;
+  content: attr(data-placeholder);
+}
