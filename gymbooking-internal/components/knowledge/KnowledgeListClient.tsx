@@ -23,6 +23,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react'
 import { KNOWLEDGE_CATEGORY_MAP } from '@/components/knowledge/KnowledgePage'
+import { DecisionsList } from './DecisionsList'
 
 interface KnowledgeListClientProps {
   initialPages: KnowledgePageWithRelations[]
@@ -167,8 +168,12 @@ export function KnowledgeListClient({
 
         {/* Content Area */}
         <div className="lg:col-span-3 space-y-4">
-          {/* Search & Status Filters */}
-          <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
+          {selectedCategory === 'decisions' ? (
+            <DecisionsList canWrite={canWrite} />
+          ) : (
+            <>
+              {/* Search & Status Filters */}
+              <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
             <div className="relative w-full sm:w-80">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <Input
@@ -306,6 +311,8 @@ export function KnowledgeListClient({
                 )
               })}
             </div>
+          )}
+            </>
           )}
         </div>
       </div>
