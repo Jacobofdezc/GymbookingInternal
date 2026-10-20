@@ -12,6 +12,7 @@ import type {
   Document,
   GymOnboardingItem,
   Class,
+  Issue,
   GymPriority,
   TablesInsert,
   TablesUpdate,
@@ -56,6 +57,9 @@ export interface FullGymDetail extends Gym {
   documents: Document[]
   gym_onboarding_items: GymOnboardingItem[]
   classes: (Class & { discipline: Discipline | null })[]
+  issues?: (Issue & {
+    assignee: { id: string; full_name: string; avatar_url: string | null } | null
+  })[]
 }
 
 export interface GymStats {
@@ -250,6 +254,7 @@ export async function getGym(id: string): Promise<FullGymDetail> {
     documentsRes,
     onboardingRes,
     classesRes,
+    issuesRes,
   ] = await Promise.all([
     supabase
       .from('gym_contacts')
@@ -305,6 +310,15 @@ export async function getGym(id: string): Promise<FullGymDetail> {
       .select('*, discipline:disciplines(*)')
       .eq('gym_id', id)
       .order('name', { ascending: true }),
+
+    supabase
+      .from('issues')
+      .select(`
+        *,
+        assignee:profiles!issues_assignee_id_fkey(id, full_name, avatar_url)
+      `)
+      .eq('gym_id', id)
+      .order('created_at', { ascending: false }),
   ])
 
   const disciplines = (disciplinesRes.data || [])
@@ -329,6 +343,7 @@ export async function getGym(id: string): Promise<FullGymDetail> {
     documents: (documentsRes.data || []) as Document[],
     gym_onboarding_items: (onboardingRes.data || []) as GymOnboardingItem[],
     classes: (classesRes.data || []) as any,
+    issues: (issuesRes.data || []) as any,
   }
 }
 

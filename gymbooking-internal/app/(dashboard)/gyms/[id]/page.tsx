@@ -51,6 +51,7 @@ export default async function GymDetailPage({ params }: GymDetailPageProps) {
     docsRes,
     onbRes,
     classesRes,
+    issuesRes,
   ] = await Promise.all([
     supabase
       .from('gym_contacts')
@@ -106,6 +107,15 @@ export default async function GymDetailPage({ params }: GymDetailPageProps) {
       .select('*, discipline:disciplines(*)')
       .eq('gym_id', id)
       .order('name', { ascending: true }),
+
+    supabase
+      .from('issues')
+      .select(`
+        *,
+        assignee:profiles!issues_assignee_id_fkey(id, full_name, avatar_url)
+      `)
+      .eq('gym_id', id)
+      .order('created_at', { ascending: false }),
   ])
 
   const disciplines = (disciplinesRes.data || [])
@@ -130,6 +140,7 @@ export default async function GymDetailPage({ params }: GymDetailPageProps) {
     documents: (docsRes.data || []) as any,
     gym_onboarding_items: (onbRes.data || []) as any,
     classes: (classesRes.data || []) as any,
+    issues: (issuesRes.data || []) as any,
   }
 
   return <GymDetailClient initialGym={fullGym} />

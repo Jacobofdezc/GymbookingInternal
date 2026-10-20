@@ -42,6 +42,7 @@ import {
 import { StatusBadge } from './StatusBadge'
 import { ContactForm } from './ContactForm'
 import { InteractionForm } from './InteractionForm'
+import { IssueForm } from '@/components/issues/IssueForm'
 import { formatDate, formatDateTime, formatRelative } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 import type { FullGymDetail } from '@/services/gyms/gym.service'
@@ -69,6 +70,7 @@ type TabType =
   | 'documentos'
   | 'condiciones'
   | 'clases'
+  | 'incidencias'
 
 export function GymDetailClient({ initialGym }: GymDetailClientProps) {
   const router = useRouter()
@@ -80,6 +82,7 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
   const [selectedContact, setSelectedContact] = useState<GymContact | null>(null)
   const [interactionModalOpen, setInteractionModalOpen] = useState(false)
   const [taskModalOpen, setTaskModalOpen] = useState(false)
+  const [issueModalOpen, setIssueModalOpen] = useState(false)
 
   // Interaction filter state
   const [interactionFilter, setInteractionFilter] = useState<string>('all')
@@ -106,7 +109,7 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
         .eq('id', gym.id)
         .single()
 
-      const [contactsRes, interactionsRes, tasksRes, docsRes, onbRes, classesRes] =
+      const [contactsRes, interactionsRes, tasksRes, docsRes, onbRes, classesRes, issuesRes] =
         await Promise.all([
           supabase
             .from('gym_contacts')
@@ -141,6 +144,14 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
             .from('classes')
             .select('*, discipline:disciplines(*)')
             .eq('gym_id', gym.id),
+          supabase
+            .from('issues')
+            .select(`
+              *,
+              assignee:profiles!issues_assignee_id_fkey(id, full_name, avatar_url)
+            `)
+            .eq('gym_id', gym.id)
+            .order('created_at', { ascending: false }),
         ])
 
       if (updatedGym) {
@@ -157,6 +168,7 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
           documents: (docsRes.data || []) as any,
           gym_onboarding_items: (onbRes.data || []) as any,
           classes: (classesRes.data || []) as any,
+          issues: (issuesRes.data || []) as any,
         }))
       }
     } catch (err) {
@@ -329,6 +341,16 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
             Nueva tarea
           </Button>
 
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIssueModalOpen(true)}
+            className="flex items-center gap-1.5"
+          >
+            <AlertTriangle className="h-4 w-4 text-red-500" />
+            Reportar incidencia
+          </Button>
+
           <Button asChild size="sm" className="flex items-center gap-1.5">
             <Link href={`/gyms/${gym.id}/edit`}>
               <Edit className="h-4 w-4" />
@@ -498,6 +520,7 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
             { id: 'documentos', label: `Documentos (${gym.documents.length})` },
             { id: 'condiciones', label: 'Condiciones' },
             { id: 'clases', label: `Clases e Incorporación (${gym.classes.length})` },
+            { id: 'incidencias', label: `Incidencias (${gym.issues?.length || 0})` },
           ].map((tab) => {
             const isActive = activeTab === tab.id
             return (
@@ -1265,6 +1288,101 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
         </div>
       )}
 
+      {/* 8. INCIDENCIAS */}
+      {activeTab === 'incidencias' && (
+        <div className="space-y-4">
+          <Card>
+            <CardHeader className="border-b pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4 text-red-500" />
+                    Incidencias y Soporte ({gym.issues?.length || 0})
+                  </CardTitle>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Seguimiento de problemas técnicos, descuadres de horarios y peticiones operativas.
+                  </p>
+                </div>
+
+                <Button
+                  size="sm"
+                  onClick={() => setIssueModalOpen(true)}
+                  className="flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Plus className="h-4 w-4" />
+                  Nueva incidencia
+                </Button>
+              </div>
+            </CardHeader>
+
+            <CardContent className="p-0">
+              {(!gym.issues || gym.issues.length === 0) ? (
+                <div className="p-12 text-center text-muted-foreground">
+                  <CheckCircle2 className="h-8 w-8 mx-auto mb-2 text-emerald-500 stroke-1" />
+                  <p className="text-sm font-medium text-foreground">¡Todo en orden!</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    No hay incidencias ni reclamaciones abiertas registradas para este gimnasio.
+                  </p>
+                </div>
+              ) : (
+                <div className="divide-y">
+                  {gym.issues.map((iss) => (
+                    <div
+                      key={iss.id}
+                      className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-muted/30 transition-colors"
+                    >
+                      <div className="space-y-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-xs font-mono font-semibold text-muted-foreground">
+                            #{iss.id.slice(0, 8).toUpperCase()}
+                          </span>
+                          <span className="text-sm font-semibold text-foreground">
+                            {iss.title}
+                          </span>
+                          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                            iss.priority === 'urgent'
+                              ? 'bg-red-100 text-red-700'
+                              : iss.priority === 'high'
+                              ? 'bg-amber-100 text-amber-700'
+                              : 'bg-blue-100 text-blue-700'
+                          }`}>
+                            {iss.priority.toUpperCase()}
+                          </span>
+                          <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-muted text-muted-foreground capitalize">
+                            {iss.status}
+                          </span>
+                        </div>
+
+                        {iss.description && (
+                          <p className="text-xs text-muted-foreground line-clamp-1">
+                            {iss.description}
+                          </p>
+                        )}
+
+                        <div className="flex items-center gap-4 text-2xs text-muted-foreground pt-0.5">
+                          <span>Reportada: {formatDate(iss.created_at)}</span>
+                          {iss.assignee && (
+                            <span>Asignado: <strong>{iss.assignee.full_name}</strong></span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Button variant="ghost" size="sm" asChild className="text-xs">
+                          <Link href="/issues">
+                            Ver en incidencias <ExternalLink className="h-3 w-3 ml-1" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* MODALS */}
 
       {/* 1. Contact Form Modal */}
@@ -1349,6 +1467,14 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* 4. Issue Form Modal */}
+      <IssueForm
+        isOpen={issueModalOpen}
+        onClose={() => setIssueModalOpen(false)}
+        onSuccess={refreshGymData}
+        preselectedGymId={gym.id}
+      />
     </div>
   )
 }
