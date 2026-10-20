@@ -303,3 +303,59 @@ export async function updateClass(id: string, updates: Partial<ClassInsert>): Pr
 
   return data
 }
+
+export async function publishGym(gymId: string): Promise<void> {
+  const supabase = createClient()
+
+  // Find 'active' onboarding status
+  const { data: activeStatus, error: statusError } = await supabase
+    .from('onboarding_statuses')
+    .select('id')
+    .eq('slug', 'active')
+    .maybeSingle()
+
+  if (statusError) {
+    console.error('Error finding active onboarding status:', statusError)
+    throw new Error(statusError.message)
+  }
+
+  if (activeStatus) {
+    const { error: gymError } = await supabase
+      .from('gyms')
+      .update({
+        onboarding_status_id: activeStatus.id,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', gymId)
+
+    if (gymError) {
+      console.error('Error publishing gym:', gymError)
+      throw new Error(gymError.message)
+    }
+  }
+
+  // Also publish all verified classes for this gym
+  await supabase
+    .from('classes')
+    .update({ publication_status: 'published' })
+    .eq('gym_id', gymId)
+    .eq('publication_status', 'verified')
+
+  // Register in audit_logs
+  const { data: gym } = await supabase
+    .from('gyms')
+    .select('organization_id, name')
+    .eq('id', gymId)
+    .maybeSingle()
+
+  if (gym) {
+    await supabase.from('audit_logs').insert({
+      organization_id: gym.organization_id,
+      entity_type: 'gyms',
+      entity_id: gymId,
+      action: 'publish_gym',
+      new_values: { published: true, status: 'active', name: gym.name },
+    })
+  }
+}
+

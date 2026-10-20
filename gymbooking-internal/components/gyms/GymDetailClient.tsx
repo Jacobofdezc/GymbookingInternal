@@ -27,6 +27,7 @@ import {
   Trash2,
   Sparkles,
   ChevronDown,
+  UploadCloud,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -44,6 +45,9 @@ import { StatusBadge } from './StatusBadge'
 import { ContactForm } from './ContactForm'
 import { InteractionForm } from './InteractionForm'
 import { IssueForm } from '@/components/issues/IssueForm'
+import { DocumentUploadModal } from '@/components/documents/DocumentUploadModal'
+import { DocumentPreviewModal } from '@/components/documents/DocumentPreviewModal'
+import { ClassFormModal } from '@/components/operations/ClassFormModal'
 import { formatDate, formatDateTime, formatRelative } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 import type { FullGymDetail } from '@/services/gyms/gym.service'
@@ -97,6 +101,9 @@ export function GymDetailClient({
   const [interactionModalOpen, setInteractionModalOpen] = useState(false)
   const [taskModalOpen, setTaskModalOpen] = useState(false)
   const [issueModalOpen, setIssueModalOpen] = useState(false)
+  const [documentModalOpen, setDocumentModalOpen] = useState(false)
+  const [selectedPreviewDoc, setSelectedPreviewDoc] = useState<any>(null)
+  const [classModalOpen, setClassModalOpen] = useState(false)
 
   // Interaction filter state
   const [interactionFilter, setInteractionFilter] = useState<string>('all')
@@ -1146,13 +1153,21 @@ export function GymDetailClient({
       {/* 5. DOCUMENTOS */}
       {activeTab === 'documentos' && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold">Documentos y Contratos</h2>
+              <h2 className="text-lg font-semibold text-slate-900">Documentos y Contratos</h2>
               <p className="text-xs text-muted-foreground">
-                Archivos vinculados al gimnasio, acuerdos firmados y material comercial.
+                Archivos vinculados al gimnasio, acuerdos firmados, mandatos SEPA y material comercial.
               </p>
             </div>
+            <Button
+              size="sm"
+              onClick={() => setDocumentModalOpen(true)}
+              className="flex items-center gap-1.5 cursor-pointer rounded-xl font-semibold shadow-2xs self-start sm:self-auto"
+            >
+              <UploadCloud className="h-4 w-4" />
+              Subir documento
+            </Button>
           </div>
 
           {gym.contract_url && (
@@ -1182,24 +1197,47 @@ export function GymDetailClient({
             <Card className="p-8 text-center">
               <FileText className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
               <h3 className="font-medium text-sm">No hay documentos cargados</h3>
-              <p className="text-xs text-muted-foreground mt-1">
-                Puedes registrar el enlace al contrato formal desde la pestaña de Edición del centro.
+              <p className="text-xs text-muted-foreground mt-1 mb-4">
+                Puedes subir acuerdos, estatutos, pólizas o material fotográfico de este gimnasio.
               </p>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setDocumentModalOpen(true)}
+                className="gap-1.5 cursor-pointer rounded-xl text-xs"
+              >
+                <UploadCloud className="h-3.5 w-3.5" />
+                Subir primer documento
+              </Button>
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {gym.documents.map((doc) => (
-                <Card key={doc.id} className="p-3.5 flex items-center justify-between text-xs">
-                  <div className="flex items-center space-x-2.5">
-                    <FileText className="h-4 w-4 text-primary shrink-0" />
-                    <div>
-                      <span className="font-semibold block">{doc.name}</span>
-                      <span className="text-muted-foreground text-2xs">
+                <Card
+                  key={doc.id}
+                  onClick={() => setSelectedPreviewDoc(doc)}
+                  className="p-3.5 flex items-center justify-between text-xs hover:border-primary/50 hover:shadow-2xs cursor-pointer transition-all"
+                >
+                  <div className="flex items-center space-x-2.5 min-w-0">
+                    <div className="h-8 w-8 rounded-lg bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                      <FileText className="h-4 w-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="font-semibold block truncate text-slate-900">{doc.name}</span>
+                      <span className="text-muted-foreground text-2xs block truncate">
                         {doc.category || 'General'} • {formatDate(doc.created_at)}
                       </span>
                     </div>
                   </div>
-                  <Button size="sm" variant="ghost" className="h-7 text-xs">
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-7 text-xs shrink-0"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedPreviewDoc(doc)
+                    }}
+                  >
                     Abrir
                   </Button>
                 </Card>
@@ -1366,20 +1404,39 @@ export function GymDetailClient({
           {/* Classes list */}
           <Card>
             <CardHeader className="border-b pb-3">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                  <CardTitle className="text-base">Clases Registradas ({gym.classes.length})</CardTitle>
+                  <CardTitle className="text-base text-slate-900">Clases Registradas ({gym.classes.length})</CardTitle>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     Clases ofertadas por el gimnasio para reserva en la plataforma.
                   </p>
                 </div>
+                <Button
+                  size="sm"
+                  onClick={() => setClassModalOpen(true)}
+                  className="flex items-center gap-1.5 cursor-pointer rounded-xl font-semibold shadow-2xs self-start sm:self-auto"
+                >
+                  <Plus className="h-3.5 w-3.5" />
+                  Añadir clase
+                </Button>
               </div>
             </CardHeader>
             <CardContent className="pt-4">
               {gym.classes.length === 0 ? (
-                <p className="text-xs text-muted-foreground italic py-4 text-center">
-                  Aún no se han dado de alta clases para este gimnasio.
-                </p>
+                <div className="py-8 text-center space-y-3">
+                  <p className="text-xs text-muted-foreground italic">
+                    Aún no se han dado de alta clases para este gimnasio.
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setClassModalOpen(true)}
+                    className="gap-1.5 cursor-pointer rounded-xl text-xs"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Registrar primera clase
+                  </Button>
+                </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {gym.classes.map((cls) => (
@@ -1603,6 +1660,38 @@ export function GymDetailClient({
         isOpen={issueModalOpen}
         onClose={() => setIssueModalOpen(false)}
         onSuccess={refreshGymData}
+        preselectedGymId={gym.id}
+      />
+
+      {/* 5. Document Upload Modal */}
+      <DocumentUploadModal
+        open={documentModalOpen}
+        onOpenChange={setDocumentModalOpen}
+        onSuccess={() => {
+          setDocumentModalOpen(false)
+          refreshGymData()
+        }}
+        userOrgId={gym.organization_id}
+        currentUserId={gym.owner_id || ''}
+        defaultGymId={gym.id}
+        gyms={[{ id: gym.id, name: gym.name }]}
+      />
+
+      {/* 6. Document Preview Modal */}
+      <DocumentPreviewModal
+        document={selectedPreviewDoc}
+        isOpen={!!selectedPreviewDoc}
+        onClose={() => setSelectedPreviewDoc(null)}
+      />
+
+      {/* 7. Class Form Modal */}
+      <ClassFormModal
+        isOpen={classModalOpen}
+        onClose={() => setClassModalOpen(false)}
+        onSuccess={() => {
+          setClassModalOpen(false)
+          refreshGymData()
+        }}
         preselectedGymId={gym.id}
       />
     </div>

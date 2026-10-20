@@ -92,8 +92,9 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
   const handleSignOut = async () => {
     try {
       setIsLoggingOut(true)
+      await fetch('/api/auth/demo-session', { method: 'DELETE' }).catch(() => {})
       const supabase = createClient()
-      await supabase.auth.signOut()
+      await supabase.auth.signOut().catch(() => {})
       router.push('/login')
       router.refresh()
     } catch (err) {

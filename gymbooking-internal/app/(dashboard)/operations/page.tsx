@@ -24,11 +24,13 @@ export default async function OperationsPage() {
 
   const allGyms = (gyms as any) || []
 
+  const confirmedSlugs = ['confirmed', 'agreement_formalized', 'verbal_confirmation', 'agreement_pending']
+
   // Confirmed or active or undergoing onboarding
-  // If commercial status is 'confirmed' or has onboarding progress
+  // If commercial status is confirmed or has onboarding progress
   const confirmedGyms = allGyms.filter(
     (g: any) =>
-      g.commercial_status?.slug === 'confirmed' ||
+      (g.commercial_status?.slug && confirmedSlugs.includes(g.commercial_status.slug)) ||
       (g.onboarding_status?.slug && g.onboarding_status.slug !== 'not_started')
   )
 
@@ -36,7 +38,9 @@ export default async function OperationsPage() {
   const displayedGyms = confirmedGyms.length > 0 ? confirmedGyms : allGyms
 
   // Calculate statistics
-  const confirmedCount = allGyms.filter((g: any) => g.commercial_status?.slug === 'confirmed').length
+  const confirmedCount = allGyms.filter(
+    (g: any) => g.commercial_status?.slug && confirmedSlugs.includes(g.commercial_status.slug)
+  ).length
   const pendingOnboardingCount = allGyms.filter(
     (g: any) =>
       g.onboarding_status?.slug &&

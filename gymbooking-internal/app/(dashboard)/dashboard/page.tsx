@@ -95,11 +95,27 @@ export default async function DashboardPage() {
 
   const inProcessCommercialSlugs = [
     'prospect',
+    'identified',
+    'pending_first_contact',
     'first_contact',
+    'contacted',
+    'waiting_response',
+    'interested',
+    'meeting_pending',
     'meeting_scheduled',
     'meeting_done',
-    'proposal_sent',
+    'negotiation',
     'negotiating',
+    'verbal_confirmation',
+    'agreement_pending',
+    'proposal_sent',
+  ]
+
+  const confirmedCommercialSlugs = [
+    'confirmed',
+    'agreement_formalized',
+    'verbal_confirmation',
+    'agreement_pending',
   ]
 
   const commercialInProcessCount = allGyms.filter((g) =>
@@ -107,7 +123,7 @@ export default async function DashboardPage() {
   ).length
 
   const confirmedGymsCount = allGyms.filter(
-    (g) => g.commercial_status?.slug === 'confirmed'
+    (g) => g.commercial_status?.slug && confirmedCommercialSlugs.includes(g.commercial_status.slug)
   ).length
 
   const activeGymsCount = allGyms.filter(

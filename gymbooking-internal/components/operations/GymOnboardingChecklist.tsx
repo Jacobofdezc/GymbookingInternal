@@ -6,6 +6,7 @@ import {
   getGymOnboardingItems,
   updateOnboardingItem,
   initializeChecklistFromTemplate,
+  publishGym,
   type GymOnboardingItemWithDetails,
 } from '@/services/operations/onboarding.service'
 import { Button } from '@/components/ui/button'
@@ -14,6 +15,14 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog'
 import { NotificationAlert, NotificationState } from '@/components/ui/notification-alert'
 import { OnboardingReportModal } from './OnboardingReportModal'
 import { createClient } from '@/lib/supabase/client'
@@ -30,6 +39,7 @@ import {
   Layers,
   Loader2,
   Printer,
+  Rocket,
   Sparkles,
   User,
   XCircle,
@@ -54,8 +64,49 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
   const [notification, setNotification] = useState<NotificationState | null>(null)
   const [isInitializing, setIsInitializing] = useState(false)
   const [isReportOpen, setIsReportOpen] = useState(false)
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false)
 
   const queryClient = useQueryClient()
+
+  // Fetch gym status
+  const { data: gymInfo } = useQuery({
+    queryKey: ['gym-info-onboarding', gymId],
+    queryFn: async () => {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('gyms')
+        .select('id, name, onboarding_status:onboarding_statuses(id, name, slug, color)')
+        .eq('id', gymId)
+        .single()
+      return data
+    },
+    enabled: !!gymId,
+  })
+
+  // Publish gym mutation
+  const publishGymMutation = useMutation({
+    mutationFn: async () => {
+      await publishGym(gymId)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['gym-onboarding-items', gymId] })
+      queryClient.invalidateQueries({ queryKey: ['gym-info-onboarding', gymId] })
+      queryClient.invalidateQueries({ queryKey: ['operations-classes'] })
+      queryClient.invalidateQueries({ queryKey: ['operations-stats'] })
+      queryClient.invalidateQueries({ queryKey: ['gyms'] })
+      setIsPublishModalOpen(false)
+      setNotification({
+        type: 'success',
+        message: '¡Gimnasio publicado exitosamente! Ya está Activo y sus clases verificadas están disponibles.',
+      })
+    },
+    onError: (err: any) => {
+      setNotification({
+        type: 'error',
+        message: err.message || 'Error al publicar el gimnasio',
+      })
+    },
+  })
 
   // Load profiles for assignees
   useEffect(() => {
@@ -157,6 +208,7 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
   const hasBlocked = blockedItems.length > 0
   const percent = total > 0 ? Math.round((completed / total) * 100) : 0
   const isReadyToPublish = total > 0 && completed === total && !hasBlocked
+  const isAlreadyActive = (gymInfo as any)?.onboarding_status?.slug === 'active'
 
   // Group by category
   const categories: Record<string, { label: string; items: GymOnboardingItemWithDetails[] }> = {
@@ -219,6 +271,24 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
           </div>
 
           <div className="flex items-center gap-3">
+            {isAlreadyActive ? (
+              <Badge variant="success" className="gap-1 font-bold py-1 px-3 text-xs">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                Publicado & Activo
+              </Badge>
+            ) : (
+              <Button
+                size="sm"
+                onClick={() => setIsPublishModalOpen(true)}
+                disabled={items.length === 0}
+                className="gap-1.5 text-xs h-8 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-2xs font-semibold cursor-pointer"
+                title="Publicar gimnasio en la plataforma"
+              >
+                <Rocket className="w-3.5 h-3.5" />
+                Publicar Gimnasio
+              </Button>
+            )}
+
             <Button
               variant="outline"
               size="sm"
@@ -275,6 +345,49 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
                 style={{ width: `${percent}%` }}
               />
             </div>
+          </div>
+        )}
+
+        {/* Active Banner */}
+        {isAlreadyActive && (
+          <div className="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-900 text-xs font-semibold">
+            <div className="flex items-center gap-2.5">
+              <div className="h-7 w-7 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700">
+                <CheckCircle2 className="h-4 w-4" />
+              </div>
+              <div>
+                <span>Este gimnasio está actualmente ACTIVO y publicado en GymBooking.</span>
+                <p className="text-[11px] font-normal text-emerald-700 mt-0.5">
+                  Las clases verificadas están disponibles para los usuarios finales.
+                </p>
+              </div>
+            </div>
+            <Badge variant="success" className="font-bold">Activo</Badge>
+          </div>
+        )}
+
+        {/* Ready To Publish Callout */}
+        {!isAlreadyActive && isReadyToPublish && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 text-slate-800 text-xs">
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-xs shrink-0">
+                <Rocket className="h-4 w-4" />
+              </div>
+              <div>
+                <span className="font-bold text-sm text-slate-900">¡Onboarding 100% completado!</span>
+                <p className="text-slate-600 text-xs mt-0.5">
+                  El centro cumple todos los requisitos técnicos y operativos para activarse en la plataforma.
+                </p>
+              </div>
+            </div>
+            <Button
+              size="sm"
+              onClick={() => setIsPublishModalOpen(true)}
+              className="gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-xs shrink-0 cursor-pointer"
+            >
+              <Rocket className="h-4 w-4" />
+              Publicar Gimnasio
+            </Button>
           </div>
         )}
 
@@ -546,6 +659,61 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
         gymId={gymId}
         items={items}
       />
+
+      {/* Publish Gym Confirmation Modal */}
+      <Dialog open={isPublishModalOpen} onOpenChange={setIsPublishModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-slate-900">
+              <Rocket className="h-5 w-5 text-blue-600" />
+              Publicar gimnasio en GymBooking
+            </DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground pt-1">
+              ¿Confirmas el lanzamiento y publicación de <strong>{gymName || 'este gimnasio'}</strong> en la plataforma?
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 py-2 text-xs">
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5 text-slate-700">
+              <p className="font-semibold text-slate-900">Al confirmar, el sistema ejecutará:</p>
+              <ul className="list-disc pl-4 space-y-1 text-slate-600">
+                <li>El estado de incorporación cambiará a <strong>Activo</strong>.</li>
+                <li>Todas las clases verificadas pasarán automáticamente a <strong>Publicado</strong>.</li>
+                <li>Quedará registrado el hito oficial en la auditoría de la organización.</li>
+              </ul>
+            </div>
+
+            {!isReadyToPublish && (
+              <div className="p-3 rounded-xl border border-amber-200 bg-amber-50 text-amber-800 flex items-start gap-2.5">
+                <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5 text-amber-600" />
+                <span>
+                  Atención: Hay tareas pendientes en el checklist ({completed}/{total}). Se realizará una publicación manual.
+                </span>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsPublishModalOpen(false)}
+              disabled={publishGymMutation.isPending}
+            >
+              Cancelar
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => publishGymMutation.mutate()}
+              disabled={publishGymMutation.isPending}
+              className="gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold cursor-pointer"
+            >
+              {publishGymMutation.isPending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+              Confirmar Publicación
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
