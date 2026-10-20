@@ -207,8 +207,8 @@ export async function createDecision(
       .from('decisions')
       .insert({
         ...data,
-        organization_id: orgId || 'org-gymbooking-demo',
-        created_by: userId || 'admin-01',
+        organization_id: orgId || 'a0000000-0000-4000-8000-000000000001',
+        created_by: userId || '86513161-6e70-41d3-affc-08d1ed12fc7d',
       })
       .select()
       .single()

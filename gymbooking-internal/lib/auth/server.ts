@@ -26,7 +26,7 @@ export async function getCurrentUser(): Promise<Profile | null> {
       // Fallback profile if user exists in auth but no profile row yet
       return {
         id: user.id,
-        organization_id: (user.user_metadata?.organization_id as string) || 'org-gymbooking-default',
+        organization_id: (user.user_metadata?.organization_id as string) || 'a0000000-0000-4000-8000-000000000001',
         email: user.email || '',
         full_name: (user.user_metadata?.full_name as string) || user.email?.split('@')[0] || 'Usuario',
         role: (user.user_metadata?.role as UserRole) || 'admin',
@@ -48,7 +48,7 @@ export async function getCurrentUser(): Promise<Profile | null> {
       const demoData = JSON.parse(demoCookie.value) as DemoSessionData
       return {
         id: demoData.id,
-        organization_id: demoData.organization_id || 'org-gymbooking-demo',
+        organization_id: demoData.organization_id || 'a0000000-0000-4000-8000-000000000001',
         email: demoData.email,
         full_name: demoData.full_name,
         role: demoData.role,
