@@ -136,10 +136,10 @@ export function DashboardClient({ stats }: DashboardClientProps) {
       {/* Top Header & Quick Actions */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">
             Panel de Control
           </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
             Vista general del pipeline de captación, operaciones e incidencias de GymBooking
           </p>
         </div>
@@ -149,7 +149,7 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           <Button
             size="sm"
             onClick={() => router.push('/gyms/new')}
-            className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
+            className="cursor-pointer rounded-xl font-bold shadow-xs"
           >
             <Building2 className="h-4 w-4 mr-1.5" />
             Añadir gimnasio
@@ -159,9 +159,9 @@ export function DashboardClient({ stats }: DashboardClientProps) {
             variant="outline"
             size="sm"
             onClick={() => setIsTaskModalOpen(true)}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-xl font-semibold border-slate-200/90 shadow-2xs hover:bg-slate-50"
           >
-            <Clock className="h-4 w-4 mr-1.5" />
+            <Clock className="h-4 w-4 mr-1.5 text-blue-600" />
             Crear tarea
           </Button>
 
@@ -169,9 +169,9 @@ export function DashboardClient({ stats }: DashboardClientProps) {
             variant="outline"
             size="sm"
             onClick={() => setIsInteractionModalOpen(true)}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-xl font-semibold border-slate-200/90 shadow-2xs hover:bg-slate-50"
           >
-            <MessageSquare className="h-4 w-4 mr-1.5" />
+            <MessageSquare className="h-4 w-4 mr-1.5 text-emerald-600" />
             Registrar interacción
           </Button>
 
@@ -179,20 +179,10 @@ export function DashboardClient({ stats }: DashboardClientProps) {
             variant="outline"
             size="sm"
             onClick={() => setIsIssueModalOpen(true)}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-xl font-semibold border-slate-200/90 shadow-2xs hover:bg-slate-50"
           >
-            <ShieldAlert className="h-4 w-4 mr-1.5" />
+            <ShieldAlert className="h-4 w-4 mr-1.5 text-amber-500" />
             Crear incidencia
-          </Button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => router.push('/documents/new')}
-            className="cursor-pointer"
-          >
-            <FilePlus2 className="h-4 w-4 mr-1.5" />
-            Subir documento
           </Button>
 
           <Button
@@ -200,7 +190,7 @@ export function DashboardClient({ stats }: DashboardClientProps) {
             size="sm"
             onClick={handleSeedDemo}
             disabled={seedingDemo}
-            className="cursor-pointer gap-1.5 border-dashed border-amber-300 text-amber-800 bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:text-amber-200"
+            className="cursor-pointer gap-1.5 rounded-xl border-dashed border-amber-300 text-amber-800 bg-amber-50 hover:bg-amber-100 font-bold shadow-2xs"
             title="Cargar 6 gimnasios de prueba con contactos, pipeline e incidencias"
           >
             {seedingDemo ? (
@@ -413,58 +403,58 @@ export function DashboardClient({ stats }: DashboardClientProps) {
         {/* LEFT COLUMN */}
         <div className="space-y-6">
           {/* Próximos seguimientos */}
-          <Card className="shadow-2xs">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
+          <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 bg-slate-50/60 p-4.5">
               <div>
-                <CardTitle className="text-base font-semibold text-foreground flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-primary" />
+                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-blue-600" />
                   Próximos seguimientos
                 </CardTitle>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-xs text-slate-500 font-medium mt-0.5">
                   Gimnasios con fecha de contacto en los próximos 7 días
                 </p>
               </div>
-              <Button variant="ghost" size="sm" asChild className="text-xs">
+              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white text-slate-600 hover:text-slate-900">
                 <Link href="/interactions">
                   Ver todas
                   <ArrowRight className="h-3.5 w-3.5 ml-1" />
                 </Link>
               </Button>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="p-4 space-y-2">
               {stats.upcomingFollowups.length === 0 ? (
-                <div className="py-8 text-center text-xs text-muted-foreground">
+                <div className="py-8 text-center text-xs text-slate-400 font-medium">
                   No hay seguimientos programados en los próximos 7 días.
                 </div>
               ) : (
-                <div className="divide-y divide-border">
+                <div className="divide-y divide-slate-100">
                   {stats.upcomingFollowups.map((gym) => (
                     <div
                       key={gym.id}
-                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-muted/20 px-2 rounded-md transition-colors"
+                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 px-2.5 rounded-xl transition-colors"
                     >
                       <div className="min-w-0">
                         <Link
                           href={`/gyms/${gym.id}`}
-                          className="font-medium text-foreground hover:text-primary hover:underline line-clamp-1 flex items-center gap-1.5"
+                          className="font-bold text-slate-800 hover:text-blue-600 transition-colors line-clamp-1 flex items-center gap-1.5"
                         >
-                          <Building2 className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                          <Building2 className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                           {gym.name}
                         </Link>
                         {gym.next_action && (
-                          <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">
+                          <p className="text-xs text-slate-500 line-clamp-1 mt-0.5 font-medium">
                             Acción: {gym.next_action}
                           </p>
                         )}
                       </div>
 
                       <div className="text-right shrink-0">
-                        <span className="text-xs font-semibold text-foreground block">
+                        <span className="text-xs font-bold text-slate-800 block">
                           {formatDate(gym.next_followup_date)}
                         </span>
                         {gym.owner && (
-                          <span className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
-                            <User className="h-3 w-3" />
+                          <span className="text-xs text-slate-500 font-medium flex items-center gap-1 justify-end">
+                            <User className="h-3 w-3 text-slate-400" />
                             {gym.owner.full_name}
                           </span>
                         )}
@@ -477,54 +467,54 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           </Card>
 
           {/* Tareas que vencen hoy */}
-          <Card className="shadow-2xs">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
+          <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 bg-slate-50/60 p-4.5">
               <div>
-                <CardTitle className="text-base font-semibold text-foreground flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-primary" />
+                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-blue-600" />
                   Tareas que vencen hoy
                 </CardTitle>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-xs text-slate-500 font-medium mt-0.5">
                   Obligaciones con fecha límite para el día de hoy
                 </p>
               </div>
-              <Button variant="ghost" size="sm" asChild className="text-xs">
+              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white text-slate-600 hover:text-slate-900">
                 <Link href="/tasks">
                   Ver tareas
                   <ArrowRight className="h-3.5 w-3.5 ml-1" />
                 </Link>
               </Button>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="p-4 space-y-2">
               {stats.tasksDueToday.length === 0 ? (
-                <div className="py-8 text-center text-xs text-muted-foreground">
+                <div className="py-8 text-center text-xs text-slate-400 font-medium">
                   No hay tareas que venzan hoy.
                 </div>
               ) : (
-                <div className="divide-y divide-border">
+                <div className="divide-y divide-slate-100">
                   {stats.tasksDueToday.map((task) => (
                     <div
                       key={task.id}
-                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-muted/20 px-2 rounded-md transition-colors"
+                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 px-2.5 rounded-xl transition-colors"
                     >
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
                           <Badge variant={priorityBadges[task.priority]?.variant || 'outline'}>
                             {priorityBadges[task.priority]?.label || task.priority}
                           </Badge>
-                          <span className="font-medium text-foreground line-clamp-1">
+                          <span className="font-bold text-slate-800 line-clamp-1">
                             {task.title}
                           </span>
                         </div>
                         {task.gym && (
-                          <span className="text-xs text-muted-foreground mt-0.5 block">
+                          <span className="text-xs text-slate-500 font-medium mt-0.5 block">
                             Gimnasio: {task.gym.name}
                           </span>
                         )}
                       </div>
 
                       <div className="text-right shrink-0">
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-xs text-slate-500 font-medium">
                           {task.assignee?.full_name || 'Sin asignar'}
                         </span>
                       </div>
@@ -539,36 +529,36 @@ export function DashboardClient({ stats }: DashboardClientProps) {
         {/* RIGHT COLUMN */}
         <div className="space-y-6">
           {/* Actividad reciente */}
-          <Card className="shadow-2xs">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
+          <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 bg-slate-50/60 p-4.5">
               <div>
-                <CardTitle className="text-base font-semibold text-foreground flex items-center gap-2">
-                  <Activity className="h-4 w-4 text-primary" />
+                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <Activity className="h-4 w-4 text-blue-600" />
                   Actividad reciente
                 </CardTitle>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-xs text-slate-500 font-medium mt-0.5">
                   Últimas acciones registradas en el registro de auditoría
                 </p>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4.5">
               {stats.recentActivity.length === 0 ? (
-                <div className="py-8 text-center text-xs text-muted-foreground">
+                <div className="py-8 text-center text-xs text-slate-400 font-medium">
                   Aún no se ha registrado actividad reciente en el sistema.
                 </div>
               ) : (
-                <div className="relative pl-6 space-y-4 border-l-2 border-muted ml-2 py-1">
+                <div className="relative pl-6 space-y-4 border-l-2 border-slate-100 ml-2 py-1">
                   {stats.recentActivity.map((log) => (
                     <div key={log.id} className="relative group">
-                      <div className="absolute -left-[31px] top-1 h-3 w-3 rounded-full bg-primary ring-4 ring-background" />
+                      <div className="absolute -left-[31px] top-1 h-3 w-3 rounded-full bg-blue-600 ring-4 ring-white shadow-2xs" />
                       <div className="text-xs">
-                        <span className="font-semibold text-foreground">
+                        <span className="font-bold text-slate-900">
                           {log.actor?.full_name || 'Sistema'}
                         </span>{' '}
-                        <span className="text-muted-foreground">
+                        <span className="text-slate-600">
                           {formatActivityAction(log.action, log.entity_type)}
                         </span>
-                        <div className="text-[11px] text-muted-foreground mt-0.5">
+                        <div className="text-[11px] text-slate-400 font-medium mt-0.5">
                           {formatDate(log.created_at)}
                         </div>
                       </div>
@@ -580,44 +570,44 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           </Card>
 
           {/* Últimos gimnasios añadidos */}
-          <Card className="shadow-2xs">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
+          <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 bg-slate-50/60 p-4.5">
               <div>
-                <CardTitle className="text-base font-semibold text-foreground flex items-center gap-2">
-                  <Building2 className="h-4 w-4 text-primary" />
+                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <Building2 className="h-4 w-4 text-blue-600" />
                   Últimos gimnasios añadidos
                 </CardTitle>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-xs text-slate-500 font-medium mt-0.5">
                   Nuevas altas en la base de datos
                 </p>
               </div>
-              <Button variant="ghost" size="sm" asChild className="text-xs">
+              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white text-slate-600 hover:text-slate-900">
                 <Link href="/gyms">
                   Ver todos
                   <ArrowRight className="h-3.5 w-3.5 ml-1" />
                 </Link>
               </Button>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4">
               {stats.latestGyms.length === 0 ? (
-                <div className="py-8 text-center text-xs text-muted-foreground">
+                <div className="py-8 text-center text-xs text-slate-400 font-medium">
                   No hay gimnasios registrados aún.
                 </div>
               ) : (
-                <div className="divide-y divide-border">
+                <div className="divide-y divide-slate-100">
                   {stats.latestGyms.map((gym) => (
                     <div
                       key={gym.id}
-                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-muted/20 px-2 rounded-md transition-colors"
+                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 px-2.5 rounded-xl transition-colors"
                     >
                       <div>
                         <Link
                           href={`/gyms/${gym.id}`}
-                          className="font-medium text-foreground hover:text-primary hover:underline line-clamp-1"
+                          className="font-bold text-slate-900 hover:text-blue-600 transition-colors line-clamp-1"
                         >
                           {gym.name}
                         </Link>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-slate-500 font-medium">
                           {gym.city || 'Ciudad no especificada'}
                         </p>
                       </div>
@@ -625,7 +615,7 @@ export function DashboardClient({ stats }: DashboardClientProps) {
                       <div className="text-right shrink-0">
                         {gym.commercial_status && (
                           <span
-                            className="inline-block text-[11px] px-2 py-0.5 rounded-full font-medium"
+                            className="inline-block text-[11px] px-2.5 py-0.5 rounded-full font-bold border border-slate-200/60"
                             style={{
                               backgroundColor: `${gym.commercial_status.color}20`,
                               color: gym.commercial_status.color,
@@ -634,7 +624,7 @@ export function DashboardClient({ stats }: DashboardClientProps) {
                             {gym.commercial_status.name}
                           </span>
                         )}
-                        <span className="text-[11px] text-muted-foreground block mt-0.5">
+                        <span className="text-[11px] text-slate-400 font-medium block mt-0.5">
                           {formatDate(gym.created_at)}
                         </span>
                       </div>

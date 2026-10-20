@@ -122,9 +122,9 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
     : 'Miembro'
 
   return (
-    <aside className="flex h-full w-64 flex-col bg-white border-r border-gray-200 select-none">
+    <aside className="flex h-full w-64 flex-col bg-white border-r border-slate-200/80 select-none">
       {/* Brand Header */}
-      <div className="flex h-16 items-center justify-between px-5 border-b border-gray-100 bg-white">
+      <div className="flex h-16 items-center justify-between px-5 border-b border-slate-100 bg-white">
         <Link
           href="/dashboard"
           className="flex items-center gap-3 transition-opacity hover:opacity-90"
@@ -134,14 +134,14 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="text-base font-extrabold tracking-tight text-gray-900 leading-none">
+              <span className="text-base font-black tracking-tight text-slate-900 leading-none">
                 GymBooking
               </span>
               <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider">
                 CRM
               </span>
             </div>
-            <span className="text-[11px] text-gray-400 font-medium mt-0.5">
+            <span className="text-[11px] text-slate-400 font-medium mt-0.5">
               Operaciones & Ventas
             </span>
           </div>
@@ -152,7 +152,7 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden h-8 w-8 text-gray-400 hover:text-gray-700"
+            className="md:hidden h-8 w-8 text-slate-400 hover:text-slate-700 rounded-xl"
             onClick={onCloseMobile}
             aria-label="Cerrar menú"
           >
@@ -165,7 +165,7 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
       <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-4 scrollbar-thin">
         {NAVIGATION_SECTIONS.map((section) => (
           <div key={section.title} className="space-y-1">
-            <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-400/90">
+            <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">
               {section.title}
             </div>
 
@@ -182,10 +182,10 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
                     href={item.href}
                     onClick={onCloseMobile}
                     className={cn(
-                      'group flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-all duration-150',
+                      'group flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150',
                       isActive
-                        ? 'bg-blue-50 text-blue-700 font-bold shadow-2xs'
-                        : 'text-gray-600 hover:bg-gray-100/70 hover:text-gray-900'
+                        ? 'bg-blue-50 text-blue-700 font-bold shadow-2xs border border-blue-200/50'
+                        : 'text-slate-600 hover:bg-slate-100/70 hover:text-slate-900'
                     )}
                   >
                     <div className="flex items-center gap-2.5">
@@ -194,7 +194,7 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
                           'h-4 w-4 shrink-0 transition-colors',
                           isActive
                             ? 'text-blue-600'
-                            : 'text-gray-400 group-hover:text-gray-600'
+                            : 'text-slate-400 group-hover:text-slate-600'
                         )}
                       />
                       <span>{item.label}</span>
@@ -212,11 +212,11 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
       </nav>
 
       {/* User Profile Footer */}
-      <div className="border-t border-gray-100 p-3 bg-gray-50/60">
+      <div className="border-t border-slate-100 p-3 bg-slate-50/60">
         <div className="flex items-center justify-between gap-2 rounded-xl p-2 transition-colors hover:bg-white hover:shadow-2xs">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="relative shrink-0">
-              <Avatar className="h-9 w-9 border border-gray-200 shadow-2xs">
+              <Avatar className="h-9 w-9 border border-slate-200 shadow-2xs">
                 <AvatarImage
                   src={userProfile?.avatar_url || ''}
                   alt={userProfile?.full_name || 'Avatar'}
@@ -229,11 +229,11 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
             </div>
 
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-bold text-gray-900 leading-tight">
+              <p className="truncate text-xs font-bold text-slate-900 leading-tight">
                 {userProfile?.full_name || userProfile?.email?.split('@')[0] || 'Usuario'}
               </p>
               <div className="flex items-center gap-1 mt-0.5">
-                <span className="truncate text-[10px] font-medium text-gray-500 capitalize">
+                <span className="truncate text-[10px] font-medium text-slate-500 capitalize">
                   {roleLabel}
                 </span>
               </div>
@@ -246,7 +246,7 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
             onClick={handleSignOut}
             disabled={isLoggingOut}
             title="Cerrar sesión"
-            className="h-8 w-8 shrink-0 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer rounded-lg"
+            className="h-8 w-8 shrink-0 text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer rounded-xl"
           >
             <LogOut className="h-4 w-4" />
             <span className="sr-only">Cerrar sesión</span>

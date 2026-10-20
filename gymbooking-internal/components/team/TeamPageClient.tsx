@@ -204,11 +204,11 @@ export function TeamPageClient({
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 flex items-center gap-2">
             <Users className="w-6 h-6 text-blue-600" />
             Equipo y Permisos
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
             Administra los usuarios con acceso al CRM, asigna roles y gestiona invitaciones.
           </p>
         </div>
@@ -216,7 +216,7 @@ export function TeamPageClient({
         {isAdmin && (
           <Button
             onClick={() => setIsInviteOpen(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white gap-2 shadow-xs self-start sm:self-auto"
+            className="rounded-xl shadow-xs font-bold gap-2 self-start sm:self-auto cursor-pointer"
           >
             <UserPlus className="w-4 h-4" />
             Invitar usuario
@@ -242,21 +242,21 @@ export function TeamPageClient({
       )}
 
       {/* Section 1: Team Members Table */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs overflow-hidden">
-        <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
           <div>
-            <h2 className="text-base font-bold text-gray-900">
+            <h2 className="text-base font-bold text-slate-900">
               Miembros de la organización ({members.length})
             </h2>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-slate-500 font-medium mt-0.5">
               Usuarios activos y colaboradores con cuenta en GymBooking
             </p>
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-600">
-            <thead className="bg-gray-50/70 text-xs font-semibold text-gray-500 uppercase border-b border-gray-100">
+          <table className="w-full text-left text-sm text-slate-600">
+            <thead className="bg-slate-50/80 text-[11px] font-bold text-slate-500 uppercase border-b border-slate-100">
               <tr>
                 <th className="px-5 py-3">Miembro</th>
                 <th className="px-5 py-3">Rol asignado</th>
@@ -403,26 +403,26 @@ export function TeamPageClient({
 
       {/* Section 2: Pending Invitations (Admin only) */}
       {isAdmin && (
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs overflow-hidden">
-          <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+          <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div>
-              <h2 className="text-base font-bold text-gray-900">
+              <h2 className="text-base font-bold text-slate-900">
                 Invitaciones pendientes ({invitations.length})
               </h2>
-              <p className="text-xs text-gray-400 mt-0.5">
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Invitaciones enviadas por email que aún no han sido aceptadas
               </p>
             </div>
           </div>
 
           {invitations.length === 0 ? (
-            <div className="p-8 text-center text-xs text-gray-400">
+            <div className="p-8 text-center text-xs text-slate-400 font-medium">
               No hay invitaciones pendientes en este momento.
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-gray-600">
-                <thead className="bg-gray-50/70 text-xs font-semibold text-gray-500 uppercase border-b border-gray-100">
+              <table className="w-full text-left text-sm text-slate-600">
+                <thead className="bg-slate-50/80 text-[11px] font-bold text-slate-500 uppercase border-b border-slate-100">
                   <tr>
                     <th className="px-5 py-3">Correo invitado</th>
                     <th className="px-5 py-3">Rol asignado</th>

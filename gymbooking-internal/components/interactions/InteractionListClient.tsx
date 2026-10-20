@@ -165,8 +165,8 @@ export function InteractionListClient() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Interacciones</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">Interacciones</h1>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
             Historial de comunicaciones, llamadas, notas y compromisos comerciales
           </p>
         </div>
@@ -176,9 +176,9 @@ export function InteractionListClient() {
             size="sm"
             onClick={() => refetch()}
             disabled={isFetching}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50"
           >
-            <RefreshCw className={`h-4 w-4 mr-1.5 ${isFetching ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-3.5 w-3.5 mr-1.5 ${isFetching ? 'animate-spin' : ''}`} />
             Actualizar
           </Button>
           <Button
@@ -186,15 +186,15 @@ export function InteractionListClient() {
             size="sm"
             onClick={exportToCSV}
             disabled={filteredInteractions.length === 0}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50"
           >
-            <Download className="h-4 w-4 mr-1.5" />
+            <Download className="h-3.5 w-3.5 mr-1.5" />
             Exportar CSV
           </Button>
           <Button
             size="sm"
             onClick={() => setIsFormOpen(true)}
-            className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
+            className="cursor-pointer rounded-xl font-bold shadow-xs"
           >
             <Plus className="h-4 w-4 mr-1.5" />
             Registrar interacción
@@ -205,9 +205,9 @@ export function InteractionListClient() {
       <NotificationAlert notification={notification} onClose={() => setNotification(null)} />
 
       {/* Filters Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 bg-card p-3 rounded-xl border shadow-2xs">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
         <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
           <Input
             placeholder="Buscar por gimnasio, resumen..."
             value={gymSearch}
@@ -215,7 +215,7 @@ export function InteractionListClient() {
               setGymSearch(e.target.value)
               setCurrentPage(1)
             }}
-            className="pl-8 text-sm"
+            className="pl-8 text-xs rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white"
           />
         </div>
 
@@ -225,7 +225,7 @@ export function InteractionListClient() {
             setTypeFilter(e.target.value)
             setCurrentPage(1)
           }}
-          className="text-sm"
+          className="text-xs rounded-xl border-slate-200/90 bg-white"
         >
           <option value="all">Todos los canales</option>
           <option value="call">Llamada</option>
@@ -243,7 +243,7 @@ export function InteractionListClient() {
             setRegisteredByFilter(e.target.value)
             setCurrentPage(1)
           }}
-          className="text-sm"
+          className="text-xs rounded-xl border-slate-200/90 bg-white"
         >
           <option value="all">Registrado por: Todos</option>
           {registeredByUsers.map((u) => (
@@ -254,7 +254,7 @@ export function InteractionListClient() {
         </Select>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground shrink-0">Desde:</span>
+          <span className="text-xs text-slate-400 font-medium shrink-0">Desde:</span>
           <Input
             type="date"
             value={dateFrom}
@@ -262,12 +262,12 @@ export function InteractionListClient() {
               setDateFrom(e.target.value)
               setCurrentPage(1)
             }}
-            className="text-xs h-9"
+            className="text-xs h-9 rounded-xl border-slate-200/90 bg-white"
           />
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground shrink-0">Hasta:</span>
+          <span className="text-xs text-slate-400 font-medium shrink-0">Hasta:</span>
           <Input
             type="date"
             value={dateTo}
@@ -275,13 +275,13 @@ export function InteractionListClient() {
               setDateTo(e.target.value)
               setCurrentPage(1)
             }}
-            className="text-xs h-9"
+            className="text-xs h-9 rounded-xl border-slate-200/90 bg-white"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border bg-card shadow-2xs overflow-hidden">
+      <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
         {isLoading ? (
           <div className="p-8 space-y-4">
             <div className="flex items-center justify-center gap-2 text-muted-foreground py-8">
