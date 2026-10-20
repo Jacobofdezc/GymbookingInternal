@@ -347,6 +347,18 @@ export async function getGym(id: string): Promise<FullGymDetail> {
   }
 }
 
+function sanitizeGymPayload<T extends Record<string, any>>(rawValues: T): T {
+  const sanitized: Record<string, any> = {}
+  for (const [key, value] of Object.entries(rawValues)) {
+    if (value === '' || value === undefined) {
+      sanitized[key] = null
+    } else {
+      sanitized[key] = value
+    }
+  }
+  return sanitized as T
+}
+
 /**
  * Create a new gym
  */
@@ -362,30 +374,28 @@ export async function createGym(values: GymFormValues): Promise<Gym> {
     throw new Error('Usuario no autenticado')
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('organization_id')
-    .eq('id', user.id)
-    .single()
+  let orgId = user.user_metadata?.organization_id
+  if (!orgId) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('organization_id')
+      .eq('id', user.id)
+      .maybeSingle()
+    orgId = profile?.organization_id
+  }
 
-  if (!profile) {
-    throw new Error('Perfil de usuario no encontrado')
+  if (!orgId) {
+    orgId = 'a0000000-0000-4000-8000-000000000001'
   }
 
   const { discipline_ids, ...rawValues } = values
+  const sanitizedValues = sanitizeGymPayload(rawValues)
 
-  // Clean empty strings to null for uuids and foreign keys
+  // Clean empty strings to null for uuids, dates, and foreign keys
   const cleanedInsert: TablesInsert<'gyms'> = {
-    ...rawValues,
-    organization_id: profile.organization_id,
+    ...sanitizedValues,
+    organization_id: orgId,
     created_by: user.id,
-    commercial_status_id: rawValues.commercial_status_id || null,
-    onboarding_status_id: rawValues.onboarding_status_id || null,
-    owner_id: rawValues.owner_id || null,
-    onboarding_owner_id: rawValues.onboarding_owner_id || null,
-    website: rawValues.website || null,
-    email: rawValues.email || null,
-    contract_url: rawValues.contract_url || null,
   }
 
   const { data: newGym, error } = await supabase
@@ -424,16 +434,10 @@ export async function updateGym(id: string, values: Partial<GymFormValues>): Pro
   const { data: oldGym } = await supabase.from('gyms').select('*').eq('id', id).single()
 
   const { discipline_ids, ...rawValues } = values
+  const sanitizedValues = sanitizeGymPayload(rawValues)
 
   const cleanedUpdate: TablesUpdate<'gyms'> = {
-    ...rawValues,
-    commercial_status_id: rawValues.commercial_status_id === '' ? null : rawValues.commercial_status_id,
-    onboarding_status_id: rawValues.onboarding_status_id === '' ? null : rawValues.onboarding_status_id,
-    owner_id: rawValues.owner_id === '' ? null : rawValues.owner_id,
-    onboarding_owner_id: rawValues.onboarding_owner_id === '' ? null : rawValues.onboarding_owner_id,
-    website: rawValues.website === '' ? null : rawValues.website,
-    email: rawValues.email === '' ? null : rawValues.email,
-    contract_url: rawValues.contract_url === '' ? null : rawValues.contract_url,
+    ...sanitizedValues,
     updated_at: new Date().toISOString(),
   }
 

@@ -116,6 +116,12 @@ export async function createInteraction(
     organization_id: (orgId || data.organization_id)!,
     registered_by: userId || data.registered_by,
     created_by: userId || data.created_by,
+    contact_id: data.contact_id || null,
+    next_step_date: data.next_step_date || null,
+    outcome: data.outcome || null,
+    commitments: data.commitments || null,
+    next_step: data.next_step || null,
+    related_links: data.related_links || null,
   }
 
   const { data: interaction, error } = await supabase

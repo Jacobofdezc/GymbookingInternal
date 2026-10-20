@@ -172,6 +172,10 @@ export async function createIssue(data: IssueInsert): Promise<IssueRow> {
     ...data,
     organization_id: orgId || data.organization_id,
     created_by: userId || data.created_by,
+    gym_id: data.gym_id || null,
+    assignee_id: data.assignee_id || null,
+    due_date: data.due_date || null,
+    description: data.description || null,
   }
 
   const { data: issue, error } = await supabase

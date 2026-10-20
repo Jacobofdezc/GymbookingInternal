@@ -227,6 +227,10 @@ export async function createTask(data: TaskInsert): Promise<TaskWithRelations> {
     created_by: user?.id || null,
     priority: taskPayload.priority || 'medium',
     status: taskPayload.status || 'pending',
+    due_date: taskPayload.due_date || null,
+    assignee_id: taskPayload.assignee_id || null,
+    gym_id: taskPayload.gym_id || null,
+    contact_id: taskPayload.contact_id || null,
   }
 
   const { data: created, error } = await supabase
@@ -274,7 +278,14 @@ export async function updateTask(
   } = await supabase.auth.getUser()
 
   const { tags, ...updatePayload } = data
-  const patch: Record<string, any> = { ...updatePayload, updated_at: new Date().toISOString() }
+  const patch: Record<string, any> = {
+    ...updatePayload,
+    due_date: updatePayload.due_date === '' ? null : updatePayload.due_date,
+    assignee_id: updatePayload.assignee_id === '' ? null : updatePayload.assignee_id,
+    gym_id: updatePayload.gym_id === '' ? null : updatePayload.gym_id,
+    contact_id: updatePayload.contact_id === '' ? null : updatePayload.contact_id,
+    updated_at: new Date().toISOString(),
+  }
 
   if (data.status === 'completed') {
     patch.completed_at = data.completed_at || new Date().toISOString()
