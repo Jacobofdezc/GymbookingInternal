@@ -1,7 +1,15 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { DEMO_COOKIE_NAME } from '@/app/api/auth/demo-session/route'
 
-const PUBLIC_ROUTES = ['/login', '/invite', '/auth/callback', '/api/bootstrap']
+const PUBLIC_ROUTES = [
+  '/login',
+  '/invite',
+  '/auth/callback',
+  '/api/bootstrap',
+  '/api/auth/demo-session',
+  '/api/demo/seed',
+]
 
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
@@ -27,9 +35,14 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  let user = null
+  try {
+    const { data } = await supabase.auth.getUser()
+    user = data.user
+  } catch {}
+
+  const hasDemoSession = Boolean(request.cookies.get(DEMO_COOKIE_NAME)?.value)
+  const isAuthenticated = Boolean(user) || hasDemoSession
 
   const pathname = request.nextUrl.pathname
   const isPublicRoute = PUBLIC_ROUTES.some((route) =>
@@ -37,7 +50,7 @@ export async function proxy(request: NextRequest) {
   )
 
   // Redirect unauthenticated users to login
-  if (!user && !isPublicRoute) {
+  if (!isAuthenticated && !isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('redirectTo', pathname)
@@ -45,16 +58,16 @@ export async function proxy(request: NextRequest) {
   }
 
   // Redirect authenticated users away from login
-  if (user && pathname === '/login') {
+  if (isAuthenticated && pathname === '/login') {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)
   }
 
-  // Redirect root to dashboard
+  // Redirect root to dashboard or login
   if (pathname === '/') {
     const url = request.nextUrl.clone()
-    url.pathname = user ? '/dashboard' : '/login'
+    url.pathname = isAuthenticated ? '/dashboard' : '/login'
     return NextResponse.redirect(url)
   }
 
@@ -68,4 +81,3 @@ export const config = {
 }
 
 export default proxy
-

@@ -115,8 +115,8 @@ export function DocumentListClient({
       // Search
       if (search.trim()) {
         const query = search.toLowerCase()
-        const matchesName = doc.name.toLowerCase().includes(query)
-        const matchesFile = doc.file_name.toLowerCase().includes(query)
+        const matchesName = (doc.name || '').toLowerCase().includes(query)
+        const matchesFile = (doc.file_name || doc.name || '').toLowerCase().includes(query)
         const matchesGym = doc.gym?.name.toLowerCase().includes(query)
         if (!matchesName && !matchesFile && !matchesGym) return false
       }
@@ -189,8 +189,9 @@ export function DocumentListClient({
     }
   }
 
-  const getFileIcon = (fileName: string, contentType: string | null) => {
-    const ext = fileName.split('.').pop()?.toLowerCase() || ''
+  const getFileIcon = (fileName?: string | null, contentType?: string | null) => {
+    const safeName = fileName || ''
+    const ext = safeName.split('.').pop()?.toLowerCase() || ''
     if (contentType?.includes('pdf') || ext === 'pdf') {
       return <FileText className="w-5 h-5 text-rose-500" />
     }
@@ -380,7 +381,7 @@ export function DocumentListClient({
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="p-2.5 rounded-lg bg-gray-50 group-hover:bg-blue-50/50 transition-colors shrink-0">
-                      {getFileIcon(doc.file_name, doc.content_type)}
+                      {getFileIcon(doc.file_name || doc.name, doc.content_type)}
                     </div>
                     <div className="flex flex-wrap items-center gap-1.5 justify-end">
                       <span
@@ -514,7 +515,7 @@ export function DocumentListClient({
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div className="p-2 rounded-lg bg-gray-50 shrink-0">
-                            {getFileIcon(doc.file_name, doc.content_type)}
+                            {getFileIcon(doc.file_name || doc.name, doc.content_type)}
                           </div>
                           <div>
                             <span
@@ -525,7 +526,7 @@ export function DocumentListClient({
                               {doc.name}
                             </span>
                             <span className="text-xs text-gray-400 block truncate max-w-xs">
-                              {doc.file_name}
+                              {doc.file_name || doc.name}
                             </span>
                           </div>
                         </div>

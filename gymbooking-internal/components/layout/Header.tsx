@@ -65,8 +65,9 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
   const handleSignOut = async () => {
     try {
       setIsSigningOut(true)
+      await fetch('/api/auth/demo-session', { method: 'DELETE' }).catch(() => {})
       const supabase = createClient()
-      await supabase.auth.signOut()
+      await supabase.auth.signOut().catch(() => {})
       router.push('/login')
       router.refresh()
     } catch (err) {

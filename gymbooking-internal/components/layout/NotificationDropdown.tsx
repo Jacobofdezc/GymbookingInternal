@@ -48,7 +48,9 @@ export function NotificationDropdown() {
         .limit(10)
 
       if (error) {
-        console.error('Error fetching notifications:', error)
+        // Table may not be created yet in current Supabase schema cache
+        setNotifications([])
+        setUnreadCount(0)
         return
       }
 
