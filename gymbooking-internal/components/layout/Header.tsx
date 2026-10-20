@@ -94,27 +94,27 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
     : 'Miembro'
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-gray-200 bg-white/95 px-4 md:px-6 backdrop-blur-sm">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white/80 px-4 md:px-6 backdrop-blur-md transition-colors">
       {/* Left side: Mobile Toggle & Page Title */}
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
           onClick={onOpenMobileMenu}
-          className="md:hidden text-gray-600 hover:text-gray-900"
+          className="md:hidden text-slate-600 hover:text-slate-900 rounded-xl"
           aria-label="Abrir navegación lateral"
         >
           <Menu className="h-5 w-5" />
         </Button>
 
         <div className="flex flex-col">
-          <h1 className="text-base md:text-lg font-bold text-gray-900 tracking-tight leading-tight">
+          <h1 className="text-base md:text-lg font-bold text-slate-900 tracking-tight leading-tight">
             {currentTitle}
           </h1>
-          <div className="flex items-center gap-2 text-xs text-gray-400 font-normal">
+          <div className="flex items-center gap-2 text-xs text-slate-400 font-normal">
             <span>GymBooking</span>
             <span>/</span>
-            <span className="capitalize text-gray-600">
+            <span className="capitalize text-slate-600 font-medium">
               {pathname.split('/')[1] || 'Dashboard'}
             </span>
           </div>
@@ -128,13 +128,13 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent('open-command-menu'))}
-            className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-1.5 text-xs text-gray-400 hover:border-gray-300 hover:bg-gray-100 transition-colors w-56 justify-between cursor-pointer"
+            className="flex items-center gap-2 rounded-xl border border-slate-200/90 bg-slate-100/60 hover:bg-slate-100/90 hover:border-slate-300 px-3 py-1.5 text-xs text-slate-500 hover:text-slate-700 transition-all w-56 justify-between cursor-pointer shadow-2xs"
           >
             <div className="flex items-center gap-2">
-              <Search className="h-3.5 w-3.5 text-gray-400" />
+              <Search className="h-3.5 w-3.5 text-slate-400" />
               <span>Buscar gimnasio, lead...</span>
             </div>
-            <kbd className="rounded bg-white px-1.5 py-0.5 text-[10px] font-semibold text-gray-500 border border-gray-200 shadow-2xs">
+            <kbd className="rounded-md bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-500 border border-slate-200 shadow-2xs">
               ⌘K
             </kbd>
           </button>
@@ -148,81 +148,81 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="flex items-center gap-2.5 px-2 py-1.5 h-auto text-left hover:bg-gray-100 rounded-lg focus-visible:ring-1 focus-visible:ring-blue-600"
+              className="flex items-center gap-2.5 px-2 py-1.5 h-auto text-left hover:bg-slate-100/80 rounded-xl focus-visible:ring-1 focus-visible:ring-blue-600 transition-colors"
             >
-              <Avatar className="h-8 w-8 border border-gray-200">
+              <Avatar className="h-8 w-8 border border-slate-200/90 shadow-2xs">
                 <AvatarImage
                   src={userProfile?.avatar_url || ''}
                   alt={userProfile?.full_name || 'Avatar'}
                 />
-                <AvatarFallback className="bg-blue-100 text-blue-700 text-xs font-semibold">
+                <AvatarFallback className="bg-blue-50 text-blue-700 text-xs font-bold border border-blue-200/50">
                   {getInitials(userProfile?.full_name, userProfile?.email)}
                 </AvatarFallback>
               </Avatar>
 
               <div className="hidden sm:flex flex-col text-left">
-                <span className="text-xs font-semibold text-gray-900 leading-none">
+                <span className="text-xs font-semibold text-slate-900 leading-none">
                   {userProfile?.full_name || userProfile?.email?.split('@')[0] || 'Usuario'}
                 </span>
-                <span className="text-[11px] text-gray-500 capitalize mt-0.5">
+                <span className="text-[11px] text-slate-500 capitalize mt-0.5 font-medium">
                   {roleLabel}
                 </span>
               </div>
 
-              <ChevronDown className="h-3.5 w-3.5 text-gray-400 ml-0.5 hidden sm:block" />
+              <ChevronDown className="h-3.5 w-3.5 text-slate-400 ml-0.5 hidden sm:block" />
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
+          <DropdownMenuContent className="w-56 rounded-2xl border border-slate-200/90 bg-white p-1.5 shadow-xl" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal px-2.5 py-2">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-semibold text-gray-900 leading-none">
+                <p className="text-sm font-bold text-slate-900 leading-none">
                   {userProfile?.full_name || 'Usuario'}
                 </p>
-                <p className="text-xs text-gray-500 leading-none truncate">
+                <p className="text-xs text-slate-500 leading-none truncate">
                   {userProfile?.email}
                 </p>
-                <div className="pt-1">
-                  <Badge variant="secondary" className="text-[10px] capitalize font-medium">
+                <div className="pt-1.5">
+                  <Badge variant="secondary" className="text-[10px] capitalize font-semibold px-2 py-0.5">
                     {roleLabel}
                   </Badge>
                 </div>
               </div>
             </DropdownMenuLabel>
 
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="bg-slate-100" />
 
-            <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link href="/settings" className="flex items-center cursor-pointer">
-                  <Settings className="mr-2 h-4 w-4 text-gray-500" />
+            <DropdownMenuGroup className="space-y-0.5">
+              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 hover:text-slate-900 hover:bg-slate-100/70">
+                <Link href="/settings" className="flex items-center">
+                  <Settings className="mr-2 h-4 w-4 text-slate-400" />
                   <span>Configuración</span>
                 </Link>
               </DropdownMenuItem>
 
-              <DropdownMenuItem asChild>
-                <Link href="/team" className="flex items-center cursor-pointer">
-                  <Building className="mr-2 h-4 w-4 text-gray-500" />
+              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 hover:text-slate-900 hover:bg-slate-100/70">
+                <Link href="/team" className="flex items-center">
+                  <Building className="mr-2 h-4 w-4 text-slate-400" />
                   <span>Organización y Equipo</span>
                 </Link>
               </DropdownMenuItem>
 
-              <DropdownMenuItem asChild>
-                <Link href="/knowledge" className="flex items-center cursor-pointer">
-                  <HelpCircle className="mr-2 h-4 w-4 text-gray-500" />
+              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 hover:text-slate-900 hover:bg-slate-100/70">
+                <Link href="/knowledge" className="flex items-center">
+                  <HelpCircle className="mr-2 h-4 w-4 text-slate-400" />
                   <span>Ayuda & Documentación</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
 
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="bg-slate-100" />
 
             <DropdownMenuItem
               onClick={handleSignOut}
               disabled={isSigningOut}
-              className="text-red-600 focus:text-red-600 focus:bg-red-50 cursor-pointer"
+              className="rounded-xl px-2.5 py-2 text-xs font-medium text-rose-600 focus:text-rose-600 focus:bg-rose-50 cursor-pointer"
             >
-              <LogOut className="mr-2 h-4 w-4" />
+              <LogOut className="mr-2 h-4 w-4 text-rose-500" />
               <span>{isSigningOut ? 'Cerrando sesión...' : 'Cerrar sesión'}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -393,12 +393,12 @@ export function GymDetailClient({
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16">
       {/* Back button & quick navigation */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <Button
           variant="outline"
           size="sm"
           asChild
-          className="flex items-center gap-1.5"
+          className="flex items-center gap-1.5 rounded-xl border-slate-200/90 shadow-2xs hover:bg-slate-50 font-semibold"
         >
           <Link href="/gyms">
             <ArrowLeft className="h-4 w-4" />
@@ -406,14 +406,14 @@ export function GymDetailClient({
           </Link>
         </Button>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 flex-wrap sm:flex-nowrap">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setInteractionModalOpen(true)}
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1.5 rounded-xl border-slate-200/90 shadow-2xs hover:bg-slate-50 font-semibold"
           >
-            <Phone className="h-4 w-4 text-primary" />
+            <Phone className="h-3.5 w-3.5 text-blue-600" />
             Registrar interacción
           </Button>
 
@@ -421,9 +421,9 @@ export function GymDetailClient({
             variant="outline"
             size="sm"
             onClick={() => setTaskModalOpen(true)}
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1.5 rounded-xl border-slate-200/90 shadow-2xs hover:bg-slate-50 font-semibold"
           >
-            <CheckSquare className="h-4 w-4 text-emerald-600" />
+            <CheckSquare className="h-3.5 w-3.5 text-emerald-600" />
             Nueva tarea
           </Button>
 
@@ -431,15 +431,15 @@ export function GymDetailClient({
             variant="outline"
             size="sm"
             onClick={() => setIssueModalOpen(true)}
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1.5 rounded-xl border-slate-200/90 shadow-2xs hover:bg-slate-50 font-semibold"
           >
-            <AlertTriangle className="h-4 w-4 text-red-500" />
+            <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
             Reportar incidencia
           </Button>
 
-          <Button asChild size="sm" className="flex items-center gap-1.5">
+          <Button asChild size="sm" className="flex items-center gap-1.5 rounded-xl shadow-xs font-semibold">
             <Link href={`/gyms/${gym.id}/edit`}>
-              <Edit className="h-4 w-4" />
+              <Edit className="h-3.5 w-3.5" />
               Editar centro
             </Link>
           </Button>
@@ -499,7 +499,7 @@ export function GymDetailClient({
       )}
 
       {/* Gym Header Card */}
-      <Card className="shadow-xs overflow-hidden">
+      <Card className="shadow-2xs overflow-hidden rounded-2xl border-slate-200/80 bg-white">
         <div className="p-6">
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
             <div className="space-y-2">
@@ -611,13 +611,13 @@ export function GymDetailClient({
             </div>
 
             {/* Owner badge info */}
-            <div className="flex items-center space-x-3 bg-muted/50 px-4 py-2.5 rounded-lg border">
-              <div className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
+            <div className="flex items-center space-x-3 bg-slate-50/80 px-4 py-2.5 rounded-xl border border-slate-200/70 shadow-2xs">
+              <div className="h-9 w-9 rounded-full bg-blue-50 border border-blue-200/60 text-blue-700 flex items-center justify-center font-bold text-xs">
                 {gym.owner ? gym.owner.full_name.slice(0, 2).toUpperCase() : '—'}
               </div>
               <div className="text-xs">
-                <span className="text-muted-foreground block">Responsable Comercial</span>
-                <span className="font-semibold text-foreground">
+                <span className="text-slate-400 block font-medium">Responsable Comercial</span>
+                <span className="font-bold text-slate-800">
                   {gym.owner?.full_name || 'Sin asignar'}
                 </span>
               </div>
@@ -641,7 +641,7 @@ export function GymDetailClient({
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-t overflow-x-auto bg-muted/20">
+        <div className="flex border-t border-slate-100 overflow-x-auto bg-slate-50/70 p-1.5 gap-1 shadow-inner">
           {[
             { id: 'resumen', label: 'Resumen' },
             { id: 'contactos', label: `Contactos (${gym.gym_contacts.length})` },
@@ -657,10 +657,10 @@ export function GymDetailClient({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as TabType)}
-                className={`px-4 py-3 text-xs sm:text-sm font-medium whitespace-nowrap border-b-2 transition-colors cursor-pointer ${
+                className={`px-3.5 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all duration-150 cursor-pointer ${
                   isActive
-                    ? 'border-primary text-primary font-semibold bg-background'
-                    : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/40'
+                    ? 'bg-white text-blue-600 shadow-2xs border border-slate-200/80'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                 }`}
               >
                 {tab.label}
@@ -677,51 +677,51 @@ export function GymDetailClient({
         <div className="space-y-6">
           {/* Metric KPI cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="p-4 shadow-2xs">
-              <span className="text-xs font-medium text-muted-foreground block">
+            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 bg-white hover:border-slate-300 transition-colors">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
                 Total Interacciones
               </span>
-              <span className="text-2xl font-bold mt-1 block">
+              <span className="text-3xl font-black text-slate-900 mt-1 block tracking-tight">
                 {gym.interactions.length}
               </span>
-              <span className="text-2xs text-muted-foreground mt-0.5 block">
+              <span className="text-2xs text-slate-400 mt-1 block font-medium">
                 Última:{' '}
                 {gym.last_contact_date ? formatRelative(gym.last_contact_date) : 'Sin registro'}
               </span>
             </Card>
 
-            <Card className="p-4 shadow-2xs">
-              <span className="text-xs font-medium text-muted-foreground block">
+            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 bg-white hover:border-slate-300 transition-colors">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
                 Tareas Pendientes
               </span>
-              <span className="text-2xl font-bold mt-1 block text-amber-600">
+              <span className="text-3xl font-black mt-1 block tracking-tight text-amber-600">
                 {pendingTasks.length}
               </span>
-              <span className="text-2xs text-muted-foreground mt-0.5 block">
+              <span className="text-2xs text-slate-400 mt-1 block font-medium">
                 {gym.tasks.length - pendingTasks.length} completadas
               </span>
             </Card>
 
-            <Card className="p-4 shadow-2xs">
-              <span className="text-xs font-medium text-muted-foreground block">
+            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 bg-white hover:border-slate-300 transition-colors">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
                 Clases Verificadas
               </span>
-              <span className="text-2xl font-bold mt-1 block text-emerald-600">
+              <span className="text-3xl font-black mt-1 block tracking-tight text-emerald-600">
                 {verifiedClasses.length} / {gym.classes_expected || gym.classes.length}
               </span>
-              <span className="text-2xs text-muted-foreground mt-0.5 block">
+              <span className="text-2xs text-slate-400 mt-1 block font-medium">
                 {gym.classes.length} clases recibidas
               </span>
             </Card>
 
-            <Card className="p-4 shadow-2xs">
-              <span className="text-xs font-medium text-muted-foreground block">
+            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 bg-white hover:border-slate-300 transition-colors">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
                 Progreso Onboarding
               </span>
-              <span className="text-2xl font-bold mt-1 block text-indigo-600">
+              <span className="text-3xl font-black mt-1 block tracking-tight text-blue-600">
                 {onboardingPercent}%
               </span>
-              <span className="text-2xs text-muted-foreground mt-0.5 block">
+              <span className="text-2xs text-slate-400 mt-1 block font-medium">
                 {completedOnboardingItems.length} de {gym.gym_onboarding_items.length} tareas
               </span>
             </Card>
@@ -729,41 +729,41 @@ export function GymDetailClient({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Commercial status summary */}
-            <Card>
-              <CardHeader className="pb-3 border-b">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-primary" />
+            <Card className="rounded-2xl border-slate-200/80 bg-white shadow-2xs overflow-hidden">
+              <CardHeader className="pb-3 border-b border-slate-100 bg-slate-50/50">
+                <CardTitle className="text-sm font-bold flex items-center gap-2 text-slate-900">
+                  <Sparkles className="h-4 w-4 text-blue-600" />
                   Diagnóstico Comercial
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-4 space-y-3 text-sm">
+              <CardContent className="pt-4 space-y-3.5 text-sm">
                 <div>
-                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block">
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                     Nivel de Interés
                   </span>
-                  <p className="mt-0.5 font-medium capitalize">
+                  <p className="mt-0.5 font-bold text-slate-800 capitalize">
                     {gym.interest_level ? gym.interest_level.replace('_', ' ') : 'No especificado'}
                   </p>
                 </div>
 
                 {gym.interest_reason && (
                   <div>
-                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                       Motivo de Interés
                     </span>
-                    <p className="mt-0.5 text-muted-foreground">{gym.interest_reason}</p>
+                    <p className="mt-0.5 text-slate-600 text-xs leading-relaxed">{gym.interest_reason}</p>
                   </div>
                 )}
 
                 {gym.next_action && (
                   <div>
-                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide block">
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                       Próxima Acción
                     </span>
-                    <p className="mt-0.5 font-medium text-foreground">
+                    <p className="mt-0.5 font-semibold text-slate-900 text-xs">
                       {gym.next_action}{' '}
                       {gym.next_followup_date && (
-                        <span className="text-xs text-muted-foreground font-normal">
+                        <span className="text-xs text-slate-400 font-medium">
                           (para el {formatDate(gym.next_followup_date)})
                         </span>
                       )}
@@ -772,31 +772,31 @@ export function GymDetailClient({
                 )}
 
                 {gym.gym_objections && (
-                  <div className="rounded-md bg-amber-50 p-3 text-xs border border-amber-200 dark:bg-amber-950/20 dark:border-amber-900/50">
-                    <span className="font-semibold text-amber-800 dark:text-amber-200 block mb-0.5">
+                  <div className="rounded-xl bg-amber-50 p-3.5 text-xs border border-amber-200/80 shadow-2xs">
+                    <span className="font-bold text-amber-900 block mb-0.5">
                       Objeciones detectadas:
                     </span>
-                    <p className="text-amber-900 dark:text-amber-300">{gym.gym_objections}</p>
+                    <p className="text-amber-800 leading-relaxed">{gym.gym_objections}</p>
                   </div>
                 )}
               </CardContent>
             </Card>
 
             {/* Commercial notes */}
-            <Card>
-              <CardHeader className="pb-3 border-b">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-primary" />
+            <Card className="rounded-2xl border-slate-200/80 bg-white shadow-2xs overflow-hidden">
+              <CardHeader className="pb-3 border-b border-slate-100 bg-slate-50/50">
+                <CardTitle className="text-sm font-bold flex items-center gap-2 text-slate-900">
+                  <FileText className="h-4 w-4 text-blue-600" />
                   Notas Comerciales Internas
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4 text-sm">
                 {gym.commercial_notes ? (
-                  <div className="whitespace-pre-wrap leading-relaxed text-slate-700 dark:text-slate-300 bg-muted/40 p-3 rounded-md text-xs font-mono">
+                  <div className="whitespace-pre-wrap leading-relaxed text-slate-700 bg-slate-50 border border-slate-200/60 p-3.5 rounded-xl text-xs font-mono shadow-2xs">
                     {gym.commercial_notes}
                   </div>
                 ) : (
-                  <p className="text-xs text-muted-foreground italic">
+                  <p className="text-xs text-slate-400 italic font-medium">
                     Sin notas comerciales registradas.
                   </p>
                 )}

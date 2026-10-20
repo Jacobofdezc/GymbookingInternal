@@ -266,27 +266,27 @@ export function PipelineBoard() {
   return (
     <div className="flex flex-col h-full space-y-4">
       {/* Filters Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-card p-3 rounded-xl border border-border shadow-xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
         <div className="flex flex-wrap items-center gap-2.5 flex-1 min-w-[280px]">
           {/* Search Input */}
           <div className="relative w-64 min-w-[200px]">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
             <Input
               type="text"
               placeholder="Buscar por gimnasio o ciudad..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-8 h-9 text-xs"
+              className="pl-9 h-9 text-xs rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white transition-colors"
             />
           </div>
 
           {/* Owner Filter */}
           <div className="flex items-center gap-1.5">
-            <User className="h-4 w-4 text-muted-foreground" />
+            <User className="h-4 w-4 text-slate-400" />
             <select
               value={selectedOwner}
               onChange={(e) => setSelectedOwner(e.target.value)}
-              className="h-9 rounded-md border border-input bg-background px-2.5 py-1 text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+              className="h-9 rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Todos los responsables</option>
               <option value="unassigned">Sin responsable</option>
@@ -300,11 +300,11 @@ export function PipelineBoard() {
 
           {/* Priority Filter */}
           <div className="flex items-center gap-1.5">
-            <Filter className="h-4 w-4 text-muted-foreground" />
+            <Filter className="h-4 w-4 text-slate-400" />
             <select
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
-              className="h-9 rounded-md border border-input bg-background px-2.5 py-1 text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+              className="h-9 rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Todas las prioridades</option>
               <option value="urgent">Urgente</option>
@@ -320,7 +320,7 @@ export function PipelineBoard() {
               variant="ghost"
               size="sm"
               onClick={resetFilters}
-              className="h-9 text-xs text-muted-foreground hover:text-foreground"
+              className="h-9 text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-xl font-semibold cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5 mr-1" />
               Limpiar
@@ -329,8 +329,8 @@ export function PipelineBoard() {
         </div>
 
         {/* Counter badge */}
-        <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium shrink-0">
-          <Building2 className="h-4 w-4 text-primary" />
+        <div className="flex items-center gap-2 text-xs font-bold shrink-0 bg-slate-100/80 border border-slate-200/70 text-slate-700 px-3 py-1.5 rounded-xl shadow-2xs">
+          <Building2 className="h-4 w-4 text-blue-600" />
           <span>
             {totalGyms} {totalGyms === 1 ? 'gimnasio' : 'gimnasios'} en pipeline
           </span>

@@ -352,22 +352,22 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 flex items-center gap-2">
             <CalendarIcon className="w-6 h-6 text-blue-600" />
             Calendario de Actividades
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
             Vencimientos de tareas, fechas de seguimiento comercial e interacciones programadas.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+        <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
           <Button
             variant="outline"
             size="sm"
             onClick={handleExportIcs}
             disabled={filteredEvents.length === 0}
-            className="gap-1.5 text-xs h-9 bg-white shadow-2xs hover:bg-gray-50 text-gray-700"
+            className="gap-1.5 text-xs h-9 bg-white shadow-2xs hover:bg-slate-50 text-slate-700 rounded-xl border-slate-200/90 font-semibold cursor-pointer"
             title="Exportar a Google Calendar / Apple / Outlook"
           >
             <Download className="w-3.5 h-3.5 text-blue-600" />
@@ -375,13 +375,13 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           </Button>
 
           {/* View mode toggle buttons */}
-          <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl">
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-2xl border border-slate-200/80 shadow-2xs">
           <button
             onClick={() => setViewMode('month')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               viewMode === 'month'
-                ? 'bg-white text-gray-900 shadow-xs'
-                : 'text-gray-500 hover:text-gray-900'
+                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Grid3X3 className="w-3.5 h-3.5" />
@@ -389,10 +389,10 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           </button>
           <button
             onClick={() => setViewMode('week')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               viewMode === 'week'
-                ? 'bg-white text-gray-900 shadow-xs'
-                : 'text-gray-500 hover:text-gray-900'
+                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Columns className="w-3.5 h-3.5" />
@@ -400,10 +400,10 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           </button>
           <button
             onClick={() => setViewMode('agenda')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               viewMode === 'agenda'
-                ? 'bg-white text-gray-900 shadow-xs'
-                : 'text-gray-500 hover:text-gray-900'
+                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <List className="w-3.5 h-3.5" />
@@ -414,15 +414,15 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
     </div>
 
       {/* Navigation and Filter Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Navigation & Month Name */}
         <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <Button
               variant="outline"
               size="sm"
               onClick={handlePrev}
-              className="h-8 w-8 p-0"
+              className="h-8 w-8 p-0 rounded-xl border-slate-200/90 shadow-2xs cursor-pointer hover:bg-slate-50"
               title="Anterior"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -431,7 +431,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
               variant="outline"
               size="sm"
               onClick={handleToday}
-              className="h-8 px-2.5 text-xs font-semibold"
+              className="h-8 px-3 text-xs font-bold rounded-xl border-slate-200/90 shadow-2xs cursor-pointer hover:bg-slate-50"
             >
               Hoy
             </Button>
@@ -439,14 +439,14 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
               variant="outline"
               size="sm"
               onClick={handleNext}
-              className="h-8 w-8 p-0"
+              className="h-8 w-8 p-0 rounded-xl border-slate-200/90 shadow-2xs cursor-pointer hover:bg-slate-50"
               title="Siguiente"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
 
-          <h2 className="text-base sm:text-lg font-bold text-gray-900 capitalize">
+          <h2 className="text-base sm:text-lg font-black text-slate-900 capitalize tracking-tight">
             {viewMode === 'month' &&
               `${MONTH_NAMES[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
             {viewMode === 'week' &&
@@ -461,20 +461,20 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
         <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
           <button
             onClick={() => setTypeFilter('all')}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               typeFilter === 'all'
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-slate-900 text-white shadow-2xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
             }`}
           >
             Todos ({initialEvents.length})
           </button>
           <button
             onClick={() => setTypeFilter('task')}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               typeFilter === 'task'
-                ? 'bg-blue-600 text-white'
-                : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+                ? 'bg-blue-600 text-white shadow-2xs'
+                : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200/60'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
@@ -482,10 +482,10 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           </button>
           <button
             onClick={() => setTypeFilter('followup')}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               typeFilter === 'followup'
-                ? 'bg-purple-600 text-white'
-                : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
+                ? 'bg-purple-600 text-white shadow-2xs'
+                : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200/60'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
@@ -493,10 +493,10 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           </button>
           <button
             onClick={() => setTypeFilter('interaction')}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               typeFilter === 'interaction'
-                ? 'bg-emerald-600 text-white'
-                : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                ? 'bg-emerald-600 text-white shadow-2xs'
+                : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200/60'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -507,7 +507,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
 
       {/* VIEW: MONTH */}
       {viewMode === 'month' && (
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs overflow-hidden">
+        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
           {/* Day of Week Header */}
           <div className="grid grid-cols-7 border-b border-gray-200 text-center bg-gray-50/80 py-2.5">
             {DAY_NAMES.map((name, i) => (

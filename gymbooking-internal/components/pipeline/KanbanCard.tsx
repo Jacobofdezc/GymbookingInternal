@@ -73,10 +73,10 @@ export function KanbanCard({ gym, statusId, isOverlay = false }: KanbanCardProps
       ref={setNodeRef}
       style={style}
       className={cn(
-        'group relative flex flex-col gap-2.5 rounded-lg border border-border/80 bg-card p-3.5 shadow-sm transition-all duration-150',
-        'hover:border-primary/40 hover:shadow-md hover:-translate-y-0.5',
-        isDragging && 'opacity-40 ring-2 ring-primary ring-offset-1 shadow-lg',
-        isOverlay && 'rotate-1 scale-105 shadow-xl border-primary/60 cursor-grabbing bg-card ring-2 ring-primary/20'
+        'group relative flex flex-col gap-2.5 rounded-xl border border-slate-200/90 bg-white p-3.5 shadow-2xs transition-all duration-150',
+        'hover:border-blue-500/50 hover:shadow-md hover:-translate-y-0.5',
+        isDragging && 'opacity-30 ring-2 ring-blue-500 ring-offset-1 shadow-lg',
+        isOverlay && 'rotate-1 scale-105 shadow-2xl border-blue-500 cursor-grabbing bg-white ring-2 ring-blue-500/20'
       )}
     >
       {/* Top row: Gym name, drag handle & priority */}
@@ -124,8 +124,8 @@ export function KanbanCard({ gym, statusId, isOverlay = false }: KanbanCardProps
 
       {/* Next action truncated */}
       {gym.next_action && (
-        <div className="rounded bg-muted/60 p-2 text-xs text-foreground/90 flex items-start gap-1.5 border border-muted">
-          <ArrowRight className="h-3.5 w-3.5 shrink-0 text-primary mt-0.5" />
+        <div className="rounded-lg bg-slate-50 p-2 text-xs text-slate-800 flex items-start gap-1.5 border border-slate-200/60">
+          <ArrowRight className="h-3.5 w-3.5 shrink-0 text-blue-600 mt-0.5" />
           <span className="line-clamp-2 leading-relaxed" title={gym.next_action}>
             {gym.next_action}
           </span>

@@ -274,32 +274,32 @@ export function GymListClient() {
     <div className="space-y-6">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center space-x-3">
-          <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
-            <Building2 className="h-6 w-6" />
+        <div className="flex items-center space-x-3.5">
+          <div className="h-11 w-11 rounded-2xl bg-blue-50 border border-blue-200/80 text-blue-600 flex items-center justify-center shadow-2xs shrink-0">
+            <Building2 className="h-5 w-5" />
           </div>
           <div>
-            <div className="flex items-center space-x-2">
-              <h1 className="text-2xl font-bold tracking-tight">Gimnasios</h1>
-              <Badge variant="secondary" className="font-semibold text-xs">
+            <div className="flex items-center space-x-2.5">
+              <h1 className="text-2xl font-black tracking-tight text-slate-900">Gimnasios</h1>
+              <Badge variant="secondary" className="font-bold text-xs bg-slate-100 text-slate-700 border border-slate-200/60 rounded-full px-2.5 py-0.5">
                 {gyms.length} {gyms.length === 1 ? 'centro' : 'centros'}
               </Badge>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-slate-500 font-medium">
               Directorio y gestión del ciclo de vida comercial y operativo de los centros asociados.
             </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2.5 flex-wrap sm:flex-nowrap">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setIsImportModalOpen(true)}
-            className="flex items-center gap-1.5 cursor-pointer"
+            className="flex items-center gap-1.5 cursor-pointer rounded-xl border-slate-200/90 shadow-2xs hover:bg-slate-50"
           >
-            <Upload className="h-4 w-4" />
-            Importar CSV
+            <Upload className="h-3.5 w-3.5 text-slate-500" />
+            <span>Importar CSV</span>
           </Button>
 
           <Button
@@ -307,23 +307,23 @@ export function GymListClient() {
             size="sm"
             onClick={exportToCSV}
             disabled={gyms.length === 0}
-            className="flex items-center gap-1.5"
+            className="flex items-center gap-1.5 cursor-pointer rounded-xl border-slate-200/90 shadow-2xs hover:bg-slate-50"
           >
-            <Download className="h-4 w-4" />
-            Exportar CSV
+            <Download className="h-3.5 w-3.5 text-slate-500" />
+            <span>Exportar CSV</span>
           </Button>
 
-          <Button asChild size="sm" className="flex items-center gap-1.5">
+          <Button asChild size="sm" className="flex items-center gap-1.5 rounded-xl shadow-xs font-semibold">
             <Link href="/gyms/new">
               <Plus className="h-4 w-4" />
-              Nuevo Gimnasio
+              <span>Nuevo Gimnasio</span>
             </Link>
           </Button>
         </div>
       </div>
 
       {/* Quick Filter Tabs */}
-      <div className="flex items-center space-x-1 overflow-x-auto border-b pb-2 text-sm">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/80 rounded-2xl border border-slate-200/80 overflow-x-auto shadow-2xs">
         {QUICK_TABS.map((tab) => {
           const isActive = quickTab === tab.id
           return (
@@ -333,10 +333,10 @@ export function GymListClient() {
                 setQuickTab(tab.id)
                 setPage(1)
               }}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all duration-150 cursor-pointer ${
                 isActive
-                  ? 'bg-primary text-primary-foreground shadow-xs'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  ? 'bg-white text-slate-900 font-bold shadow-2xs border border-slate-200/70'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium border border-transparent'
               }`}
             >
               {tab.label}
@@ -346,11 +346,11 @@ export function GymListClient() {
       </div>
 
       {/* Filter Bar */}
-      <div className="rounded-lg border bg-card p-4 shadow-2xs space-y-3">
+      <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
           {/* Search bar */}
           <div className="lg:col-span-2 relative">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
             <Input
               value={search}
               onChange={(e) => {
@@ -358,12 +358,12 @@ export function GymListClient() {
                 setPage(1)
               }}
               placeholder="Buscar por nombre, ciudad..."
-              className="pl-9"
+              className="pl-9 rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white text-xs h-9 transition-colors"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-2.5 top-2.5 text-muted-foreground hover:text-foreground"
+                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-700 cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -378,7 +378,7 @@ export function GymListClient() {
                 setCommercialStatusId(e.target.value)
                 setPage(1)
               }}
-              className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="flex h-9 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Estado comercial...</option>
               {commercialStatuses.map((st) => (
@@ -397,7 +397,7 @@ export function GymListClient() {
                 setOnboardingStatusId(e.target.value)
                 setPage(1)
               }}
-              className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="flex h-9 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Onboarding...</option>
               {onboardingStatuses.map((st) => (
@@ -416,7 +416,7 @@ export function GymListClient() {
                 setCityFilter(e.target.value)
                 setPage(1)
               }}
-              className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="flex h-9 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Todas las ciudades</option>
               {cities.map((city) => (
@@ -435,7 +435,7 @@ export function GymListClient() {
                 setOwnerFilter(e.target.value)
                 setPage(1)
               }}
-              className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="flex h-9 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Responsable...</option>
               {owners.map((owner) => (
@@ -448,13 +448,13 @@ export function GymListClient() {
         </div>
 
         {hasActiveFilters && (
-          <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t">
+          <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100 font-medium">
             <span>Filtros avanzados activos</span>
             <Button
               variant="ghost"
               size="sm"
               onClick={clearFilters}
-              className="h-6 px-2 text-xs flex items-center gap-1 text-red-500 hover:text-red-700"
+              className="h-6 px-2 text-xs flex items-center gap-1 text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg cursor-pointer font-semibold"
             >
               <X className="h-3 w-3" />
               Limpiar filtros
@@ -464,50 +464,50 @@ export function GymListClient() {
       </div>
 
       {/* Gyms Table */}
-      <div className="rounded-lg border bg-card shadow-2xs overflow-hidden">
+      <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-muted/40 hover:bg-muted/40">
+            <TableRow>
               <TableHead
-                className="cursor-pointer font-semibold"
+                className="cursor-pointer font-bold text-slate-600 hover:text-slate-900 transition-colors"
                 onClick={() => handleSort('name')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1.5">
                   <span>Nombre & Ciudad</span>
-                  <ArrowUpDown className="h-3.5 w-3.5 opacity-60" />
+                  <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
                 </div>
               </TableHead>
-              <TableHead className="font-semibold">Estado Comercial</TableHead>
-              <TableHead className="font-semibold">Onboarding</TableHead>
+              <TableHead className="font-bold text-slate-600">Estado Comercial</TableHead>
+              <TableHead className="font-bold text-slate-600">Onboarding</TableHead>
               <TableHead
-                className="cursor-pointer font-semibold"
+                className="cursor-pointer font-bold text-slate-600 hover:text-slate-900 transition-colors"
                 onClick={() => handleSort('priority')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1.5">
                   <span>Prioridad</span>
-                  <ArrowUpDown className="h-3.5 w-3.5 opacity-60" />
+                  <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
                 </div>
               </TableHead>
-              <TableHead className="font-semibold">Responsable</TableHead>
+              <TableHead className="font-bold text-slate-600">Responsable</TableHead>
               <TableHead
-                className="cursor-pointer font-semibold"
+                className="cursor-pointer font-bold text-slate-600 hover:text-slate-900 transition-colors"
                 onClick={() => handleSort('last_contact_date')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1.5">
                   <span>Último Contacto</span>
-                  <ArrowUpDown className="h-3.5 w-3.5 opacity-60" />
+                  <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
                 </div>
               </TableHead>
               <TableHead
-                className="cursor-pointer font-semibold"
+                className="cursor-pointer font-bold text-slate-600 hover:text-slate-900 transition-colors"
                 onClick={() => handleSort('next_followup_date')}
               >
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1.5">
                   <span>Próximo Seguimiento</span>
-                  <ArrowUpDown className="h-3.5 w-3.5 opacity-60" />
+                  <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
                 </div>
               </TableHead>
-              <TableHead className="text-right font-semibold">Acciones</TableHead>
+              <TableHead className="text-right font-bold text-slate-600">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -517,11 +517,11 @@ export function GymListClient() {
                 <TableRow key={i}>
                   <TableCell colSpan={8} className="py-4">
                     <div className="flex items-center space-x-4 animate-pulse">
-                      <div className="h-4 w-48 bg-muted rounded" />
-                      <div className="h-4 w-24 bg-muted rounded" />
-                      <div className="h-4 w-24 bg-muted rounded" />
-                      <div className="h-4 w-16 bg-muted rounded" />
-                      <div className="h-4 w-32 bg-muted rounded" />
+                      <div className="h-4 w-48 bg-slate-100 rounded-md" />
+                      <div className="h-4 w-24 bg-slate-100 rounded-md" />
+                      <div className="h-4 w-24 bg-slate-100 rounded-md" />
+                      <div className="h-4 w-16 bg-slate-100 rounded-md" />
+                      <div className="h-4 w-32 bg-slate-100 rounded-md" />
                     </div>
                   </TableCell>
                 </TableRow>
@@ -529,25 +529,25 @@ export function GymListClient() {
             ) : paginatedGyms.length === 0 ? (
               // Empty state
               <TableRow>
-                <TableCell colSpan={8} className="py-12 text-center">
+                <TableCell colSpan={8} className="py-16 text-center">
                   <div className="mx-auto max-w-sm space-y-3">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-muted-foreground">
-                      <Building2 className="h-6 w-6" />
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 border border-slate-200/80 text-slate-500 shadow-2xs">
+                      <Building2 className="h-7 w-7" />
                     </div>
                     <div className="space-y-1">
-                      <h3 className="text-base font-semibold">No se encontraron gimnasios</h3>
-                      <p className="text-xs text-muted-foreground">
+                      <h3 className="text-base font-bold text-slate-900">No se encontraron gimnasios</h3>
+                      <p className="text-xs text-slate-500 font-medium">
                         {hasActiveFilters
                           ? 'No hay centros que coincidan con los filtros aplicados.'
                           : 'Aún no se ha registrado ningún centro en la plataforma.'}
                       </p>
                     </div>
                     {hasActiveFilters ? (
-                      <Button variant="outline" size="sm" onClick={clearFilters}>
+                      <Button variant="outline" size="sm" onClick={clearFilters} className="rounded-xl font-semibold">
                         Restablecer filtros
                       </Button>
                     ) : (
-                      <Button asChild size="sm">
+                      <Button asChild size="sm" className="rounded-xl font-semibold">
                         <Link href="/gyms/new">Crear primer gimnasio</Link>
                       </Button>
                     )}
@@ -563,15 +563,15 @@ export function GymListClient() {
                   <TableRow
                     key={gym.id}
                     onClick={() => router.push(`/gyms/${gym.id}`)}
-                    className="cursor-pointer transition-colors hover:bg-muted/50"
+                    className="cursor-pointer transition-colors hover:bg-slate-50/80 group"
                   >
                     {/* Name + City */}
                     <TableCell>
                       <div>
-                        <span className="font-semibold text-sm text-foreground hover:underline">
+                        <span className="font-bold text-sm text-slate-900 group-hover:text-blue-600 transition-colors">
                           {gym.name}
                         </span>
-                        <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-0.5">
+                        <div className="flex items-center space-x-2 text-xs text-slate-500 font-medium mt-0.5">
                           {gym.city && <span>{gym.city}</span>}
                           {gym.phone && <span>• {gym.phone}</span>}
                         </div>
@@ -609,18 +609,18 @@ export function GymListClient() {
                     <TableCell>
                       {gym.owner ? (
                         <div className="flex items-center space-x-2 text-xs">
-                          <div className="h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-2xs">
+                          <div className="h-6 w-6 rounded-full bg-blue-50 text-blue-700 border border-blue-200/50 flex items-center justify-center font-bold text-2xs">
                             {gym.owner.full_name.slice(0, 2).toUpperCase()}
                           </div>
-                          <span className="truncate max-w-[120px]">{gym.owner.full_name}</span>
+                          <span className="truncate max-w-[120px] font-medium text-slate-700">{gym.owner.full_name}</span>
                         </div>
                       ) : (
-                        <span className="text-xs text-muted-foreground">—</span>
+                        <span className="text-xs text-slate-400 font-medium">—</span>
                       )}
                     </TableCell>
 
                     {/* Last contact */}
-                    <TableCell className="text-xs text-muted-foreground">
+                    <TableCell className="text-xs text-slate-500 font-medium">
                       {gym.last_contact_date ? formatDate(gym.last_contact_date) : '—'}
                     </TableCell>
 
@@ -628,18 +628,18 @@ export function GymListClient() {
                     <TableCell>
                       {gym.next_followup_date ? (
                         <div
-                          className={`inline-flex items-center space-x-1.5 text-xs font-medium ${
+                          className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border ${
                             isOverdue
-                              ? 'text-red-600 bg-red-50 dark:bg-red-950/40 px-2 py-0.5 rounded'
-                              : 'text-slate-600 dark:text-slate-400'
+                              ? 'text-rose-700 bg-rose-50 border-rose-200/80 shadow-2xs'
+                              : 'text-slate-700 bg-slate-50 border-slate-200/60'
                           }`}
                         >
-                          {isOverdue && <AlertCircle className="h-3.5 w-3.5 shrink-0" />}
-                          <Calendar className="h-3.5 w-3.5 shrink-0 opacity-70" />
+                          {isOverdue && <AlertCircle className="h-3.5 w-3.5 text-rose-500 shrink-0" />}
+                          <Calendar className="h-3.5 w-3.5 shrink-0 opacity-70 text-slate-400" />
                           <span>{formatDate(gym.next_followup_date)}</span>
                         </div>
                       ) : (
-                        <span className="text-xs text-muted-foreground">—</span>
+                        <span className="text-xs text-slate-400 font-medium">—</span>
                       )}
                     </TableCell>
 
@@ -649,7 +649,7 @@ export function GymListClient() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-muted-foreground hover:text-primary"
+                          className="h-8 w-8 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg cursor-pointer"
                           asChild
                           title="Ver detalle"
                         >
@@ -661,7 +661,7 @@ export function GymListClient() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-muted-foreground hover:text-primary"
+                          className="h-8 w-8 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg cursor-pointer"
                           asChild
                           title="Editar"
                         >
@@ -674,7 +674,7 @@ export function GymListClient() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-muted-foreground hover:text-red-600"
+                            className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg cursor-pointer"
                             onClick={() => setGymToDelete(gym)}
                             title="Eliminar"
                           >
@@ -692,42 +692,42 @@ export function GymListClient() {
 
         {/* Pagination bar */}
         {!loading && gyms.length > 0 && (
-          <div className="flex items-center justify-between border-t px-4 py-3 text-xs text-muted-foreground">
+          <div className="flex items-center justify-between border-t border-slate-200/80 bg-slate-50/50 px-4 py-3 text-xs text-slate-500 font-medium">
             <div>
               Mostrando{' '}
-              <span className="font-medium text-foreground">
+              <span className="font-bold text-slate-800">
                 {(page - 1) * pageSize + 1}
               </span>{' '}
               a{' '}
-              <span className="font-medium text-foreground">
+              <span className="font-bold text-slate-800">
                 {Math.min(page * pageSize, gyms.length)}
               </span>{' '}
-              de <span className="font-medium text-foreground">{gyms.length}</span> gimnasios
+              de <span className="font-bold text-slate-800">{gyms.length}</span> gimnasios
             </div>
 
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
                 size="sm"
-                className="h-7 px-2"
+                className="h-7 px-2.5 rounded-xl border-slate-200 shadow-2xs font-semibold"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1}
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:ml-1">Anterior</span>
               </Button>
-              <span className="text-xs font-medium">
+              <span className="text-xs font-bold text-slate-700 px-1">
                 Pág. {page} / {totalPages}
               </span>
               <Button
                 variant="outline"
                 size="sm"
-                className="h-7 px-2"
+                className="h-7 px-2.5 rounded-xl border-slate-200 shadow-2xs font-semibold"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
               >
                 <span className="sr-only sm:not-sr-only sm:mr-1">Siguiente</span>
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-3.5 w-3.5" />
               </Button>
             </div>
           </div>

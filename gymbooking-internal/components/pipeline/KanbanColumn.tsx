@@ -25,31 +25,31 @@ export function KanbanColumn({ stage, gyms }: KanbanColumnProps) {
     <div
       ref={setNodeRef}
       className={cn(
-        'flex flex-col w-[280px] min-w-[280px] max-w-[280px] bg-muted/40 rounded-xl border border-border/80 transition-all duration-150 shadow-xs max-h-[calc(100vh-190px)]',
-        isOver && 'ring-2 ring-primary/40 border-primary bg-primary/[0.03]'
+        'flex flex-col w-[295px] min-w-[295px] max-w-[295px] bg-slate-100/70 rounded-2xl border border-slate-200/80 transition-all duration-150 shadow-2xs max-h-[calc(100vh-190px)] overflow-hidden',
+        isOver && 'ring-2 ring-blue-500/50 border-blue-400 bg-blue-50/20'
       )}
     >
       {/* Top Accent Strip */}
       <div
-        className="h-1 rounded-t-xl transition-all"
+        className="h-1 rounded-t-2xl transition-all"
         style={{ backgroundColor: stage.color || '#3b82f6' }}
       />
 
       {/* Header */}
-      <div className="flex items-center justify-between p-3 border-b border-border/60 bg-card/60 backdrop-blur-xs rounded-t-none">
+      <div className="flex items-center justify-between px-3.5 py-3 border-b border-slate-200/70 bg-white/80 backdrop-blur-xs">
         <div className="flex items-center gap-2 min-w-0">
           <span
-            className="h-2.5 w-2.5 rounded-full shrink-0 shadow-xs"
+            className="h-2.5 w-2.5 rounded-full shrink-0 shadow-2xs"
             style={{ backgroundColor: stage.color || '#3b82f6' }}
           />
           <h2
-            className="text-xs font-semibold text-foreground uppercase tracking-wider truncate"
+            className="text-xs font-bold text-slate-800 uppercase tracking-wider truncate"
             title={stage.name}
           >
             {stage.name}
           </h2>
         </div>
-        <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-xs font-medium bg-muted text-muted-foreground border border-border/60">
+        <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-xs font-bold bg-white text-slate-600 border border-slate-200 shadow-2xs">
           {gyms.length}
         </span>
       </div>

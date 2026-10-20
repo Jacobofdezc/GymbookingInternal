@@ -15,7 +15,7 @@ export function AppLayout({ userProfile, children }: AppLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gray-50/70 antialiased">
+    <div className="flex h-screen w-full overflow-hidden bg-slate-50/80 antialiased font-sans text-slate-900">
       {/* Desktop Sidebar */}
       <div className="hidden md:flex md:w-64 md:flex-col md:shrink-0">
         <Sidebar userProfile={userProfile} />

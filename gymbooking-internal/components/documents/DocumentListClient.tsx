@@ -230,16 +230,16 @@ export function DocumentListClient({
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">
             Documentos y Archivos
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
             Gestión centralizada de contratos, tarifas, propuestas comerciales y archivos adjuntos.
           </p>
         </div>
         <Button
           onClick={() => setIsUploadOpen(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white gap-2 shadow-sm self-start sm:self-auto"
+          className="rounded-xl shadow-xs font-bold gap-2 self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           Subir documento
@@ -247,22 +247,22 @@ export function DocumentListClient({
       </div>
 
       {/* Filter and Control Bar */}
-      <div className="bg-white p-4 rounded-xl border border-gray-200/80 shadow-xs space-y-3">
+      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* Search */}
           <div className="relative lg:col-span-2">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar por nombre, archivo o gimnasio..."
-              className="pl-9 bg-gray-50/50 border-gray-200 focus:bg-white text-sm"
+              className="pl-9 bg-slate-50/50 border-slate-200/90 focus:bg-white text-xs rounded-xl"
             />
           </div>
 
           {/* Category Filter */}
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="text-sm bg-gray-50/50">
+            <SelectTrigger className="text-xs bg-slate-50/50 border-slate-200/90 rounded-xl">
               <SelectValue placeholder="Todas las categorías" />
             </SelectTrigger>
             <SelectContent>
@@ -279,7 +279,7 @@ export function DocumentListClient({
 
           {/* Gym Filter */}
           <Select value={gymFilter} onValueChange={setGymFilter}>
-            <SelectTrigger className="text-sm bg-gray-50/50">
+            <SelectTrigger className="text-xs bg-slate-50/50 border-slate-200/90 rounded-xl">
               <SelectValue placeholder="Todos los gimnasios" />
             </SelectTrigger>
             <SelectContent>
@@ -295,7 +295,7 @@ export function DocumentListClient({
 
           {/* Visibility Filter */}
           <Select value={visibilityFilter} onValueChange={setVisibilityFilter}>
-            <SelectTrigger className="text-sm bg-gray-50/50">
+            <SelectTrigger className="text-xs bg-slate-50/50 border-slate-200/90 rounded-xl">
               <SelectValue placeholder="Cualquier visibilidad" />
             </SelectTrigger>
             <SelectContent>
@@ -309,18 +309,18 @@ export function DocumentListClient({
         </div>
 
         {/* View toggles and count */}
-        <div className="flex items-center justify-between pt-1 text-xs text-gray-500 border-t border-gray-100">
+        <div className="flex items-center justify-between pt-2 text-xs text-slate-500 font-medium border-t border-slate-100">
           <span>
-            Mostrando <strong className="text-gray-900">{filteredDocuments.length}</strong> de {documents.length} documentos
+            Mostrando <strong className="text-slate-900 font-bold">{filteredDocuments.length}</strong> de {documents.length} documentos
           </span>
 
-          <div className="flex items-center gap-1 bg-gray-100 p-0.5 rounded-lg">
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200/70 shadow-2xs">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded-md transition-colors ${
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'grid'
-                  ? 'bg-white text-gray-900 shadow-xs'
-                  : 'text-gray-500 hover:text-gray-900'
+                  ? 'bg-white text-slate-900 shadow-2xs'
+                  : 'text-slate-500 hover:text-slate-900'
               }`}
               title="Vista en cuadrícula"
             >
@@ -328,10 +328,10 @@ export function DocumentListClient({
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-1.5 rounded-md transition-colors ${
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 viewMode === 'list'
-                  ? 'bg-white text-gray-900 shadow-xs'
-                  : 'text-gray-500 hover:text-gray-900'
+                  ? 'bg-white text-slate-900 shadow-2xs'
+                  : 'text-slate-500 hover:text-slate-900'
               }`}
               title="Vista en lista"
             >

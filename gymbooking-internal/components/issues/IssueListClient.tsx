@@ -216,8 +216,8 @@ export function IssueListClient() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Incidencias</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">Incidencias</h1>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
             Gestión y seguimiento de problemas técnicos, comerciales y operativos
           </p>
         </div>
@@ -227,9 +227,9 @@ export function IssueListClient() {
             size="sm"
             onClick={() => refetch()}
             disabled={isFetching}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50"
           >
-            <RefreshCw className={`h-4 w-4 mr-1.5 ${isFetching ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-3.5 w-3.5 mr-1.5 ${isFetching ? 'animate-spin' : ''}`} />
             Actualizar
           </Button>
           <Button
@@ -237,15 +237,15 @@ export function IssueListClient() {
             size="sm"
             onClick={exportToCSV}
             disabled={filteredIssues.length === 0}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50"
           >
-            <Download className="h-4 w-4 mr-1.5" />
+            <Download className="h-3.5 w-3.5 mr-1.5" />
             Exportar CSV
           </Button>
           <Button
             size="sm"
             onClick={() => setIsFormOpen(true)}
-            className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
+            className="cursor-pointer rounded-xl shadow-xs font-bold"
           >
             <Plus className="h-4 w-4 mr-1.5" />
             Nueva incidencia
@@ -256,7 +256,7 @@ export function IssueListClient() {
       <NotificationAlert notification={notification} onClose={() => setNotification(null)} />
 
       {/* Tabs */}
-      <div className="flex flex-wrap border-b border-border gap-1">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200/80 overflow-x-auto shadow-2xs">
         {(
           [
             { key: 'open', label: 'Abiertas', count: counts.open },
@@ -269,18 +269,18 @@ export function IssueListClient() {
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors cursor-pointer ${
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all duration-150 cursor-pointer ${
               activeTab === tab.key
-                ? 'border-primary text-primary font-semibold'
-                : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30'
+                ? 'bg-white text-slate-900 font-bold shadow-2xs border border-slate-200/70'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium'
             }`}
           >
             <span>{tab.label}</span>
             <span
-              className={`text-xs px-2 py-0.5 rounded-full ${
+              className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
                 activeTab === tab.key
-                  ? 'bg-primary/10 text-primary font-bold'
-                  : 'bg-muted text-muted-foreground'
+                  ? 'bg-slate-900 text-white'
+                  : 'bg-slate-200/80 text-slate-600'
               }`}
             >
               {tab.count}
@@ -290,21 +290,21 @@ export function IssueListClient() {
       </div>
 
       {/* Filters Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 bg-card p-3 rounded-xl border shadow-2xs">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
         <div className="relative md:col-span-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
           <Input
             placeholder="Buscar incidencia..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-8 text-sm"
+            className="pl-8 text-xs rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white"
           />
         </div>
 
         <Select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="text-sm"
+          className="text-xs rounded-xl border-slate-200/90 bg-white"
         >
           <option value="all">Todos los tipos</option>
           <option value="technical_error">Error técnico</option>
@@ -358,7 +358,7 @@ export function IssueListClient() {
       </div>
 
       {/* Issues Table */}
-      <div className="rounded-xl border bg-card shadow-2xs overflow-hidden">
+      <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
         {isLoading ? (
           <div className="p-8 space-y-4">
             <div className="flex items-center justify-center gap-2 text-muted-foreground py-8">

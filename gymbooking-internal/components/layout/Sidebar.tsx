@@ -35,20 +35,49 @@ export interface NavItem {
   badge?: string
 }
 
-export const NAVIGATION_ITEMS: NavItem[] = [
-  { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { label: 'Gimnasios', href: '/gyms', icon: Building2 },
-  { label: 'Pipeline', href: '/pipeline', icon: KanbanSquare },
-  { label: 'Tareas', href: '/tasks', icon: CheckSquare },
-  { label: 'Calendario', href: '/calendar', icon: Calendar },
-  { label: 'Interacciones', href: '/interactions', icon: MessageSquare },
-  { label: 'Documentos', href: '/documents', icon: FileText },
-  { label: 'Operaciones', href: '/operations', icon: Settings2 },
-  { label: 'Incidencias', href: '/issues', icon: AlertTriangle },
-  { label: 'Base de conocimiento', href: '/knowledge', icon: BookOpen },
-  { label: 'Equipo', href: '/team', icon: Users },
-  { label: 'Configuración', href: '/settings', icon: Settings },
+export interface NavSection {
+  title: string
+  items: NavItem[]
+}
+
+export const NAVIGATION_SECTIONS: NavSection[] = [
+  {
+    title: 'General',
+    items: [
+      { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+      { label: 'Gimnasios', href: '/gyms', icon: Building2 },
+      { label: 'Pipeline Comercial', href: '/pipeline', icon: KanbanSquare },
+      { label: 'Calendario', href: '/calendar', icon: Calendar },
+    ],
+  },
+  {
+    title: 'Gestión Comercial',
+    items: [
+      { label: 'Tareas y Recordatorios', href: '/tasks', icon: CheckSquare },
+      { label: 'Interacciones', href: '/interactions', icon: MessageSquare },
+      { label: 'Documentos y Archivos', href: '/documents', icon: FileText },
+    ],
+  },
+  {
+    title: 'Operaciones y Soporte',
+    items: [
+      { label: 'Onboarding & Clases', href: '/operations', icon: Settings2 },
+      { label: 'Incidencias', href: '/issues', icon: AlertTriangle },
+      { label: 'Base de Conocimiento', href: '/knowledge', icon: BookOpen },
+    ],
+  },
+  {
+    title: 'Sistema',
+    items: [
+      { label: 'Equipo', href: '/team', icon: Users },
+      { label: 'Configuración', href: '/settings', icon: Settings },
+    ],
+  },
 ]
+
+export const NAVIGATION_ITEMS: NavItem[] = NAVIGATION_SECTIONS.flatMap(
+  (sec) => sec.items
+)
 
 interface SidebarProps {
   userProfile?: Profile | null
@@ -95,28 +124,25 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
   return (
     <aside className="flex h-full w-64 flex-col bg-white border-r border-gray-200 select-none">
       {/* Brand Header */}
-      <div className="flex h-16 items-center justify-between px-5 border-b border-gray-100">
+      <div className="flex h-16 items-center justify-between px-5 border-b border-gray-100 bg-white">
         <Link
           href="/dashboard"
-          className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
+          className="flex items-center gap-3 transition-opacity hover:opacity-90"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/20">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20">
             <Activity className="h-5 w-5 stroke-[2.5]" />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="text-base font-bold tracking-tight text-gray-900 leading-none">
+              <span className="text-base font-extrabold tracking-tight text-gray-900 leading-none">
                 GymBooking
               </span>
-              <Badge
-                variant="info"
-                className="text-[10px] px-1.5 py-0 font-medium bg-blue-50 text-blue-700 border-blue-200"
-              >
-                Internal
-              </Badge>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 uppercase tracking-wider">
+                CRM
+              </span>
             </div>
-            <span className="text-[11px] text-gray-400 font-normal mt-0.5">
-              Panel de Gestión
+            <span className="text-[11px] text-gray-400 font-medium mt-0.5">
+              Operaciones & Ventas
             </span>
           </div>
         </Link>
@@ -135,68 +161,79 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
         )}
       </div>
 
-      {/* Navigation List */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1 scrollbar-thin">
-        <div className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-gray-400">
-          Navegación
-        </div>
+      {/* Navigation Sections */}
+      <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-4 scrollbar-thin">
+        {NAVIGATION_SECTIONS.map((section) => (
+          <div key={section.title} className="space-y-1">
+            <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-gray-400/90">
+              {section.title}
+            </div>
 
-        {NAVIGATION_ITEMS.map((item) => {
-          const Icon = item.icon
-          const isActive =
-            pathname === item.href ||
-            (item.href !== '/dashboard' && pathname.startsWith(item.href))
+            <div className="space-y-0.5">
+              {section.items.map((item) => {
+                const Icon = item.icon
+                const isActive =
+                  pathname === item.href ||
+                  (item.href !== '/dashboard' && pathname.startsWith(item.href))
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onCloseMobile}
-              className={cn(
-                'group flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150',
-                isActive
-                  ? 'bg-blue-50 text-blue-700 font-semibold shadow-xs'
-                  : 'text-gray-600 hover:bg-gray-100/80 hover:text-gray-900'
-              )}
-            >
-              <div className="flex items-center gap-3">
-                <Icon
-                  className={cn(
-                    'h-4 w-4 shrink-0 transition-colors',
-                    isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'
-                  )}
-                />
-                <span>{item.label}</span>
-              </div>
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onCloseMobile}
+                    className={cn(
+                      'group flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-xs font-medium transition-all duration-150',
+                      isActive
+                        ? 'bg-blue-50 text-blue-700 font-bold shadow-2xs'
+                        : 'text-gray-600 hover:bg-gray-100/70 hover:text-gray-900'
+                    )}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Icon
+                        className={cn(
+                          'h-4 w-4 shrink-0 transition-colors',
+                          isActive
+                            ? 'text-blue-600'
+                            : 'text-gray-400 group-hover:text-gray-600'
+                        )}
+                      />
+                      <span>{item.label}</span>
+                    </div>
 
-              {isActive && (
-                <div className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-              )}
-            </Link>
-          )
-        })}
+                    {isActive && (
+                      <div className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+                    )}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* User Profile Footer */}
-      <div className="border-t border-gray-100 p-3 bg-gray-50/50">
-        <div className="flex items-center justify-between gap-2 rounded-lg p-2 transition-colors hover:bg-white hover:shadow-xs">
+      <div className="border-t border-gray-100 p-3 bg-gray-50/60">
+        <div className="flex items-center justify-between gap-2 rounded-xl p-2 transition-colors hover:bg-white hover:shadow-2xs">
           <div className="flex items-center gap-2.5 min-w-0">
-            <Avatar className="h-9 w-9 border border-gray-200">
-              <AvatarImage
-                src={userProfile?.avatar_url || ''}
-                alt={userProfile?.full_name || 'Avatar'}
-              />
-              <AvatarFallback className="bg-blue-100 text-blue-700 text-xs font-semibold">
-                {getInitials(userProfile?.full_name, userProfile?.email)}
-              </AvatarFallback>
-            </Avatar>
+            <div className="relative shrink-0">
+              <Avatar className="h-9 w-9 border border-gray-200 shadow-2xs">
+                <AvatarImage
+                  src={userProfile?.avatar_url || ''}
+                  alt={userProfile?.full_name || 'Avatar'}
+                />
+                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white text-xs font-bold">
+                  {getInitials(userProfile?.full_name, userProfile?.email)}
+                </AvatarFallback>
+              </Avatar>
+              <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white" />
+            </div>
 
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs font-semibold text-gray-900 leading-tight">
+              <p className="truncate text-xs font-bold text-gray-900 leading-tight">
                 {userProfile?.full_name || userProfile?.email?.split('@')[0] || 'Usuario'}
               </p>
               <div className="flex items-center gap-1 mt-0.5">
-                <span className="truncate text-[11px] text-gray-500 capitalize">
+                <span className="truncate text-[10px] font-medium text-gray-500 capitalize">
                   {roleLabel}
                 </span>
               </div>
@@ -209,7 +246,7 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
             onClick={handleSignOut}
             disabled={isLoggingOut}
             title="Cerrar sesión"
-            className="h-8 w-8 shrink-0 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+            className="h-8 w-8 shrink-0 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer rounded-lg"
           >
             <LogOut className="h-4 w-4" />
             <span className="sr-only">Cerrar sesión</span>

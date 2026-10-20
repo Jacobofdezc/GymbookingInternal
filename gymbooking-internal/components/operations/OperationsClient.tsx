@@ -95,8 +95,8 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Operaciones</h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900">Operaciones</h1>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
             Centro de incorporación técnica, checklist de activación y validación de clases
           </p>
         </div>
@@ -104,47 +104,47 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
 
       {/* Operations Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-card p-4 rounded-xl border shadow-2xs flex items-center gap-4">
-          <div className="p-3 rounded-lg bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+        <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-blue-50 border border-blue-200/70 text-blue-600 flex items-center justify-center shrink-0 shadow-2xs">
             <Building2 className="h-6 w-6" />
           </div>
           <div>
-            <span className="text-2xl font-bold text-foreground">{stats.confirmedCount}</span>
-            <p className="text-xs text-muted-foreground">Gimnasios confirmados</p>
+            <span className="text-3xl font-black text-slate-900 tracking-tight">{stats.confirmedCount}</span>
+            <p className="text-xs text-slate-500 font-bold mt-0.5">Gimnasios confirmados</p>
           </div>
         </div>
 
-        <div className="bg-card p-4 rounded-xl border shadow-2xs flex items-center gap-4">
-          <div className="p-3 rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300">
+        <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-amber-50 border border-amber-200/70 text-amber-600 flex items-center justify-center shrink-0 shadow-2xs">
             <Clock className="h-6 w-6" />
           </div>
           <div>
-            <span className="text-2xl font-bold text-foreground">
+            <span className="text-3xl font-black text-slate-900 tracking-tight">
               {stats.pendingOnboardingCount}
             </span>
-            <p className="text-xs text-muted-foreground">Pendientes de completar onboarding</p>
+            <p className="text-xs text-slate-500 font-bold mt-0.5">Pendientes de onboarding</p>
           </div>
         </div>
 
-        <div className="bg-card p-4 rounded-xl border shadow-2xs flex items-center gap-4">
-          <div className="p-3 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+        <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-emerald-50 border border-emerald-200/70 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs">
             <CheckCircle2 className="h-6 w-6" />
           </div>
           <div>
-            <span className="text-2xl font-bold text-foreground">{stats.activeCount}</span>
-            <p className="text-xs text-muted-foreground">Gimnasios activos en plataforma</p>
+            <span className="text-3xl font-black text-slate-900 tracking-tight">{stats.activeCount}</span>
+            <p className="text-xs text-slate-500 font-bold mt-0.5">Gimnasios activos en app</p>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-border gap-2">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200/80 shadow-2xs w-fit">
         <button
           onClick={() => setActiveTab('checklist')}
-          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors cursor-pointer ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all duration-150 cursor-pointer ${
             activeTab === 'checklist'
-              ? 'border-primary text-primary font-semibold'
-              : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30'
+              ? 'bg-white text-slate-900 font-bold shadow-2xs border border-slate-200/70'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium'
           }`}
         >
           <Layers className="h-4 w-4" />
@@ -153,10 +153,10 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
 
         <button
           onClick={() => setActiveTab('classes')}
-          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors cursor-pointer ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all duration-150 cursor-pointer ${
             activeTab === 'classes'
-              ? 'border-primary text-primary font-semibold'
-              : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30'
+              ? 'bg-white text-slate-900 font-bold shadow-2xs border border-slate-200/70'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium'
           }`}
         >
           <Dumbbell className="h-4 w-4" />

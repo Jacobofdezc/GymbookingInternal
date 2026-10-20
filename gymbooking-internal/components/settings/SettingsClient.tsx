@@ -369,37 +369,37 @@ export function SettingsClient({
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Top Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+        <h1 className="text-2xl font-black tracking-tight text-slate-900">
           Configuración
         </h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
           Ajustes de cuenta, preferencias de organización, estados y parámetros del sistema.
         </p>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="bg-gray-100 p-1 rounded-xl">
-          <TabsTrigger value="profile" className="text-xs font-semibold gap-2">
+        <TabsList className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 shadow-2xs">
+          <TabsTrigger value="profile" className="text-xs font-bold gap-2 rounded-xl cursor-pointer">
             <User className="w-3.5 h-3.5" />
             Perfil
           </TabsTrigger>
           {isAdmin && (
             <TabsTrigger
               value="organization"
-              className="text-xs font-semibold gap-2"
+              className="text-xs font-bold gap-2 rounded-xl cursor-pointer"
             >
               <Building className="w-3.5 h-3.5" />
               Organización
             </TabsTrigger>
           )}
-          <TabsTrigger value="security" className="text-xs font-semibold gap-2">
+          <TabsTrigger value="security" className="text-xs font-bold gap-2 rounded-xl cursor-pointer">
             <Shield className="w-3.5 h-3.5" />
             Acceso y seguridad
           </TabsTrigger>
           {isAdmin && (
             <TabsTrigger
               value="audit"
-              className="text-xs font-semibold gap-2"
+              className="text-xs font-bold gap-2 rounded-xl cursor-pointer"
             >
               <Activity className="w-3.5 h-3.5" />
               Auditoría
@@ -409,12 +409,12 @@ export function SettingsClient({
 
         {/* TAB 1: PERFIL */}
         <TabsContent value="profile" className="space-y-6">
-          <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-6">
-            <div className="border-b border-gray-100 pb-4">
-              <h3 className="text-base font-bold text-gray-900">
+          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-6">
+            <div className="border-b border-slate-100 pb-4">
+              <h3 className="text-base font-bold text-slate-900">
                 Información personal
               </h3>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
                 Datos visibles para otros miembros del equipo en el CRM.
               </p>
             </div>

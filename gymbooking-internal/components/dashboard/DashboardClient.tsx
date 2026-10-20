@@ -255,81 +255,81 @@ export function DashboardClient({ stats }: DashboardClientProps) {
       {/* Top KPI Cards (2 rows of 3) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Card 1: Total gimnasios */}
-        <Card className="hover:border-primary/50 transition-all shadow-2xs">
+        <Card className="hover:border-blue-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border border-slate-200/90 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Total gimnasios registrados
             </CardTitle>
-            <div className="p-2 rounded-lg bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+            <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 border border-blue-200/60 shadow-2xs">
               <Building2 className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tracking-tight text-foreground">
+            <div className="text-3xl font-black tracking-tight text-slate-900">
               {stats.totalGyms}
             </div>
-            <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
-              <span className="font-medium text-foreground">{stats.pendingTasksCount}</span> tareas
-              pendientes globales
+            <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
+              <span className="font-semibold text-slate-700">{stats.pendingTasksCount}</span> tareas pendientes globales
             </p>
           </CardContent>
         </Card>
 
         {/* Card 2: Gimnasios en proceso comercial */}
-        <Card className="hover:border-primary/50 transition-all shadow-2xs">
+        <Card className="hover:border-indigo-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border border-slate-200/90 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
               En proceso comercial
             </CardTitle>
-            <div className="p-2 rounded-lg bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+            <div className="p-2.5 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200/60 shadow-2xs">
               <TrendingUp className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tracking-tight text-foreground">
+            <div className="text-3xl font-black tracking-tight text-slate-900">
               {stats.commercialInProcessCount}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               Contactados, reuniones o propuestas
             </p>
           </CardContent>
         </Card>
 
         {/* Card 3: Gimnasios confirmados */}
-        <Card className="hover:border-primary/50 transition-all shadow-2xs">
+        <Card className="hover:border-amber-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border border-slate-200/90 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Gimnasios confirmados
             </CardTitle>
-            <div className="p-2 rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300">
+            <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 border border-amber-200/60 shadow-2xs">
               <CheckCircle2 className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tracking-tight text-foreground">
+            <div className="text-3xl font-black tracking-tight text-slate-900">
               {stats.confirmedGymsCount}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               Acuerdo cerrado, listos para onboarding
             </p>
           </CardContent>
         </Card>
 
         {/* Card 4: Activos en plataforma */}
-        <Card className="hover:border-primary/50 transition-all shadow-2xs">
+        <Card className="hover:border-emerald-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border border-slate-200/90 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Activos en plataforma
             </CardTitle>
-            <div className="p-2 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+            <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 shadow-2xs">
               <Dumbbell className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold tracking-tight text-foreground">
+            <div className="text-3xl font-black tracking-tight text-slate-900">
               {stats.activeGymsCount}
             </div>
-            <p className="text-xs text-muted-foreground mt-1 text-emerald-600 dark:text-emerald-400 font-medium">
+            <p className="text-xs text-emerald-700 mt-1 font-semibold flex items-center gap-1">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
               Publicados y recibiendo reservas
             </p>
           </CardContent>
@@ -337,21 +337,21 @@ export function DashboardClient({ stats }: DashboardClientProps) {
 
         {/* Card 5: Tareas vencidas */}
         <Card
-          className={`hover:border-primary/50 transition-all shadow-2xs ${
+          className={`hover:border-rose-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border rounded-2xl ${
             stats.overdueTasksCount > 0
-              ? 'border-red-300 bg-red-50/20 dark:border-red-900/50'
-              : ''
+              ? 'border-rose-300 bg-rose-50/15'
+              : 'border-slate-200/90'
           }`}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Tareas vencidas
             </CardTitle>
             <div
-              className={`p-2 rounded-lg ${
+              className={`p-2.5 rounded-xl border shadow-2xs ${
                 stats.overdueTasksCount > 0
-                  ? 'bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400'
-                  : 'bg-muted text-muted-foreground'
+                  ? 'bg-rose-50 text-rose-600 border-rose-200/60'
+                  : 'bg-slate-50 text-slate-500 border-slate-200/60'
               }`}
             >
               <AlertTriangle className="h-5 w-5" />
@@ -359,13 +359,13 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           </CardHeader>
           <CardContent>
             <div
-              className={`text-3xl font-bold tracking-tight ${
-                stats.overdueTasksCount > 0 ? 'text-red-600 dark:text-red-400' : 'text-foreground'
+              className={`text-3xl font-black tracking-tight ${
+                stats.overdueTasksCount > 0 ? 'text-rose-600' : 'text-slate-900'
               }`}
             >
               {stats.overdueTasksCount}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               {stats.overdueTasksCount > 0 ? 'Requieren atención inmediata' : 'Al día, sin retrasos'}
             </p>
           </CardContent>
@@ -373,21 +373,21 @@ export function DashboardClient({ stats }: DashboardClientProps) {
 
         {/* Card 6: Incidencias abiertas */}
         <Card
-          className={`hover:border-primary/50 transition-all shadow-2xs ${
+          className={`hover:border-amber-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border rounded-2xl ${
             stats.openIssuesCount > 0
-              ? 'border-amber-300 bg-amber-50/20 dark:border-amber-900/50'
-              : ''
+              ? 'border-amber-300 bg-amber-50/15'
+              : 'border-slate-200/90'
           }`}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Incidencias abiertas
             </CardTitle>
             <div
-              className={`p-2 rounded-lg ${
+              className={`p-2.5 rounded-xl border shadow-2xs ${
                 stats.openIssuesCount > 0
-                  ? 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400'
-                  : 'bg-muted text-muted-foreground'
+                  ? 'bg-amber-50 text-amber-700 border-amber-200/60'
+                  : 'bg-slate-50 text-slate-500 border-slate-200/60'
               }`}
             >
               <ShieldAlert className="h-5 w-5" />
@@ -395,15 +395,13 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           </CardHeader>
           <CardContent>
             <div
-              className={`text-3xl font-bold tracking-tight ${
-                stats.openIssuesCount > 0
-                  ? 'text-amber-600 dark:text-amber-400'
-                  : 'text-foreground'
+              className={`text-3xl font-black tracking-tight ${
+                stats.openIssuesCount > 0 ? 'text-amber-700' : 'text-slate-900'
               }`}
             >
               {stats.openIssuesCount}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               {stats.openIssuesCount > 0 ? 'Pendientes de resolución' : 'Sin problemas activos'}
             </p>
           </CardContent>

@@ -194,39 +194,47 @@ export function TaskListClient() {
       {/* Top Header & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Tabs: Mis tareas vs Todas las tareas */}
-        <Tabs
-          value={viewTab}
-          onValueChange={(val) => setViewTab(val as 'mine' | 'all')}
-          className="w-auto"
-        >
-          <TabsList className="bg-muted p-1">
-            <TabsTrigger value="mine" className="text-xs px-4">
-              Mis tareas
-            </TabsTrigger>
-            <TabsTrigger value="all" className="text-xs px-4">
-              Todas las tareas
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-2xl border border-slate-200/80 shadow-2xs">
+          <button
+            onClick={() => setViewTab('mine')}
+            className={`px-4 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+              viewTab === 'mine'
+                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            Mis tareas
+          </button>
+          <button
+            onClick={() => setViewTab('all')}
+            className={`px-4 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+              viewTab === 'all'
+                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            Todas las tareas
+          </button>
+        </div>
 
         {/* Create Task Button */}
-        <Button onClick={handleCreateNew} size="sm" className="shadow-xs font-medium">
+        <Button onClick={handleCreateNew} size="sm" className="rounded-xl shadow-xs font-bold">
           <Plus className="h-4 w-4 mr-1.5" />
           Crear tarea
         </Button>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-card p-3 rounded-xl border border-border shadow-xs space-y-3">
+      <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-3">
         {/* Sub-filters chips */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs scrollbar-none">
           <button
             onClick={() => setSubFilter('all')}
             className={cn(
-              'px-2.5 py-1 rounded-md font-medium transition-colors cursor-pointer shrink-0',
+              'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'all'
-                ? 'bg-primary text-primary-foreground shadow-xs'
-                : 'bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground'
+                ? 'bg-slate-900 text-white shadow-2xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
             )}
           >
             Todas
@@ -234,10 +242,10 @@ export function TaskListClient() {
           <button
             onClick={() => setSubFilter('today')}
             className={cn(
-              'px-2.5 py-1 rounded-md font-medium transition-colors cursor-pointer shrink-0',
+              'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'today'
-                ? 'bg-primary text-primary-foreground shadow-xs'
-                : 'bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground'
+                ? 'bg-slate-900 text-white shadow-2xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
             )}
           >
             Hoy
@@ -245,10 +253,10 @@ export function TaskListClient() {
           <button
             onClick={() => setSubFilter('this_week')}
             className={cn(
-              'px-2.5 py-1 rounded-md font-medium transition-colors cursor-pointer shrink-0',
+              'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'this_week'
-                ? 'bg-primary text-primary-foreground shadow-xs'
-                : 'bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground'
+                ? 'bg-slate-900 text-white shadow-2xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
             )}
           >
             Esta semana
@@ -256,10 +264,10 @@ export function TaskListClient() {
           <button
             onClick={() => setSubFilter('overdue')}
             className={cn(
-              'px-2.5 py-1 rounded-md font-medium transition-colors cursor-pointer shrink-0 flex items-center gap-1',
+              'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 text-xs',
               subFilter === 'overdue'
-                ? 'bg-rose-600 text-white shadow-xs'
-                : 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200/50'
+                ? 'bg-rose-600 text-white shadow-2xs'
+                : 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200/60'
             )}
           >
             <AlertTriangle className="h-3 w-3" />
@@ -268,10 +276,10 @@ export function TaskListClient() {
           <button
             onClick={() => setSubFilter('unassigned')}
             className={cn(
-              'px-2.5 py-1 rounded-md font-medium transition-colors cursor-pointer shrink-0',
+              'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'unassigned'
-                ? 'bg-primary text-primary-foreground shadow-xs'
-                : 'bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground'
+                ? 'bg-slate-900 text-white shadow-2xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
             )}
           >
             Sin responsable
@@ -279,10 +287,10 @@ export function TaskListClient() {
           <button
             onClick={() => setSubFilter('blocked')}
             className={cn(
-              'px-2.5 py-1 rounded-md font-medium transition-colors cursor-pointer shrink-0',
+              'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'blocked'
-                ? 'bg-amber-600 text-white shadow-xs'
-                : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/50'
+                ? 'bg-amber-600 text-white shadow-2xs'
+                : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/60'
             )}
           >
             Bloqueadas
@@ -290,17 +298,17 @@ export function TaskListClient() {
         </div>
 
         {/* Inputs row */}
-        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1 border-t border-border/50">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-100">
           <div className="flex flex-wrap items-center gap-2 flex-1 min-w-[260px]">
             {/* Search */}
             <div className="relative w-64 min-w-[200px]">
-              <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400" />
               <Input
                 type="text"
                 placeholder="Buscar por título de tarea..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-8 h-8 text-xs"
+                className="pl-8 h-8 text-xs rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white"
               />
             </div>
 
@@ -310,7 +318,7 @@ export function TaskListClient() {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="h-8 rounded-md border border-input bg-background px-2 text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                  className="h-8 rounded-xl border border-slate-200/90 bg-white px-2.5 text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:border-blue-500 cursor-pointer"
                 >
                   <option value="all">Todos los estados</option>
                   <option value="pending">Pendiente</option>
@@ -327,7 +335,7 @@ export function TaskListClient() {
               <select
                 value={priorityFilter}
                 onChange={(e) => setPriorityFilter(e.target.value)}
-                className="h-8 rounded-md border border-input bg-background px-2 text-xs shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                className="h-8 rounded-xl border border-slate-200/90 bg-white px-2.5 text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:border-blue-500 cursor-pointer"
               >
                 <option value="all">Todas las prioridades</option>
                 <option value="urgent">Urgente</option>
@@ -343,7 +351,7 @@ export function TaskListClient() {
                 variant="ghost"
                 size="sm"
                 onClick={resetFilters}
-                className="h-8 text-xs text-muted-foreground hover:text-foreground"
+                className="h-8 text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-xl font-semibold cursor-pointer"
               >
                 <RotateCcw className="h-3 w-3 mr-1" />
                 Limpiar filtros
@@ -352,14 +360,14 @@ export function TaskListClient() {
           </div>
 
           {/* Counter */}
-          <div className="text-xs text-muted-foreground font-medium">
+          <div className="text-xs text-slate-500 font-bold bg-slate-50 border border-slate-200/60 px-2.5 py-1 rounded-xl">
             {totalTasks} {totalTasks === 1 ? 'tarea encontrada' : 'tareas encontradas'}
           </div>
         </div>
       </div>
 
       {/* Task List Table / Rows */}
-      <div className="bg-card rounded-xl border border-border shadow-xs overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
         {isLoading ? (
           <div className="p-4 space-y-3">
             {[1, 2, 3, 4, 5].map((i) => (

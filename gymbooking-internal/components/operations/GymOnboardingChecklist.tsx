@@ -206,14 +206,14 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
       <NotificationAlert notification={notification} onClose={() => setNotification(null)} />
 
       {/* Progress & Readiness Banner */}
-      <div className="bg-card p-5 rounded-xl border shadow-2xs space-y-4">
+      <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-              <FileCheck2 className="h-5 w-5 text-primary" />
+            <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
+              <FileCheck2 className="h-5 w-5 text-blue-600" />
               Checklist de incorporación {gymName ? `— ${gymName}` : ''}
             </h3>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-xs text-slate-500 font-medium mt-0.5">
               Pasos obligatorios para validar y publicar el gimnasio en la plataforma GymBooking
             </p>
           </div>
@@ -224,7 +224,7 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
               size="sm"
               onClick={() => setIsReportOpen(true)}
               disabled={items.length === 0}
-              className="gap-1.5 text-xs h-8"
+              className="gap-1.5 text-xs h-8 rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50 cursor-pointer"
               title="Generar e imprimir acta de incorporación"
             >
               <FileText className="w-3.5 h-3.5 text-blue-600" />
@@ -232,22 +232,22 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
             </Button>
 
             <div className="text-right">
-              <span className="text-xs text-muted-foreground block">Listo para publicar</span>
+              <span className="text-[11px] text-slate-400 font-medium block">Listo para publicar</span>
               <span
-                className={`inline-flex items-center gap-1 font-bold text-sm px-2.5 py-0.5 rounded-full ${
+                className={`inline-flex items-center gap-1 font-bold text-xs px-2.5 py-0.5 rounded-full border ${
                   isReadyToPublish
-                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                    : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                    ? 'bg-emerald-50 text-emerald-800 border-emerald-200/70'
+                    : 'bg-amber-50 text-amber-800 border-amber-200/70'
                 }`}
               >
                 {isReadyToPublish ? (
                   <>
-                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
                     SÍ (100%)
                   </>
                 ) : (
                   <>
-                    <Clock className="h-3.5 w-3.5" />
+                    <Clock className="h-3.5 w-3.5 text-amber-600" />
                     NO ({completed}/{total})
                   </>
                 )}
