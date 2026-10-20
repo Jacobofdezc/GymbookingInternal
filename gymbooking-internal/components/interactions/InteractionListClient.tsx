@@ -20,6 +20,7 @@ import {
   ChevronDown,
   ChevronRight,
   ChevronLeft,
+  Download,
   Filter,
   Mail,
   MessageCircle,
@@ -117,6 +118,48 @@ export function InteractionListClient() {
     internal_note: { label: 'Nota interna', icon: MessageSquare, color: 'text-zinc-600 bg-zinc-50 dark:bg-zinc-950/40' },
   }
 
+  const exportToCSV = () => {
+    if (filteredInteractions.length === 0) return
+
+    const headers = [
+      'Gimnasio',
+      'Canal',
+      'Fecha',
+      'Contacto',
+      'Resumen',
+      'Resultado',
+      'Compromisos',
+      'Próximo Paso',
+      'Fecha Próximo Paso',
+      'Registrado Por',
+    ]
+
+    const rows = filteredInteractions.map((item) => [
+      `"${(item.gym?.name || '').replace(/"/g, '""')}"`,
+      `"${item.type || ''}"`,
+      `"${item.interaction_date || ''}"`,
+      `"${(item.contact?.full_name || '').replace(/"/g, '""')}"`,
+      `"${(item.summary || '').replace(/"/g, '""')}"`,
+      `"${(item.outcome || '').replace(/"/g, '""')}"`,
+      `"${(item.commitments || '').replace(/"/g, '""')}"`,
+      `"${(item.next_step || '').replace(/"/g, '""')}"`,
+      `"${item.next_step_date || ''}"`,
+      `"${(item.registered_by_profile?.full_name || '').replace(/"/g, '""')}"`,
+    ])
+
+    const csvContent =
+      'data:text/csv;charset=utf-8,\uFEFF' +
+      [headers.join(','), ...rows.map((e) => e.join(','))].join('\n')
+
+    const encodedUri = encodeURI(csvContent)
+    const link = document.createElement('a')
+    link.setAttribute('href', encodedUri)
+    link.setAttribute('download', `interacciones_${new Date().toISOString().split('T')[0]}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <div className="space-y-6">
       {/* Top Header */}
@@ -137,6 +180,16 @@ export function InteractionListClient() {
           >
             <RefreshCw className={`h-4 w-4 mr-1.5 ${isFetching ? 'animate-spin' : ''}`} />
             Actualizar
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={exportToCSV}
+            disabled={filteredInteractions.length === 0}
+            className="cursor-pointer"
+          >
+            <Download className="h-4 w-4 mr-1.5" />
+            Exportar CSV
           </Button>
           <Button
             size="sm"

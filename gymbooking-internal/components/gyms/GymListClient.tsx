@@ -7,6 +7,7 @@ import {
   Plus,
   Search,
   Download,
+  Upload,
   AlertCircle,
   Eye,
   Edit,
@@ -39,6 +40,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog'
 import { StatusBadge } from './StatusBadge'
+import { GymImportModal } from './GymImportModal'
 import { getGyms, deleteGym, type GymListItem, type GymFilters } from '@/services/gyms/gym.service'
 import { createClient } from '@/lib/supabase/client'
 import { formatDate } from '@/lib/utils'
@@ -85,6 +87,7 @@ export function GymListClient() {
   // Delete dialog state
   const [gymToDelete, setGymToDelete] = useState<GymListItem | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false)
 
   // Load current user profile & filter dropdown options
   useEffect(() => {
@@ -289,6 +292,16 @@ export function GymListClient() {
         </div>
 
         <div className="flex items-center space-x-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsImportModalOpen(true)}
+            className="flex items-center gap-1.5 cursor-pointer"
+          >
+            <Upload className="h-4 w-4" />
+            Importar CSV
+          </Button>
+
           <Button
             variant="outline"
             size="sm"
@@ -753,6 +766,13 @@ export function GymListClient() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* CSV Import Modal */}
+      <GymImportModal
+        open={isImportModalOpen}
+        onOpenChange={setIsImportModalOpen}
+        onSuccess={fetchGyms}
+      />
     </div>
   )
 }

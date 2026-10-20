@@ -23,6 +23,7 @@ import {
   Calendar,
   CheckCircle2,
   Clock,
+  Download,
   Filter,
   Plus,
   RefreshCw,
@@ -170,6 +171,46 @@ export function IssueListClient() {
     closed: { label: 'Cerrada', variant: 'outline' },
   }
 
+  const exportToCSV = () => {
+    if (filteredIssues.length === 0) return
+
+    const headers = [
+      'Número',
+      'Título',
+      'Gimnasio',
+      'Tipo',
+      'Prioridad',
+      'Estado',
+      'Asignado a',
+      'Fecha Creación',
+      'Fecha Resolución',
+    ]
+
+    const rows = filteredIssues.map((iss) => [
+      `"#${iss.id.slice(0, 8).toUpperCase()}"`,
+      `"${(iss.title || '').replace(/"/g, '""')}"`,
+      `"${(iss.gym?.name || '').replace(/"/g, '""')}"`,
+      `"${iss.type || ''}"`,
+      `"${iss.priority || ''}"`,
+      `"${iss.status || ''}"`,
+      `"${(iss.assignee?.full_name || '').replace(/"/g, '""')}"`,
+      `"${iss.created_at || ''}"`,
+      `"${iss.resolved_at || ''}"`,
+    ])
+
+    const csvContent =
+      'data:text/csv;charset=utf-8,\uFEFF' +
+      [headers.join(','), ...rows.map((e) => e.join(','))].join('\n')
+
+    const encodedUri = encodeURI(csvContent)
+    const link = document.createElement('a')
+    link.setAttribute('href', encodedUri)
+    link.setAttribute('download', `incidencias_${new Date().toISOString().split('T')[0]}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <div className="space-y-6">
       {/* Top Header */}
@@ -190,6 +231,16 @@ export function IssueListClient() {
           >
             <RefreshCw className={`h-4 w-4 mr-1.5 ${isFetching ? 'animate-spin' : ''}`} />
             Actualizar
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={exportToCSV}
+            disabled={filteredIssues.length === 0}
+            className="cursor-pointer"
+          >
+            <Download className="h-4 w-4 mr-1.5" />
+            Exportar CSV
           </Button>
           <Button
             size="sm"

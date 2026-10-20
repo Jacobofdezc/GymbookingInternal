@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
+import { CommandMenu } from './CommandMenu'
 import type { Profile } from '@/types/database'
 
 interface AppLayoutProps {
@@ -53,6 +54,9 @@ export function AppLayout({ userProfile, children }: AppLayoutProps) {
           </div>
         </main>
       </div>
+
+      {/* Global Command Palette / Search */}
+      <CommandMenu />
     </div>
   )
 }

@@ -570,3 +570,135 @@ export async function getGymStats(): Promise<GymStats> {
     overdueFollowups,
   }
 }
+
+export interface GymCSVRow {
+  name: string
+  legal_name?: string
+  city?: string
+  address?: string
+  postal_code?: string
+  phone?: string
+  email?: string
+  website?: string
+  priority?: GymPriority
+  notes?: string
+  contact_name?: string
+  contact_role?: string
+  contact_phone?: string
+  contact_email?: string
+  is_decision_maker?: boolean
+}
+
+export interface GymImportResult {
+  total: number
+  successCount: number
+  errorCount: number
+  errors: { row: number; name: string; error: string }[]
+}
+
+/**
+ * Batch import gyms and optional primary contacts from CSV data
+ */
+export async function importGymsBatch(rows: GymCSVRow[]): Promise<GymImportResult> {
+  const supabase = createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) throw new Error('Usuario no autenticado')
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('organization_id')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile) throw new Error('Perfil de usuario no encontrado')
+
+  // Find default initial commercial status (slug 'identificado' or first active)
+  const { data: defaultStatus } = await supabase
+    .from('commercial_statuses')
+    .select('id')
+    .eq('organization_id', profile.organization_id)
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true })
+    .limit(1)
+    .single()
+
+  const defaultStatusId = defaultStatus?.id || null
+
+  let successCount = 0
+  const errors: { row: number; name: string; error: string }[] = []
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i]
+    const rowNum = i + 1
+
+    if (!row.name || !row.name.trim()) {
+      errors.push({ row: rowNum, name: 'Fila sin nombre', error: 'El nombre del gimnasio es obligatorio' })
+      continue
+    }
+
+    try {
+      const gymInsert: TablesInsert<'gyms'> = {
+        organization_id: profile.organization_id,
+        name: row.name.trim(),
+        legal_name: row.legal_name?.trim() || null,
+        city: row.city?.trim() || 'Madrid',
+        address: row.address?.trim() || null,
+        postal_code: row.postal_code?.trim() || null,
+        phone: row.phone?.trim() || null,
+        email: row.email?.trim() || null,
+        website: row.website?.trim() || null,
+        priority: row.priority || 'medium',
+        commercial_status_id: defaultStatusId,
+        created_by: user.id,
+        owner_id: user.id,
+      }
+
+      const { data: createdGym, error: gymError } = await supabase
+        .from('gyms')
+        .insert(gymInsert)
+        .select()
+        .single()
+
+      if (gymError || !createdGym) {
+        throw new Error(gymError?.message || 'Error al insertar gimnasio')
+      }
+
+      // If contact information is provided, create primary contact
+      if (row.contact_name?.trim() || row.contact_email?.trim() || row.contact_phone?.trim()) {
+        await supabase.from('gym_contacts').insert({
+          organization_id: profile.organization_id,
+          gym_id: createdGym.id,
+          full_name: row.contact_name?.trim() || 'Contacto Principal',
+          job_title: row.contact_role?.trim() || 'Gerente',
+          email: row.contact_email?.trim() || null,
+          phone: row.contact_phone?.trim() || null,
+          is_decision_maker: row.is_decision_maker ? 'yes' : 'no',
+          is_primary: true,
+        })
+      }
+
+      successCount++
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : 'Error desconocido al importar fila'
+      errors.push({ row: rowNum, name: row.name, error: errMsg })
+    }
+  }
+
+  // Audit log
+  await logAudit('batch_import', user.id, null, {
+    total: rows.length,
+    success: successCount,
+    failed: errors.length,
+  })
+
+  return {
+    total: rows.length,
+    successCount,
+    errorCount: errors.length,
+    errors,
+  }
+}

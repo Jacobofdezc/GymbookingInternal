@@ -14,6 +14,7 @@ import {
   Building,
   HelpCircle,
 } from 'lucide-react'
+import { NotificationDropdown } from './NotificationDropdown'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -126,6 +127,7 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
         <div className="hidden lg:flex items-center">
           <button
             type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-command-menu'))}
             className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-1.5 text-xs text-gray-400 hover:border-gray-300 hover:bg-gray-100 transition-colors w-56 justify-between cursor-pointer"
           >
             <div className="flex items-center gap-2">
@@ -138,16 +140,8 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
           </button>
         </div>
 
-        {/* Notifications Icon Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-          aria-label="Ver notificaciones"
-        >
-          <Bell className="h-4 w-4" />
-          <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-blue-600 ring-2 ring-white" />
-        </Button>
+        {/* Notifications Dropdown */}
+        <NotificationDropdown />
 
         {/* User Dropdown */}
         <DropdownMenu>
