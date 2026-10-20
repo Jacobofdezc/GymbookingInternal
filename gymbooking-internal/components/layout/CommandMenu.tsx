@@ -15,6 +15,7 @@ import {
   BookOpen,
   Users,
   Settings,
+  Shield,
   Plus,
   ArrowRight,
   Loader2,
@@ -137,6 +138,14 @@ const STATIC_ACTIONS: SearchItem[] = [
     subtitle: 'Estados comerciales, disciplinas y ajustes globales',
     category: 'Navegación',
     icon: Settings,
+    href: '/settings',
+  },
+  {
+    id: 'nav-audit-logs',
+    title: 'Registro de Auditoría y Trazabilidad',
+    subtitle: 'Historial de cambios, eventos de usuarios y auditoría',
+    category: 'Navegación',
+    icon: Shield,
     href: '/settings',
   },
 ]

@@ -13,6 +13,7 @@ import {
   getSignedUrl,
 } from '@/services/documents/document.service'
 import { DocumentUploadModal } from '@/components/documents/DocumentUploadModal'
+import { DocumentPreviewModal } from '@/components/documents/DocumentPreviewModal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -29,6 +30,7 @@ import {
   Search,
   Plus,
   Download,
+  Eye,
   Trash2,
   FileText,
   FileSpreadsheet,
@@ -100,8 +102,9 @@ export function DocumentListClient({
   const [search, setSearch] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [gymFilter, setGymFilter] = useState<string>('all')
-  const [visibilityFilter, setVisibilityFilter] = useState<string>('all')
+  const [visibilityFilter, setVisibilityFilter] = useState<string>('any')
   const [isUploadOpen, setIsUploadOpen] = useState(false)
+  const [previewDoc, setPreviewDoc] = useState<DocumentWithRelations | null>(null)
   const [downloadingId, setDownloadingId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
@@ -133,7 +136,7 @@ export function DocumentListClient({
       }
 
       // Visibility filter
-      if (visibilityFilter !== 'all' && doc.visibility !== visibilityFilter) {
+      if (visibilityFilter !== 'any' && doc.visibility !== visibilityFilter) {
         return false
       }
 
@@ -296,7 +299,7 @@ export function DocumentListClient({
               <SelectValue placeholder="Cualquier visibilidad" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Toda visibilidad</SelectItem>
+              <SelectItem value="any">Toda visibilidad</SelectItem>
               <SelectItem value="all">Público</SelectItem>
               <SelectItem value="commercial">Comercial</SelectItem>
               <SelectItem value="operations">Operaciones</SelectItem>
@@ -395,8 +398,9 @@ export function DocumentListClient({
                   </div>
 
                   <h3
-                    className="font-semibold text-gray-900 line-clamp-1 group-hover:text-blue-600 transition-colors"
-                    title={doc.name}
+                    onClick={() => setPreviewDoc(doc)}
+                    className="font-semibold text-gray-900 line-clamp-1 group-hover:text-blue-600 transition-colors cursor-pointer"
+                    title={`Ver vista previa: ${doc.name}`}
                   >
                     {doc.name}
                   </h3>
@@ -433,6 +437,16 @@ export function DocumentListClient({
                   </div>
 
                   <div className="flex items-center gap-1">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setPreviewDoc(doc)}
+                      className="h-8 w-8 p-0 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
+                      title="Vista previa"
+                    >
+                      <Eye className="w-4 h-4" />
+                    </Button>
+
                     <Button
                       size="sm"
                       variant="ghost"
@@ -503,7 +517,11 @@ export function DocumentListClient({
                             {getFileIcon(doc.file_name, doc.content_type)}
                           </div>
                           <div>
-                            <span className="font-semibold text-gray-900 block max-w-xs truncate">
+                            <span
+                              onClick={() => setPreviewDoc(doc)}
+                              className="font-semibold text-gray-900 block max-w-xs truncate hover:text-blue-600 transition-colors cursor-pointer"
+                              title={`Ver vista previa: ${doc.name}`}
+                            >
                               {doc.name}
                             </span>
                             <span className="text-xs text-gray-400 block truncate max-w-xs">
@@ -545,6 +563,16 @@ export function DocumentListClient({
                       </td>
                       <td className="px-4 py-3 text-right">
                         <div className="flex items-center justify-end gap-1">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setPreviewDoc(doc)}
+                            className="h-8 w-8 p-0 text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                            title="Vista previa"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
+
                           <Button
                             size="sm"
                             variant="ghost"
@@ -596,6 +624,13 @@ export function DocumentListClient({
         userOrgId={userOrgId}
         currentUserId={currentUserId}
         gyms={gyms}
+      />
+
+      {/* Preview Modal */}
+      <DocumentPreviewModal
+        document={previewDoc}
+        isOpen={Boolean(previewDoc)}
+        onClose={() => setPreviewDoc(null)}
       />
     </div>
   )

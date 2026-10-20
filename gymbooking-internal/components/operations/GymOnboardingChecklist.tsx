@@ -15,6 +15,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { NotificationAlert, NotificationState } from '@/components/ui/notification-alert'
+import { OnboardingReportModal } from './OnboardingReportModal'
 import { createClient } from '@/lib/supabase/client'
 import { formatDate } from '@/lib/utils'
 import {
@@ -25,8 +26,10 @@ import {
   ChevronRight,
   Clock,
   FileCheck2,
+  FileText,
   Layers,
   Loader2,
+  Printer,
   Sparkles,
   User,
   XCircle,
@@ -50,6 +53,7 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
   const [profiles, setProfiles] = useState<Array<{ id: string; full_name: string }>>([])
   const [notification, setNotification] = useState<NotificationState | null>(null)
   const [isInitializing, setIsInitializing] = useState(false)
+  const [isReportOpen, setIsReportOpen] = useState(false)
 
   const queryClient = useQueryClient()
 
@@ -215,6 +219,18 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
           </div>
 
           <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsReportOpen(true)}
+              disabled={items.length === 0}
+              className="gap-1.5 text-xs h-8"
+              title="Generar e imprimir acta de incorporación"
+            >
+              <FileText className="w-3.5 h-3.5 text-blue-600" />
+              Acta de activación
+            </Button>
+
             <div className="text-right">
               <span className="text-xs text-muted-foreground block">Listo para publicar</span>
               <span
@@ -521,6 +537,15 @@ export function GymOnboardingChecklist({ gymId, gymName }: GymOnboardingChecklis
           })}
         </div>
       )}
+
+      {/* Onboarding Activation Report Modal */}
+      <OnboardingReportModal
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        gymName={gymName}
+        gymId={gymId}
+        items={items}
+      />
     </div>
   )
 }

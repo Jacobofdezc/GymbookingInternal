@@ -10,6 +10,8 @@ import type {
   Discipline,
 } from '@/types/database'
 import { createClient } from '@/lib/supabase/client'
+import { AuditLogsViewer } from '@/components/audit/AuditLogsViewer'
+import type { AuditLogWithActor } from '@/services/audit/audit.service'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -41,6 +43,8 @@ interface SettingsClientProps {
   initialCommercialStatuses: CommercialStatus[]
   initialOnboardingStatuses: OnboardingStatus[]
   initialDisciplines: Discipline[]
+  initialAuditLogs?: AuditLogWithActor[]
+  teamMembers?: Array<{ id: string; full_name: string; email: string }>
 }
 
 const COLOR_PALETTE = [
@@ -60,6 +64,8 @@ export function SettingsClient({
   initialCommercialStatuses,
   initialOnboardingStatuses,
   initialDisciplines,
+  initialAuditLogs = [],
+  teamMembers = [],
 }: SettingsClientProps) {
   const router = useRouter()
   const supabase = createClient()
@@ -373,6 +379,15 @@ export function SettingsClient({
             <Shield className="w-3.5 h-3.5" />
             Acceso y seguridad
           </TabsTrigger>
+          {isAdmin && (
+            <TabsTrigger
+              value="audit"
+              className="text-xs font-semibold gap-2"
+            >
+              <Activity className="w-3.5 h-3.5" />
+              Auditoría
+            </TabsTrigger>
+          )}
         </TabsList>
 
         {/* TAB 1: PERFIL */}
@@ -852,6 +867,16 @@ export function SettingsClient({
             </div>
           </div>
         </TabsContent>
+
+        {/* TAB 4: AUDITORÍA (Solo Admin) */}
+        {isAdmin && (
+          <TabsContent value="audit" className="space-y-6">
+            <AuditLogsViewer
+              initialLogs={initialAuditLogs}
+              teamMembers={teamMembers}
+            />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   )

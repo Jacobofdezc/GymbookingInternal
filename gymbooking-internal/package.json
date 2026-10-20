@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:routes": "npx tsx scripts/smoke-test-routes.ts",
     "seed": "npx tsx scripts/seed-demo-data.ts",
     "bootstrap": "npx tsx scripts/bootstrap.ts"
   },

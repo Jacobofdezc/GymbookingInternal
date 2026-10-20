@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { requireAuth } from '@/lib/auth/server'
 import { createClient } from '@/lib/supabase/server'
 import { SettingsClient } from '@/components/settings/SettingsClient'
+import { getAuditLogs, AuditLogWithActor } from '@/services/audit/audit.service'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -44,6 +45,27 @@ export default async function SettingsPage() {
     redirect('/login')
   }
 
+  // If user is admin, fetch initial audit logs and team members
+  let initialAuditLogs: AuditLogWithActor[] = []
+  let teamMembers: Array<{ id: string; full_name: string; email: string }> = []
+
+  if (user.role === 'admin') {
+    try {
+      const [logs, { data: members }] = await Promise.all([
+        getAuditLogs({ limit: 50 }, supabase),
+        supabase
+          .from('profiles')
+          .select('id, full_name, email')
+          .eq('organization_id', user.organization_id)
+          .order('full_name'),
+      ])
+      initialAuditLogs = logs
+      teamMembers = members || []
+    } catch (err) {
+      console.warn('Could not load initial audit logs:', err)
+    }
+  }
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <SettingsClient
@@ -52,6 +74,8 @@ export default async function SettingsPage() {
         initialCommercialStatuses={comm || []}
         initialOnboardingStatuses={onb || []}
         initialDisciplines={disc || []}
+        initialAuditLogs={initialAuditLogs}
+        teamMembers={teamMembers}
       />
     </div>
   )
