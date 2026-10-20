@@ -26,6 +26,7 @@ import {
   User,
   Trash2,
   Sparkles,
+  ChevronDown,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -46,7 +47,14 @@ import { IssueForm } from '@/components/issues/IssueForm'
 import { formatDate, formatDateTime, formatRelative } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 import type { FullGymDetail } from '@/services/gyms/gym.service'
-import type { GymContact, Task, GymOnboardingItem, TaskPriority } from '@/types/database'
+import type {
+  GymContact,
+  Task,
+  GymOnboardingItem,
+  TaskPriority,
+  CommercialStatus,
+  OnboardingStatus,
+} from '@/types/database'
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -60,6 +68,8 @@ function InstagramIcon({ className }: { className?: string }) {
 
 interface GymDetailClientProps {
   initialGym: FullGymDetail
+  commercialStatuses?: CommercialStatus[]
+  onboardingStatuses?: OnboardingStatus[]
 }
 
 type TabType =
@@ -72,7 +82,11 @@ type TabType =
   | 'clases'
   | 'incidencias'
 
-export function GymDetailClient({ initialGym }: GymDetailClientProps) {
+export function GymDetailClient({
+  initialGym,
+  commercialStatuses = [],
+  onboardingStatuses = [],
+}: GymDetailClientProps) {
   const router = useRouter()
   const [gym, setGym] = useState<FullGymDetail>(initialGym)
   const [activeTab, setActiveTab] = useState<TabType>('resumen')
@@ -173,6 +187,78 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
       }
     } catch (err) {
       console.error('Error refreshing gym data:', err)
+    }
+  }
+
+  // Instant commercial status update
+  const handleUpdateCommercialStatus = async (statusId: string) => {
+    try {
+      const selected = commercialStatuses.find((s) => s.id === statusId)
+      if (!selected) return
+
+      const supabase = createClient()
+      const oldStatus = gym.commercial_status?.name
+
+      setGym((prev) => ({
+        ...prev,
+        commercial_status_id: statusId,
+        commercial_status: selected,
+      }))
+
+      const { error } = await supabase
+        .from('gyms')
+        .update({ commercial_status_id: statusId })
+        .eq('id', gym.id)
+
+      if (error) throw error
+
+      await supabase.from('audit_logs').insert({
+        organization_id: gym.organization_id,
+        entity_type: 'gyms',
+        entity_id: gym.id,
+        action: 'status_change',
+        old_values: { commercial_status: oldStatus },
+        new_values: { commercial_status: selected.name },
+      })
+    } catch (err) {
+      console.error('Error updating commercial status:', err)
+      refreshGymData()
+    }
+  }
+
+  // Instant onboarding status update
+  const handleUpdateOnboardingStatus = async (statusId: string) => {
+    try {
+      const selected = onboardingStatuses.find((s) => s.id === statusId)
+      if (!selected) return
+
+      const supabase = createClient()
+      const oldStatus = gym.onboarding_status?.name
+
+      setGym((prev) => ({
+        ...prev,
+        onboarding_status_id: statusId,
+        onboarding_status: selected,
+      }))
+
+      const { error } = await supabase
+        .from('gyms')
+        .update({ onboarding_status_id: statusId })
+        .eq('id', gym.id)
+
+      if (error) throw error
+
+      await supabase.from('audit_logs').insert({
+        organization_id: gym.organization_id,
+        entity_type: 'gyms',
+        entity_id: gym.id,
+        action: 'status_change',
+        old_values: { onboarding_status: oldStatus },
+        new_values: { onboarding_status: selected.name },
+      })
+    } catch (err) {
+      console.error('Error updating onboarding status:', err)
+      refreshGymData()
     }
   }
 
@@ -421,8 +507,52 @@ export function GymDetailClient({ initialGym }: GymDetailClientProps) {
                 <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
                   {gym.name}
                 </h1>
-                <StatusBadge status={gym.commercial_status} type="commercial" />
-                <StatusBadge status={gym.onboarding_status} type="onboarding" />
+                {commercialStatuses.length > 0 ? (
+                  <div className="relative inline-flex items-center group">
+                    <select
+                      value={gym.commercial_status?.id || ''}
+                      onChange={(e) => handleUpdateCommercialStatus(e.target.value)}
+                      className="cursor-pointer pl-3 pr-7 py-1 text-xs font-bold rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-2xs transition-colors appearance-none"
+                      style={{
+                        borderColor: gym.commercial_status?.color || undefined,
+                      }}
+                      title="Cambiar estado comercial en 1 clic"
+                    >
+                      {commercialStatuses.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          Comercial: {s.name}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-3 h-3 text-gray-400 absolute right-2 pointer-events-none" />
+                  </div>
+                ) : (
+                  <StatusBadge status={gym.commercial_status} type="commercial" />
+                )}
+
+                {onboardingStatuses.length > 0 ? (
+                  <div className="relative inline-flex items-center group">
+                    <select
+                      value={gym.onboarding_status?.id || ''}
+                      onChange={(e) => handleUpdateOnboardingStatus(e.target.value)}
+                      className="cursor-pointer pl-3 pr-7 py-1 text-xs font-bold rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 shadow-2xs transition-colors appearance-none"
+                      style={{
+                        borderColor: gym.onboarding_status?.color || undefined,
+                      }}
+                      title="Cambiar estado de onboarding en 1 clic"
+                    >
+                      {onboardingStatuses.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          Onboarding: {s.name}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-3 h-3 text-gray-400 absolute right-2 pointer-events-none" />
+                  </div>
+                ) : (
+                  <StatusBadge status={gym.onboarding_status} type="onboarding" />
+                )}
+
                 <StatusBadge status={gym.priority} type="priority" />
               </div>
 

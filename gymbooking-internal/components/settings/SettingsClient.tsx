@@ -10,6 +10,7 @@ import type {
   Discipline,
 } from '@/types/database'
 import { createClient } from '@/lib/supabase/client'
+import { seedDemoDataForOrganization } from '@/services/demo/demo-seed.service'
 import { AuditLogsViewer } from '@/components/audit/AuditLogsViewer'
 import type { AuditLogWithActor } from '@/services/audit/audit.service'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
@@ -86,6 +87,22 @@ export function SettingsClient({
     type: 'success' | 'error'
     text: string
   } | null>(null)
+  const [seedingDemo, setSeedingDemo] = useState(false)
+
+  const handleSeedDemoSettings = async () => {
+    try {
+      setSeedingDemo(true)
+      const res = await seedDemoDataForOrganization()
+      alert(
+        `¡Entorno de prueba poblado exitosamente! Se han creado ${res.gymsCount} gimnasios, ${res.contactsCount} contactos, ${res.tasksCount} tareas y ${res.interactionsCount} interacciones.`
+      )
+      router.refresh()
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : 'Error al cargar datos demo')
+    } finally {
+      setSeedingDemo(false)
+    }
+  }
 
   // Commercial Statuses
   const [commercialStatuses, setCommercialStatuses] = useState<CommercialStatus[]>(
@@ -574,6 +591,39 @@ export function SettingsClient({
                   </Button>
                 </div>
               </form>
+            </div>
+
+            {/* Demo Data Seeder Box */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50/50 rounded-2xl border border-blue-200/80 p-5 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 bg-blue-100 text-blue-700 rounded-lg">
+                    <Sparkles className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-sm">
+                      Poblado de Datos de Demostración
+                    </h4>
+                    <p className="text-xs text-gray-500">
+                      Carga un lote de 6 gimnasios realistas con contactos, pipeline, tareas e incidencias para pruebas inmediatas.
+                    </p>
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  onClick={handleSeedDemoSettings}
+                  disabled={seedingDemo}
+                  className="bg-blue-600 hover:bg-blue-700 text-white text-xs gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
+                >
+                  {seedingDemo ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Sparkles className="w-3.5 h-3.5" />
+                  )}
+                  {seedingDemo ? 'Cargando datos...' : 'Cargar datos demo'}
+                </Button>
+              </div>
             </div>
 
             {/* Commercial Statuses Management */}

@@ -20,6 +20,7 @@ import {
   Columns,
   Grid3X3,
   ExternalLink,
+  Download,
 } from 'lucide-react'
 
 export type CalendarEventType = 'task' | 'followup' | 'interaction'
@@ -267,6 +268,56 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
     return groups
   }, [filteredEvents])
 
+  // Export events to iCalendar (.ics) format
+  const handleExportIcs = () => {
+    if (filteredEvents.length === 0) return
+
+    const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`)
+    const now = new Date()
+    const nowStamp = `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}T${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}Z`
+
+    const icsEvents = filteredEvents.map((ev) => {
+      const start = ev.date.replace(/-/g, '')
+      const cleanSummary = (ev.title || 'Evento GymBooking').replace(/[,\n\r]/g, ' ')
+      const cleanDesc = (ev.description || (ev.gymName ? `Gimnasio: ${ev.gymName}` : 'Actividad GymBooking CRM')).replace(/[,\n\r]/g, ' ')
+      const location = ev.gymName ? `LOCATION:${ev.gymName.replace(/[,\n\r]/g, ' ')}\r\n` : ''
+
+      return [
+        'BEGIN:VEVENT',
+        `UID:${ev.id}@gymbooking.internal`,
+        `DTSTAMP:${nowStamp}`,
+        `DTSTART;VALUE=DATE:${start}`,
+        `SUMMARY:${cleanSummary}`,
+        `DESCRIPTION:${cleanDesc}`,
+        location,
+        'STATUS:CONFIRMED',
+        'END:VEVENT',
+      ].filter(Boolean).join('\r\n')
+    })
+
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//GymBooking CRM//Actividades y Seguimientos//ES',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'X-WR-CALNAME:GymBooking CRM',
+      'X-WR-TIMEZONE:Europe/Madrid',
+      ...icsEvents,
+      'END:VCALENDAR',
+    ].join('\r\n')
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `gymbooking-calendario-${new Date().toISOString().slice(0, 10)}.ics`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
   // Badge helpers
   const getEventBadge = (ev: CalendarEvent) => {
     if (ev.type === 'task') {
@@ -310,8 +361,21 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           </p>
         </div>
 
-        {/* View mode toggle buttons */}
-        <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl self-start sm:self-auto">
+        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleExportIcs}
+            disabled={filteredEvents.length === 0}
+            className="gap-1.5 text-xs h-9 bg-white shadow-2xs hover:bg-gray-50 text-gray-700"
+            title="Exportar a Google Calendar / Apple / Outlook"
+          >
+            <Download className="w-3.5 h-3.5 text-blue-600" />
+            Exportar iCal (.ics)
+          </Button>
+
+          {/* View mode toggle buttons */}
+          <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl">
           <button
             onClick={() => setViewMode('month')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
@@ -347,6 +411,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           </button>
         </div>
       </div>
+    </div>
 
       {/* Navigation and Filter Bar */}
       <div className="bg-white p-4 rounded-2xl border border-gray-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">

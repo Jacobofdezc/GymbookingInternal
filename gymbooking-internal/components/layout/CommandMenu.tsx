@@ -16,6 +16,7 @@ import {
   Users,
   Settings,
   Shield,
+  Sparkles,
   Plus,
   ArrowRight,
   Loader2,
@@ -67,6 +68,15 @@ const STATIC_ACTIONS: SearchItem[] = [
     icon: Plus,
     href: '/gyms/new',
     badge: 'Nuevo',
+  },
+  {
+    id: 'action-seed-demo',
+    title: 'Cargar Datos de Demostración (Demo Data)',
+    subtitle: 'Poblar el CRM con 6 gimnasios, contactos, tareas e incidencias',
+    category: 'Acciones',
+    icon: Sparkles,
+    href: '/dashboard',
+    badge: 'Demo',
   },
   {
     id: 'nav-tasks',

@@ -10,6 +10,7 @@ import { formatDate } from '@/lib/utils'
 import { InteractionForm } from '@/components/interactions/InteractionForm'
 import { TaskFormModal } from '@/components/tasks/TaskFormModal'
 import { IssueForm } from '@/components/issues/IssueForm'
+import { seedDemoDataForOrganization } from '@/services/demo/demo-seed.service'
 import {
   AlertTriangle,
   Building2,
@@ -29,6 +30,7 @@ import {
   Activity,
   ArrowRight,
   ExternalLink,
+  Loader2,
 } from 'lucide-react'
 
 export interface DashboardStats {
@@ -79,6 +81,22 @@ export function DashboardClient({ stats }: DashboardClientProps) {
   const [isInteractionModalOpen, setIsInteractionModalOpen] = useState(false)
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false)
   const [isIssueModalOpen, setIsIssueModalOpen] = useState(false)
+  const [seedingDemo, setSeedingDemo] = useState(false)
+
+  const handleSeedDemo = async () => {
+    try {
+      setSeedingDemo(true)
+      const res = await seedDemoDataForOrganization()
+      alert(
+        `¡Entorno de demostración cargado con éxito! Se han creado ${res.gymsCount} gimnasios, ${res.contactsCount} contactos, ${res.tasksCount} tareas y ${res.interactionsCount} interacciones.`
+      )
+      router.refresh()
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : 'Error al cargar datos de prueba')
+    } finally {
+      setSeedingDemo(false)
+    }
+  }
 
   const priorityBadges: Record<
     string,
@@ -176,8 +194,63 @@ export function DashboardClient({ stats }: DashboardClientProps) {
             <FilePlus2 className="h-4 w-4 mr-1.5" />
             Subir documento
           </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleSeedDemo}
+            disabled={seedingDemo}
+            className="cursor-pointer gap-1.5 border-dashed border-amber-300 text-amber-800 bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:text-amber-200"
+            title="Cargar 6 gimnasios de prueba con contactos, pipeline e incidencias"
+          >
+            {seedingDemo ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin text-amber-600" />
+            ) : (
+              <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+            )}
+            Cargar datos demo
+          </Button>
         </div>
       </div>
+
+      {/* Quick-Start Hero Banner (shown when 0 gyms) */}
+      {stats.totalGyms === 0 && (
+        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white rounded-2xl p-6 sm:p-8 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-6 border border-blue-500/30 animate-in fade-in duration-300">
+          <div className="space-y-2 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold backdrop-blur-xs">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              Primeros Pasos • Modo Rápido
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black tracking-tight">
+              Tu CRM está configurado y listo para operar
+            </h2>
+            <p className="text-sm text-blue-100 leading-relaxed">
+              Comienza registrando tu primer gimnasio o carga con 1 clic un entorno de demostración con 6 centros reales (FitClub Chamberí, Brooklyn Fitboxing Retiro, McFit Goya...), contactos con tomadores de decisión, tareas, pipeline e incidencias.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+            <Button
+              onClick={handleSeedDemo}
+              disabled={seedingDemo}
+              className="bg-white text-blue-700 hover:bg-blue-50 font-bold shadow-md gap-2 h-10 px-5 cursor-pointer text-sm"
+            >
+              {seedingDemo ? (
+                <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
+              ) : (
+                <Sparkles className="w-4 h-4 text-amber-500" />
+              )}
+              {seedingDemo ? 'Cargando datos...' : 'Cargar Datos de Demostración'}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => router.push('/gyms/new')}
+              className="border-white/40 text-white hover:bg-white/10 h-10 px-4 cursor-pointer text-sm"
+            >
+              Crear primer gimnasio
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Top KPI Cards (2 rows of 3) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

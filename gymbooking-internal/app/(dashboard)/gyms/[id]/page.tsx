@@ -3,7 +3,13 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { GymDetailClient } from '@/components/gyms/GymDetailClient'
 import type { FullGymDetail } from '@/services/gyms/gym.service'
-import type { Discipline, Tag, GymContact } from '@/types/database'
+import type {
+  Discipline,
+  Tag,
+  GymContact,
+  CommercialStatus,
+  OnboardingStatus,
+} from '@/types/database'
 
 interface GymDetailPageProps {
   params: Promise<{ id: string }>
@@ -52,6 +58,8 @@ export default async function GymDetailPage({ params }: GymDetailPageProps) {
     onbRes,
     classesRes,
     issuesRes,
+    commStatusesRes,
+    onbStatusesRes,
   ] = await Promise.all([
     supabase
       .from('gym_contacts')
@@ -116,7 +124,22 @@ export default async function GymDetailPage({ params }: GymDetailPageProps) {
       `)
       .eq('gym_id', id)
       .order('created_at', { ascending: false }),
+
+    supabase
+      .from('commercial_statuses')
+      .select('*')
+      .eq('organization_id', gym.organization_id)
+      .order('sort_order', { ascending: true }),
+
+    supabase
+      .from('onboarding_statuses')
+      .select('*')
+      .eq('organization_id', gym.organization_id)
+      .order('sort_order', { ascending: true }),
   ])
+
+  const commercialStatuses = (commStatusesRes?.data || []) as CommercialStatus[]
+  const onboardingStatuses = (onbStatusesRes?.data || []) as OnboardingStatus[]
 
   const disciplines = (disciplinesRes.data || [])
     .map((item: any) => item.discipline)
@@ -143,5 +166,11 @@ export default async function GymDetailPage({ params }: GymDetailPageProps) {
     issues: (issuesRes.data || []) as any,
   }
 
-  return <GymDetailClient initialGym={fullGym} />
+  return (
+    <GymDetailClient
+      initialGym={fullGym}
+      commercialStatuses={commercialStatuses}
+      onboardingStatuses={onboardingStatuses}
+    />
+  )
 }
