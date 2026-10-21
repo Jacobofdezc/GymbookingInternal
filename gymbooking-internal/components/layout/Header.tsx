@@ -110,37 +110,35 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
           <Menu className="h-5 w-5" />
         </Button>
 
-        {/* Brand Logo in Header */}
+        {/* Brand Logo in Header (only on mobile when sidebar is hidden) */}
         <Link
           href="/dashboard"
-          className="flex items-center hover:opacity-90 transition-opacity mr-1 sm:mr-2 shrink-0"
+          className="flex md:hidden items-center hover:opacity-90 transition-opacity mr-1 shrink-0"
         >
           <Image
             src="/logo.png"
             alt="Gymbooking Logo"
-            width={125}
-            height={26}
-            className="h-6 sm:h-6.5 w-auto dark:hidden"
+            width={120}
+            height={24}
+            className="h-6 w-auto dark:hidden"
             priority
           />
           <Image
             src="/logo-dark.png"
             alt="Gymbooking Logo"
-            width={125}
-            height={26}
-            className="h-6 sm:h-6.5 w-auto hidden dark:block"
+            width={120}
+            height={24}
+            className="h-6 w-auto hidden dark:block"
             priority
           />
         </Link>
-
-        <div className="hidden sm:block h-5 w-px bg-slate-200 dark:bg-slate-800" />
 
         <div className="flex flex-col">
           <h1 className="text-base md:text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
             {currentTitle}
           </h1>
-          <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-400 font-normal">
-            <span>GymBooking</span>
+          <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 font-normal">
+            <span>Inicio</span>
             <span>/</span>
             <span className="capitalize text-slate-700 dark:text-slate-300 font-semibold">
               {pathname.split('/')[1] || 'Dashboard'}

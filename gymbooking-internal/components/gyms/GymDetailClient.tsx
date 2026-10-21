@@ -1542,16 +1542,6 @@ export function GymDetailClient({
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => setIsPortalModalOpen(true)}
-                    className="flex items-center gap-1.5 cursor-pointer rounded-xl font-bold border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 bg-emerald-50/50 dark:bg-emerald-950/30 hover:bg-emerald-100 shadow-2xs"
-                  >
-                    <Link2 className="h-4 w-4" />
-                    <span>Portal Dueño</span>
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    variant="outline"
                     onClick={() => setIsAppPreviewOpen(true)}
                     className="flex items-center gap-1.5 cursor-pointer rounded-xl font-bold border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 bg-blue-50/50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 shadow-2xs"
                   >

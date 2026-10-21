@@ -71,6 +71,7 @@ export function TeamPageClient({
   const [roleFilter, setRoleFilter] = useState<string>('all')
   const [isInviteOpen, setIsInviteOpen] = useState(false)
   const [updatingId, setUpdatingId] = useState<string | null>(null)
+  const [removingId, setRemovingId] = useState<string | null>(null)
   const [revokingId, setRevokingId] = useState<string | null>(null)
   const [copiedToken, setCopiedToken] = useState<string | null>(null)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(
@@ -173,6 +174,42 @@ export function TeamPageClient({
       })
     } finally {
       setUpdatingId(null)
+    }
+  }
+
+  const handleRemoveMember = async (member: Profile) => {
+    if (!isAdmin || member.id === currentUser.id) return
+
+    const confirmed = window.confirm(
+      `¿Estás seguro de que deseas eliminar a "${member.full_name}" (${member.email}) de la organización?\n\nEsta acción revocará su acceso al CRM y desasignará sus tareas y centros.`
+    )
+    if (!confirmed) return
+
+    setRemovingId(member.id)
+    setMessage(null)
+
+    try {
+      const res = await fetch(`/api/team/${member.id}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Error al eliminar miembro')
+      }
+
+      setMembers((prev) => prev.filter((m) => m.id !== member.id))
+      setMessage({
+        type: 'success',
+        text: data.message || `Miembro ${member.full_name} eliminado de la organización.`,
+      })
+    } catch (err: any) {
+      setMessage({
+        type: 'error',
+        text: err.message || 'Error al eliminar miembro de la organización',
+      })
+    } finally {
+      setRemovingId(null)
     }
   }
 
@@ -465,31 +502,52 @@ export function TeamPageClient({
                     {isAdmin && (
                       <td className="px-5 py-4 text-right">
                         {!isSelf ? (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleToggleActive(member)}
-                            disabled={isUpdating}
-                            className={`text-xs h-8 rounded-xl cursor-pointer ${
-                              member.is_active
-                                ? 'text-gray-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40'
-                                : 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40'
-                            }`}
-                          >
-                            {isUpdating ? (
-                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            ) : member.is_active ? (
-                              <>
-                                <UserX className="w-3.5 h-3.5 mr-1" />
-                                Desactivar
-                              </>
-                            ) : (
-                              <>
-                                <UserCheck className="w-3.5 h-3.5 mr-1" />
-                                Activar
-                              </>
-                            )}
-                          </Button>
+                          <div className="flex items-center justify-end gap-1.5">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleToggleActive(member)}
+                              disabled={isUpdating || removingId === member.id}
+                              className={`text-xs h-8 rounded-xl cursor-pointer ${
+                                member.is_active
+                                  ? 'text-gray-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/40'
+                                  : 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40'
+                              }`}
+                              title={member.is_active ? 'Pausar acceso temporalmente' : 'Reactivar acceso'}
+                            >
+                              {isUpdating ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : member.is_active ? (
+                                <>
+                                  <UserX className="w-3.5 h-3.5 mr-1" />
+                                  Desactivar
+                                </>
+                              ) : (
+                                <>
+                                  <UserCheck className="w-3.5 h-3.5 mr-1" />
+                                  Activar
+                                </>
+                              )}
+                            </Button>
+
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveMember(member)}
+                              disabled={removingId === member.id || isUpdating}
+                              className="text-xs h-8 px-2.5 rounded-xl cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 border border-transparent hover:border-red-200 dark:hover:border-red-900/60 transition-colors"
+                              title="Quitar miembro permanentemente de la organización"
+                            >
+                              {removingId === member.id ? (
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                              ) : (
+                                <>
+                                  <Trash2 className="w-3.5 h-3.5 mr-1 text-red-500" />
+                                  Quitar
+                                </>
+                              )}
+                            </Button>
+                          </div>
                         ) : (
                           <span className="text-xs text-gray-400 dark:text-slate-500">—</span>
                         )}
