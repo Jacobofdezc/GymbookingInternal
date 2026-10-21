@@ -10,6 +10,7 @@ import { formatDate } from '@/lib/utils'
 import { InteractionForm } from '@/components/interactions/InteractionForm'
 import { TaskFormModal } from '@/components/tasks/TaskFormModal'
 import { IssueForm } from '@/components/issues/IssueForm'
+import { AddToCalendarButton } from '@/components/calendar/AddToCalendarButton'
 import { seedDemoDataForOrganization } from '@/services/demo/demo-seed.service'
 import {
   AlertTriangle,
@@ -536,15 +537,29 @@ export function DashboardClient({ stats }: DashboardClientProps) {
                         )}
                       </div>
 
-                      <div className="text-right shrink-0">
-                        <span className="text-xs font-bold text-slate-800 block">
-                          {formatDate(gym.next_followup_date)}
-                        </span>
-                        {gym.owner && (
-                          <span className="text-xs text-slate-500 font-medium flex items-center gap-1 justify-end">
-                            <User className="h-3 w-3 text-slate-400" />
-                            {gym.owner.full_name}
+                      <div className="text-right shrink-0 flex items-center gap-2">
+                        <div>
+                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                            {formatDate(gym.next_followup_date)}
                           </span>
+                          {gym.owner && (
+                            <span className="text-xs text-slate-500 font-medium flex items-center gap-1 justify-end">
+                              <User className="h-3 w-3 text-slate-400" />
+                              {gym.owner.full_name}
+                            </span>
+                          )}
+                        </div>
+                        {gym.next_followup_date && (
+                          <AddToCalendarButton
+                            event={{
+                              title: `Seguimiento: ${gym.name}`,
+                              description: gym.next_action || 'Seguimiento comercial GymBooking',
+                              startDate: gym.next_followup_date,
+                            }}
+                            label="Agendar"
+                            size="sm"
+                            className="h-7 text-2xs px-2"
+                          />
                         )}
                       </div>
                     </div>

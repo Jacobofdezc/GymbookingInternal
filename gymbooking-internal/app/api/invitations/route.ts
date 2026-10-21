@@ -1,6 +1,7 @@
 import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { getCurrentUser } from '@/lib/auth/server'
 import { NextResponse } from 'next/server'
+import { sendInvitationEmail } from '@/lib/email/resend'
 import type { UserRole, Invitation } from '@/types/database'
 
 const VALID_ROLES: UserRole[] = ['admin', 'commercial', 'operations', 'viewer']
@@ -116,10 +117,26 @@ export async function POST(req: Request) {
       }
     }
 
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const inviteUrl = `${appUrl}/invite?token=${createdInvitation.token}`
+
+    // Attempt real email dispatch via Resend
+    const emailRes = await sendInvitationEmail({
+      to: email,
+      role,
+      inviterName: currentUser.full_name,
+      inviteUrl,
+    })
+
     return NextResponse.json({
       success: true,
       invitation: createdInvitation,
-      message: `Invitación generada para ${email}`,
+      inviteUrl,
+      emailSent: emailRes.success,
+      emailProvider: emailRes.provider,
+      message: emailRes.success
+        ? `Invitación enviada por email a ${email}`
+        : `Invitación creada para ${email}. Enlace disponible para compartir.`,
     })
   } catch (error) {
     console.error('Error in POST /api/invitations:', error)

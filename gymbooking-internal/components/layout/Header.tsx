@@ -15,6 +15,7 @@ import {
   HelpCircle,
 } from 'lucide-react'
 import { NotificationDropdown } from './NotificationDropdown'
+import { ThemeToggle } from './ThemeToggle'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -140,6 +141,9 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
             </kbd>
           </button>
         </div>
+
+        {/* Theme Toggle (Light / Dark / System) */}
+        <ThemeToggle />
 
         {/* Notifications Dropdown */}
         <NotificationDropdown />

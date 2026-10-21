@@ -48,6 +48,8 @@ import { IssueForm } from '@/components/issues/IssueForm'
 import { DocumentUploadModal } from '@/components/documents/DocumentUploadModal'
 import { DocumentPreviewModal } from '@/components/documents/DocumentPreviewModal'
 import { ClassFormModal } from '@/components/operations/ClassFormModal'
+import { GymExecutiveReportModal } from './GymExecutiveReportModal'
+import { AddToCalendarButton } from '@/components/calendar/AddToCalendarButton'
 import { formatDate, formatDateTime, formatRelative } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 import type { FullGymDetail } from '@/services/gyms/gym.service'
@@ -104,6 +106,7 @@ export function GymDetailClient({
   const [documentModalOpen, setDocumentModalOpen] = useState(false)
   const [selectedPreviewDoc, setSelectedPreviewDoc] = useState<any>(null)
   const [classModalOpen, setClassModalOpen] = useState(false)
+  const [isExecutiveReportOpen, setIsExecutiveReportOpen] = useState(false)
 
   // Interaction filter state
   const [interactionFilter, setInteractionFilter] = useState<string>('all')
@@ -444,6 +447,17 @@ export function GymDetailClient({
             Reportar incidencia
           </Button>
 
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsExecutiveReportOpen(true)}
+            className="flex items-center gap-1.5 rounded-xl border-slate-200/90 shadow-2xs hover:bg-slate-50 font-semibold cursor-pointer"
+            title="Exportar o imprimir ficha ejecutiva oficial del centro"
+          >
+            <FileText className="h-3.5 w-3.5 text-blue-600" />
+            Ficha Ejecutiva (PDF)
+          </Button>
+
           <Button asChild size="sm" className="flex items-center gap-1.5 rounded-xl shadow-xs font-semibold">
             <Link href={`/gyms/${gym.id}/edit`}>
               <Edit className="h-3.5 w-3.5" />
@@ -469,14 +483,27 @@ export function GymDetailClient({
                 </span>
               )}
             </div>
-            <Button
-              size="sm"
-              variant="outline"
-              className="border-red-300 text-red-700 hover:bg-red-100 dark:border-red-800 dark:text-red-300"
-              onClick={() => setInteractionModalOpen(true)}
-            >
-              Registrar ahora
-            </Button>
+            <div className="flex items-center gap-2 shrink-0">
+              <AddToCalendarButton
+                event={{
+                  title: `Seguimiento: ${gym.name}`,
+                  description: gym.next_action || 'Seguimiento comercial GymBooking',
+                  location: `${gym.name}, ${gym.city || 'Madrid'}`,
+                  startDate: gym.next_followup_date || new Date().toISOString().split('T')[0],
+                }}
+                label="Agendar"
+                size="sm"
+                className="bg-white dark:bg-slate-900 border-red-300 dark:border-red-800 text-red-700 dark:text-red-300 hover:bg-red-50 text-xs"
+              />
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-red-300 text-red-700 hover:bg-red-100 dark:border-red-800 dark:text-red-300"
+                onClick={() => setInteractionModalOpen(true)}
+              >
+                Registrar ahora
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -493,14 +520,27 @@ export function GymDetailClient({
                 </span>
               )}
             </div>
-            <Button
-              size="sm"
-              variant="outline"
-              className="border-amber-300 text-amber-700 hover:bg-amber-100"
-              onClick={() => setInteractionModalOpen(true)}
-            >
-              Completar seguimiento
-            </Button>
+            <div className="flex items-center gap-2 shrink-0">
+              <AddToCalendarButton
+                event={{
+                  title: `Seguimiento hoy: ${gym.name}`,
+                  description: gym.next_action || 'Seguimiento comercial GymBooking',
+                  location: `${gym.name}, ${gym.city || 'Madrid'}`,
+                  startDate: gym.next_followup_date || new Date().toISOString().split('T')[0],
+                }}
+                label="Agendar"
+                size="sm"
+                className="bg-white dark:bg-slate-900 border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300 hover:bg-amber-50 text-xs"
+              />
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-amber-300 text-amber-700 hover:bg-amber-100"
+                onClick={() => setInteractionModalOpen(true)}
+              >
+                Completar seguimiento
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -767,14 +807,29 @@ export function GymDetailClient({
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
                       Próxima Acción
                     </span>
-                    <p className="mt-0.5 font-semibold text-slate-900 text-xs">
-                      {gym.next_action}{' '}
+                    <div className="flex items-center justify-between flex-wrap gap-2 mt-1">
+                      <p className="font-semibold text-slate-900 dark:text-slate-100 text-xs">
+                        {gym.next_action}{' '}
+                        {gym.next_followup_date && (
+                          <span className="text-xs text-slate-400 font-medium">
+                            (para el {formatDate(gym.next_followup_date)})
+                          </span>
+                        )}
+                      </p>
                       {gym.next_followup_date && (
-                        <span className="text-xs text-slate-400 font-medium">
-                          (para el {formatDate(gym.next_followup_date)})
-                        </span>
+                        <AddToCalendarButton
+                          event={{
+                            title: `Seguimiento: ${gym.name}`,
+                            description: gym.next_action || 'Seguimiento comercial GymBooking',
+                            location: `${gym.name}, ${gym.city || 'Madrid'}`,
+                            startDate: gym.next_followup_date,
+                          }}
+                          label="Añadir a Calendario"
+                          size="sm"
+                          className="h-7 text-[11px]"
+                        />
                       )}
-                    </p>
+                    </div>
                   </div>
                 )}
 
@@ -1693,6 +1748,13 @@ export function GymDetailClient({
           refreshGymData()
         }}
         preselectedGymId={gym.id}
+      />
+
+      {/* 8. Executive Report & Printable PDF Modal */}
+      <GymExecutiveReportModal
+        gym={gym}
+        isOpen={isExecutiveReportOpen}
+        onClose={() => setIsExecutiveReportOpen(false)}
       />
     </div>
   )
