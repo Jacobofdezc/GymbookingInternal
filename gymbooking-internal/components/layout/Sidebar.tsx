@@ -142,7 +142,7 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
                 CRM
               </span>
             </div>
-            <span className="text-[11px] text-slate-400 dark:text-slate-400 font-medium mt-0.5">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
               Operaciones & Ventas
             </span>
           </div>
@@ -166,7 +166,7 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
       <nav className="flex-1 overflow-y-auto px-3 py-3 space-y-4 scrollbar-thin">
         {NAVIGATION_SECTIONS.map((section) => (
           <div key={section.title} className="space-y-1">
-            <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+            <div className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               {section.title}
             </div>
 

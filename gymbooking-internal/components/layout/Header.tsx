@@ -96,27 +96,27 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
     : 'Miembro'
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 px-4 md:px-6 backdrop-blur-md transition-colors">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-4 md:px-6 backdrop-blur-md transition-colors shadow-2xs">
       {/* Left side: Mobile Toggle & Page Title */}
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
           onClick={onOpenMobileMenu}
-          className="md:hidden text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl"
+          className="md:hidden text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl"
           aria-label="Abrir navegación lateral"
         >
           <Menu className="h-5 w-5" />
         </Button>
 
         <div className="flex flex-col">
-          <h1 className="text-base md:text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
+          <h1 className="text-base md:text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
             {currentTitle}
           </h1>
           <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-400 font-normal">
             <span>GymBooking</span>
             <span>/</span>
-            <span className="capitalize text-slate-600 dark:text-slate-300 font-medium">
+            <span className="capitalize text-slate-700 dark:text-slate-300 font-semibold">
               {pathname.split('/')[1] || 'Dashboard'}
             </span>
           </div>
@@ -130,19 +130,19 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent('open-command-menu'))}
-            className="flex items-center gap-2 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900 hover:bg-slate-100/90 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 px-3 py-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all w-56 justify-between cursor-pointer shadow-2xs"
+            className="flex items-center gap-2 rounded-xl border border-slate-200/90 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 px-3 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all w-56 justify-between cursor-pointer shadow-2xs font-medium"
           >
             <div className="flex items-center gap-2">
-              <Search className="h-3.5 w-3.5 text-slate-400" />
+              <Search className="h-3.5 w-3.5 text-slate-400 dark:text-slate-400" />
               <span>Buscar gimnasio, lead...</span>
             </div>
-            <kbd className="rounded-md bg-white dark:bg-slate-800 px-1.5 py-0.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shadow-2xs">
+            <kbd className="rounded-md bg-white dark:bg-slate-700 px-1.5 py-0.5 text-[10px] font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 shadow-2xs">
               ⌘K
             </kbd>
           </button>
         </div>
 
-        {/* Theme Toggle (Light / Dark / System) */}
+        {/* Theme Toggle (Light / Dark) */}
         <ThemeToggle />
 
         {/* Notifications Dropdown */}
@@ -153,20 +153,20 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="flex items-center gap-2.5 px-2 py-1.5 h-auto text-left hover:bg-slate-100/80 dark:hover:bg-slate-900 rounded-xl focus-visible:ring-1 focus-visible:ring-blue-600 transition-colors"
+              className="flex items-center gap-2.5 px-2.5 py-1.5 h-auto text-left hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700/80 bg-slate-50/50 dark:bg-slate-800/50 focus-visible:ring-1 focus-visible:ring-blue-600 transition-colors cursor-pointer"
             >
-              <Avatar className="h-8 w-8 border border-slate-200/90 dark:border-slate-700 shadow-2xs">
+              <Avatar className="h-8 w-8 border border-slate-200 dark:border-slate-700 shadow-2xs">
                 <AvatarImage
                   src={userProfile?.avatar_url || ''}
                   alt={userProfile?.full_name || 'Avatar'}
                 />
-                <AvatarFallback className="bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 text-xs font-bold border border-blue-200/50 dark:border-blue-800/50">
+                <AvatarFallback className="bg-blue-600 text-white text-xs font-bold">
                   {getInitials(userProfile?.full_name, userProfile?.email)}
                 </AvatarFallback>
               </Avatar>
 
               <div className="hidden sm:flex flex-col text-left">
-                <span className="text-xs font-semibold text-slate-900 dark:text-slate-100 leading-none">
+                <span className="text-xs font-bold text-slate-900 dark:text-slate-100 leading-none">
                   {userProfile?.full_name || userProfile?.email?.split('@')[0] || 'Usuario'}
                 </span>
                 <span className="text-[11px] text-slate-500 dark:text-slate-400 capitalize mt-0.5 font-medium">
