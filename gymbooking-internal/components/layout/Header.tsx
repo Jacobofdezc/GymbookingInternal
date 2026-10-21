@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   Menu,
@@ -97,7 +98,7 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-4 md:px-6 backdrop-blur-md transition-colors shadow-2xs">
-      {/* Left side: Mobile Toggle & Page Title */}
+      {/* Left side: Mobile Toggle, Brand Logo & Page Title */}
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
@@ -108,6 +109,31 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
         >
           <Menu className="h-5 w-5" />
         </Button>
+
+        {/* Brand Logo in Header */}
+        <Link
+          href="/dashboard"
+          className="flex items-center hover:opacity-90 transition-opacity mr-1 sm:mr-2 shrink-0"
+        >
+          <Image
+            src="/logo.png"
+            alt="Gymbooking Logo"
+            width={125}
+            height={26}
+            className="h-6 sm:h-6.5 w-auto dark:hidden"
+            priority
+          />
+          <Image
+            src="/logo-dark.png"
+            alt="Gymbooking Logo"
+            width={125}
+            height={26}
+            className="h-6 sm:h-6.5 w-auto hidden dark:block"
+            priority
+          />
+        </Link>
+
+        <div className="hidden sm:block h-5 w-px bg-slate-200 dark:bg-slate-800" />
 
         <div className="flex flex-col">
           <h1 className="text-base md:text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight leading-tight">

@@ -30,6 +30,7 @@ import {
   UploadCloud,
   Smartphone,
   Loader2,
+  Link2,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -52,6 +53,7 @@ import { DocumentPreviewModal } from '@/components/documents/DocumentPreviewModa
 import { ClassFormModal } from '@/components/operations/ClassFormModal'
 import { GymExecutiveReportModal } from './GymExecutiveReportModal'
 import { AppPreviewModal } from './AppPreviewModal'
+import { GymPortalShareModal } from './GymPortalShareModal'
 import {
   togglePublishClass,
   publishAllGymClasses,
@@ -116,6 +118,7 @@ export function GymDetailClient({
   const [classModalOpen, setClassModalOpen] = useState(false)
   const [editingClass, setEditingClass] = useState<any | null>(null)
   const [isAppPreviewOpen, setIsAppPreviewOpen] = useState(false)
+  const [isPortalModalOpen, setIsPortalModalOpen] = useState(false)
   const [publishingAllClasses, setPublishingAllClasses] = useState(false)
   const [togglingClassId, setTogglingClassId] = useState<string | null>(null)
   const [isExecutiveReportOpen, setIsExecutiveReportOpen] = useState(false)
@@ -495,6 +498,17 @@ export function GymDetailClient({
           >
             <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
             Reportar incidencia
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsPortalModalOpen(true)}
+            className="flex items-center gap-1.5 rounded-xl border-emerald-300 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 shadow-2xs font-bold cursor-pointer"
+            title="Compartir portal de onboarding con el dueño del gimnasio"
+          >
+            <Link2 className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+            Portal del Gimnasio
           </Button>
 
           <Button
@@ -1528,6 +1542,16 @@ export function GymDetailClient({
                   <Button
                     size="sm"
                     variant="outline"
+                    onClick={() => setIsPortalModalOpen(true)}
+                    className="flex items-center gap-1.5 cursor-pointer rounded-xl font-bold border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 bg-emerald-50/50 dark:bg-emerald-950/30 hover:bg-emerald-100 shadow-2xs"
+                  >
+                    <Link2 className="h-4 w-4" />
+                    <span>Portal Dueño</span>
+                  </Button>
+
+                  <Button
+                    size="sm"
+                    variant="outline"
                     onClick={() => setIsAppPreviewOpen(true)}
                     className="flex items-center gap-1.5 cursor-pointer rounded-xl font-bold border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 bg-blue-50/50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 shadow-2xs"
                   >
@@ -1974,6 +1998,13 @@ export function GymDetailClient({
         onPublishAllSuccess={() => {
           refreshGymData()
         }}
+      />
+
+      {/* 10. Gym Owner Portal Share Modal */}
+      <GymPortalShareModal
+        gym={gym}
+        isOpen={isPortalModalOpen}
+        onClose={() => setIsPortalModalOpen(false)}
       />
     </div>
   )

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard,
@@ -128,24 +129,27 @@ export function Sidebar({ userProfile, onCloseMobile }: SidebarProps) {
       <div className="flex h-16 items-center justify-between px-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950">
         <Link
           href="/dashboard"
-          className="flex items-center gap-3 transition-opacity hover:opacity-90"
+          className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20">
-            <Activity className="h-5 w-5 stroke-[2.5]" />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5">
-              <span className="text-base font-black tracking-tight text-slate-900 dark:text-white leading-none">
-                GymBooking
-              </span>
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60 uppercase tracking-wider">
-                CRM
-              </span>
-            </div>
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-              Operaciones & Ventas
-            </span>
-          </div>
+          <Image
+            src="/logo.png"
+            alt="Gymbooking Logo"
+            width={130}
+            height={26}
+            className="h-6.5 w-auto dark:hidden"
+            priority
+          />
+          <Image
+            src="/logo-dark.png"
+            alt="Gymbooking Logo"
+            width={130}
+            height={26}
+            className="h-6.5 w-auto hidden dark:block"
+            priority
+          />
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60 uppercase tracking-wider">
+            CRM
+          </span>
         </Link>
 
         {/* Mobile close button */}

@@ -9,6 +9,9 @@ const PUBLIC_ROUTES = [
   '/api/bootstrap',
   '/api/auth/demo-session',
   '/api/demo/seed',
+  '/api/app',
+  '/api/portal',
+  '/portal',
 ]
 
 export async function proxy(request: NextRequest) {
