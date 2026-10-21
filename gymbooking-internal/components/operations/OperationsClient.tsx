@@ -5,10 +5,12 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import {
   getClasses,
+  togglePublishClass,
   type ClassWithDetails,
 } from '@/services/operations/onboarding.service'
 import { GymOnboardingChecklist } from './GymOnboardingChecklist'
 import { ClassFormModal } from './ClassFormModal'
+import { AppPreviewModal } from '@/components/gyms/AppPreviewModal'
 import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
@@ -27,6 +29,9 @@ import {
   Sparkles,
   User,
   Users,
+  Smartphone,
+  Edit,
+  Loader2,
 } from 'lucide-react'
 
 interface ConfirmedGymItem {
@@ -58,11 +63,38 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
   const [classGymFilter, setClassGymFilter] = useState('all')
   const [classStatusFilter, setClassStatusFilter] = useState('all')
   const [isClassModalOpen, setIsClassModalOpen] = useState(false)
+  const [editingClass, setEditingClass] = useState<ClassWithDetails | null>(null)
+  const [isAppPreviewOpen, setIsAppPreviewOpen] = useState(false)
+  const [previewGymData, setPreviewGymData] = useState<any | null>(null)
+  const [togglingClassId, setTogglingClassId] = useState<string | null>(null)
 
   const queryClient = useQueryClient()
 
   // Selected gym object
   const selectedGym = confirmedGyms.find((g) => g.id === selectedGymId)
+
+  const handleTogglePublish = async (classId: string, currentStatus: string) => {
+    try {
+      setTogglingClassId(classId)
+      const shouldPublish = currentStatus !== 'published'
+      await togglePublishClass(classId, shouldPublish)
+      queryClient.invalidateQueries({ queryKey: ['operations-classes'] })
+    } catch (err: any) {
+      alert(err.message || 'Error al cambiar publicación')
+    } finally {
+      setTogglingClassId(null)
+    }
+  }
+
+  const openAppPreviewForGym = (gymId: string, gymName: string) => {
+    const gymClasses = classes.filter((c) => c.gym_id === gymId)
+    setPreviewGymData({
+      id: gymId,
+      name: gymName,
+      classes: gymClasses,
+    })
+    setIsAppPreviewOpen(true)
+  }
 
   // Fetch classes
   const {
@@ -230,7 +262,7 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             {/* Filters */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
               <div className="w-56">
                 <Select
                   value={classGymFilter}
@@ -253,10 +285,10 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
                   className="text-xs h-9"
                 >
                   <option value="all">Todos los estados</option>
-                  <option value="received">Recibido</option>
-                  <option value="verified">Verificado</option>
-                  <option value="published">Publicado</option>
-                  <option value="unpublished">Despublicado</option>
+                  <option value="published">🟢 Publicadas en App</option>
+                  <option value="verified">🔵 Verificadas (Listas para publicar)</option>
+                  <option value="received">⚪ Recibidas / Borradores</option>
+                  <option value="unpublished">🔴 Pausadas / Despublicadas</option>
                 </Select>
               </div>
 
@@ -271,12 +303,30 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
                   className={`h-3.5 w-3.5 ${isFetchingClasses ? 'animate-spin' : ''}`}
                 />
               </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const gymId = classGymFilter !== 'all' ? classGymFilter : (classes[0]?.gym_id || selectedGymId)
+                  const targetGym = confirmedGyms.find((g) => g.id === gymId) || (classes[0]?.gym ? { id: classes[0].gym.id, name: classes[0].gym.name } : null)
+                  if (targetGym) openAppPreviewForGym(targetGym.id, targetGym.name)
+                  else alert('Selecciona un gimnasio para ver la previa en la app')
+                }}
+                className="h-9 font-bold text-xs gap-1.5 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 bg-blue-50/50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 cursor-pointer shadow-2xs"
+              >
+                <Smartphone className="h-3.5 w-3.5" />
+                <span>Simulador App Móvil</span>
+              </Button>
             </div>
 
             <Button
               size="sm"
-              onClick={() => setIsClassModalOpen(true)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={() => {
+                setEditingClass(null)
+                setIsClassModalOpen(true)
+              }}
+              className="bg-blue-600 text-white hover:bg-blue-700 cursor-pointer shadow-2xs font-bold text-xs"
             >
               <Plus className="h-4 w-4 mr-1.5" />
               Añadir clase
@@ -301,7 +351,14 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
                 <p className="text-sm text-muted-foreground max-w-sm mx-auto">
                   Añade las primeras clases de los gimnasios para validar su oferta deportiva.
                 </p>
-                <Button size="sm" onClick={() => setIsClassModalOpen(true)} className="mt-2">
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setEditingClass(null)
+                    setIsClassModalOpen(true)
+                  }}
+                  className="mt-2 bg-blue-600 hover:bg-blue-700 text-white"
+                >
                   <Plus className="h-4 w-4 mr-1.5" />
                   Añadir primera clase
                 </Button>
@@ -312,26 +369,34 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
                   <thead className="bg-muted/40 border-b text-xs font-semibold uppercase text-muted-foreground">
                     <tr>
                       <th className="px-4 py-3">Gimnasio</th>
-                      <th className="px-4 py-3">Nombre de la clase</th>
+                      <th className="px-4 py-3">Clase</th>
                       <th className="px-4 py-3">Disciplina</th>
-                      <th className="px-4 py-3">Estado</th>
-                      <th className="px-4 py-3">Última verificación</th>
-                      <th className="px-4 py-3">Verificado por</th>
+                      <th className="px-4 py-3">Horario Semanal</th>
+                      <th className="px-4 py-3">Estado App</th>
+                      <th className="px-4 py-3 text-right">Acción en App</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {classes.map((cls) => {
-                      const badge =
-                        publicationBadges[cls.publication_status] || publicationBadges.received
+                      const isPublished = cls.publication_status === 'published'
+                      const schedules = (cls as any).class_schedules || []
+                      const DAY_MAP: Record<number, string> = { 1: 'Lun', 2: 'Mar', 3: 'Mié', 4: 'Jue', 5: 'Vie', 6: 'Sáb', 0: 'Dom' }
+                      const daysText = schedules.length > 0
+                        ? schedules.map((s: any) => DAY_MAP[s.day_of_week] || 'D').join(', ')
+                        : 'Flexible'
+                      const timeText = schedules[0]?.start_time
+                        ? `${schedules[0].start_time.slice(0, 5)} - ${schedules[0].end_time.slice(0, 5)}`
+                        : `${cls.duration_minutes || 60}m`
+
                       return (
                         <tr key={cls.id} className="hover:bg-muted/30 transition-colors">
                           <td className="px-4 py-3.5 whitespace-nowrap">
                             {cls.gym ? (
                               <Link
                                 href={`/gyms/${cls.gym.id}`}
-                                className="font-medium text-foreground hover:text-primary hover:underline flex items-center gap-1.5"
+                                className="font-semibold text-foreground hover:text-primary hover:underline flex items-center gap-1.5"
                               >
-                                <Building2 className="h-3.5 w-3.5 text-muted-foreground" />
+                                <Building2 className="h-3.5 w-3.5 text-blue-500" />
                                 {cls.gym.name}
                               </Link>
                             ) : (
@@ -340,28 +405,86 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
                           </td>
 
                           <td className="px-4 py-3.5">
-                            <span className="font-semibold text-foreground">{cls.name}</span>
-                            {cls.description && (
-                              <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">
-                                {cls.description}
-                              </p>
-                            )}
+                            <span className="font-bold text-foreground">{cls.name}</span>
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
+                              <span>{cls.price ? `${cls.price}€` : 'Pase'}</span>
+                              <span>•</span>
+                              <span>{cls.capacity ? `${cls.capacity} pl.` : 'Libre'}</span>
+                            </div>
                           </td>
 
                           <td className="px-4 py-3.5 whitespace-nowrap text-xs text-foreground">
-                            {cls.discipline?.name || 'General'}
+                            <span className="font-medium">{cls.discipline?.name || 'General'}</span>
+                          </td>
+
+                          <td className="px-4 py-3.5 whitespace-nowrap text-xs">
+                            <div className="flex items-center gap-1 font-semibold text-slate-700 dark:text-slate-300">
+                              <Calendar className="h-3 w-3 text-blue-500" />
+                              <span>{daysText}</span>
+                            </div>
+                            <span className="text-[11px] text-muted-foreground font-mono">{timeText}</span>
                           </td>
 
                           <td className="px-4 py-3.5 whitespace-nowrap">
-                            <Badge variant={badge.variant}>{badge.label}</Badge>
+                            <span
+                              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                                isPublished
+                                  ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
+                                  : 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30'
+                              }`}
+                            >
+                              <span className={`w-1.5 h-1.5 rounded-full ${isPublished ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+                              {isPublished ? 'Publicada' : 'Borrador'}
+                            </span>
                           </td>
 
-                          <td className="px-4 py-3.5 whitespace-nowrap text-xs text-muted-foreground">
-                            {cls.last_verified_at ? formatDate(cls.last_verified_at) : 'Sin verificar'}
-                          </td>
+                          <td className="px-4 py-3.5 whitespace-nowrap text-right">
+                            <div className="flex items-center justify-end gap-1.5">
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => handleTogglePublish(cls.id, cls.publication_status)}
+                                disabled={togglingClassId === cls.id}
+                                className={`h-7 px-2.5 text-xs font-bold rounded-lg cursor-pointer transition-colors ${
+                                  isPublished
+                                    ? 'text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-950/40'
+                                    : 'text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-950/40 bg-emerald-50/60 dark:bg-emerald-950/30'
+                                }`}
+                              >
+                                {togglingClassId === cls.id ? (
+                                  <Loader2 className="h-3 w-3 animate-spin mr-1" />
+                                ) : isPublished ? (
+                                  'Pausar'
+                                ) : (
+                                  'Publicar'
+                                )}
+                              </Button>
 
-                          <td className="px-4 py-3.5 whitespace-nowrap text-xs text-muted-foreground">
-                            {cls.verified_by_profile?.full_name || '—'}
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => {
+                                  setEditingClass(cls)
+                                  setIsClassModalOpen(true)
+                                }}
+                                className="h-7 px-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 cursor-pointer"
+                                title="Editar clase y horario"
+                              >
+                                <Edit className="h-3.5 w-3.5" />
+                              </Button>
+
+                              {cls.gym && (
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => openAppPreviewForGym(cls.gym!.id, cls.gym!.name)}
+                                  className="h-7 px-2 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 cursor-pointer"
+                                  title="Ver en simulador de app"
+                                >
+                                  <Smartphone className="h-3.5 w-3.5" />
+                                </Button>
+                              )}
+                            </div>
                           </td>
                         </tr>
                       )
@@ -372,15 +495,41 @@ export function OperationsClient({ confirmedGyms, stats }: OperationsClientProps
             )}
           </div>
 
-          {/* Add Class Modal */}
+          {/* Add / Edit Class Modal */}
           <ClassFormModal
             isOpen={isClassModalOpen}
-            onClose={() => setIsClassModalOpen(false)}
+            onClose={() => {
+              setIsClassModalOpen(false)
+              setEditingClass(null)
+            }}
             onSuccess={() => {
+              setIsClassModalOpen(false)
+              setEditingClass(null)
               queryClient.invalidateQueries({ queryKey: ['operations-classes'] })
             }}
             preselectedGymId={selectedGymId || undefined}
+            initialClass={editingClass}
           />
+
+          {/* Mobile App Simulator Modal */}
+          {previewGymData && (
+            <AppPreviewModal
+              gym={{
+                id: previewGymData.id,
+                name: previewGymData.name,
+                city: previewGymData.city || 'Madrid',
+                classes: previewGymData.classes || [],
+              }}
+              isOpen={isAppPreviewOpen}
+              onClose={() => {
+                setIsAppPreviewOpen(false)
+                setPreviewGymData(null)
+              }}
+              onPublishAllSuccess={() => {
+                queryClient.invalidateQueries({ queryKey: ['operations-classes'] })
+              }}
+            />
+          )}
         </div>
       )}
     </div>

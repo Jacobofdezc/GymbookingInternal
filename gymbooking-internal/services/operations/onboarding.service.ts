@@ -32,6 +32,7 @@ export interface ClassWithDetails extends ClassRow {
     full_name: string
     email: string
   } | null
+  class_schedules?: Tables<'class_schedules'>[]
 }
 
 export async function getGymOnboardingItems(gymId: string): Promise<GymOnboardingItemWithDetails[]> {
@@ -249,7 +250,8 @@ export async function getClasses(filters?: {
       *,
       gym:gyms ( id, name, city ),
       discipline:disciplines ( id, name ),
-      verified_by_profile:profiles!classes_verified_by_fkey ( id, full_name, email )
+      verified_by_profile:profiles!classes_verified_by_fkey ( id, full_name, email ),
+      class_schedules ( id, day_of_week, start_time, end_time, is_active )
     `)
     .order('name', { ascending: true })
 
@@ -302,6 +304,120 @@ export async function updateClass(id: string, updates: Partial<ClassInsert>): Pr
   }
 
   return data
+}
+
+export async function deleteClass(id: string): Promise<void> {
+  const supabase = createClient()
+  const { error } = await supabase
+    .from('classes')
+    .delete()
+    .eq('id', id)
+
+  if (error) {
+    console.error('Error deleting class:', error)
+    throw new Error(error.message)
+  }
+}
+
+export async function togglePublishClass(
+  classId: string,
+  publish: boolean
+): Promise<ClassRow> {
+  const supabase = createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const payload: Partial<ClassInsert> = {
+    publication_status: publish ? 'published' : 'unpublished',
+    updated_at: new Date().toISOString(),
+  }
+
+  if (publish) {
+    payload.last_verified_at = new Date().toISOString()
+    if (user?.id) payload.verified_by = user.id
+  }
+
+  const { data, error } = await supabase
+    .from('classes')
+    .update(payload)
+    .eq('id', classId)
+    .select('*, gym:gyms(id, organization_id, name)')
+    .single()
+
+  if (error) {
+    console.error('Error toggling class publication:', error)
+    throw new Error(error.message)
+  }
+
+  // Audit log
+  if (data?.gym) {
+    await supabase.from('audit_logs').insert({
+      organization_id: (data.gym as any).organization_id,
+      entity_type: 'classes',
+      entity_id: classId,
+      action: publish ? 'publish_class' : 'unpublish_class',
+      new_values: {
+        published: publish,
+        class_name: data.name,
+        gym_name: (data.gym as any).name,
+      },
+    })
+  }
+
+  return data
+}
+
+export async function publishAllGymClasses(gymId: string): Promise<number> {
+  const supabase = createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const { data, error } = await supabase
+    .from('classes')
+    .update({
+      publication_status: 'published',
+      last_verified_at: new Date().toISOString(),
+      verified_by: user?.id || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('gym_id', gymId)
+    .select('id, name')
+
+  if (error) {
+    console.error('Error publishing all gym classes:', error)
+    throw new Error(error.message)
+  }
+
+  return data?.length || 0
+}
+
+export async function saveClassSchedules(
+  classId: string,
+  schedules: Array<{ day_of_week: number; start_time: string; end_time: string }>
+): Promise<void> {
+  const supabase = createClient()
+
+  // Delete existing
+  await supabase.from('class_schedules').delete().eq('class_id', classId)
+
+  if (schedules.length === 0) return
+
+  const rows = schedules.map((s) => ({
+    class_id: classId,
+    day_of_week: s.day_of_week,
+    start_time: s.start_time,
+    end_time: s.end_time,
+    is_active: true,
+  }))
+
+  const { error } = await supabase.from('class_schedules').insert(rows)
+
+  if (error) {
+    console.error('Error saving class schedules:', error)
+    throw new Error(error.message)
+  }
 }
 
 export async function publishGym(gymId: string): Promise<void> {

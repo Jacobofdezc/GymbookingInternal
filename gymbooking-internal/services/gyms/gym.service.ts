@@ -56,7 +56,16 @@ export interface FullGymDetail extends Gym {
   })[]
   documents: Document[]
   gym_onboarding_items: GymOnboardingItem[]
-  classes: (Class & { discipline: Discipline | null })[]
+  classes: (Class & {
+    discipline: Discipline | null
+    class_schedules?: Array<{
+      id: string
+      day_of_week: number
+      start_time: string
+      end_time: string
+      is_active: boolean
+    }>
+  })[]
   issues?: (Issue & {
     assignee: { id: string; full_name: string; avatar_url: string | null } | null
   })[]
@@ -307,7 +316,7 @@ export async function getGym(id: string): Promise<FullGymDetail> {
 
     supabase
       .from('classes')
-      .select('*, discipline:disciplines(*)')
+      .select('*, discipline:disciplines(*), class_schedules(*)')
       .eq('gym_id', id)
       .order('name', { ascending: true }),
 

@@ -28,6 +28,8 @@ import {
   Sparkles,
   ChevronDown,
   UploadCloud,
+  Smartphone,
+  Loader2,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -49,6 +51,12 @@ import { DocumentUploadModal } from '@/components/documents/DocumentUploadModal'
 import { DocumentPreviewModal } from '@/components/documents/DocumentPreviewModal'
 import { ClassFormModal } from '@/components/operations/ClassFormModal'
 import { GymExecutiveReportModal } from './GymExecutiveReportModal'
+import { AppPreviewModal } from './AppPreviewModal'
+import {
+  togglePublishClass,
+  publishAllGymClasses,
+  deleteClass,
+} from '@/services/operations/onboarding.service'
 import { AddToCalendarButton } from '@/components/calendar/AddToCalendarButton'
 import { formatDate, formatDateTime, formatRelative } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
@@ -106,6 +114,10 @@ export function GymDetailClient({
   const [documentModalOpen, setDocumentModalOpen] = useState(false)
   const [selectedPreviewDoc, setSelectedPreviewDoc] = useState<any>(null)
   const [classModalOpen, setClassModalOpen] = useState(false)
+  const [editingClass, setEditingClass] = useState<any | null>(null)
+  const [isAppPreviewOpen, setIsAppPreviewOpen] = useState(false)
+  const [publishingAllClasses, setPublishingAllClasses] = useState(false)
+  const [togglingClassId, setTogglingClassId] = useState<string | null>(null)
   const [isExecutiveReportOpen, setIsExecutiveReportOpen] = useState(false)
 
   // Interaction filter state
@@ -166,8 +178,9 @@ export function GymDetailClient({
             .order('sort_order', { ascending: true }),
           supabase
             .from('classes')
-            .select('*, discipline:disciplines(*)')
-            .eq('gym_id', gym.id),
+            .select('*, discipline:disciplines(*), class_schedules(*)')
+            .eq('gym_id', gym.id)
+            .order('name', { ascending: true }),
           supabase
             .from('issues')
             .select(`
@@ -358,6 +371,43 @@ export function GymDetailClient({
       alert(err.message || 'Error al crear la tarea')
     } finally {
       setSavingTask(false)
+    }
+  }
+
+  // Class publication handlers
+  const handleTogglePublish = async (classId: string, currentStatus: string) => {
+    try {
+      setTogglingClassId(classId)
+      const shouldPublish = currentStatus !== 'published'
+      await togglePublishClass(classId, shouldPublish)
+      await refreshGymData()
+    } catch (err: any) {
+      alert(err.message || 'Error al cambiar publicación')
+    } finally {
+      setTogglingClassId(null)
+    }
+  }
+
+  const handlePublishAllClasses = async () => {
+    if (!confirm('¿Deseas publicar todas las clases de este gimnasio en la app móvil?')) return
+    try {
+      setPublishingAllClasses(true)
+      await publishAllGymClasses(gym.id)
+      await refreshGymData()
+    } catch (err: any) {
+      alert(err.message || 'Error al publicar todas las clases')
+    } finally {
+      setPublishingAllClasses(false)
+    }
+  }
+
+  const handleDeleteClass = async (classId: string, className: string) => {
+    if (!confirm(`¿Eliminar la clase "${className}"?`)) return
+    try {
+      await deleteClass(classId)
+      await refreshGymData()
+    } catch (err: any) {
+      alert(err.message || 'Error al eliminar la clase')
     }
   }
 
@@ -1456,73 +1506,221 @@ export function GymDetailClient({
             </CardContent>
           </Card>
 
-          {/* Classes list */}
-          <Card>
-            <CardHeader className="border-b pb-3">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          {/* Classes list & Mobile App Publication Hub */}
+          <Card className="border-slate-200 dark:border-slate-800">
+            <CardHeader className="border-b pb-4">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
                 <div>
-                  <CardTitle className="text-base text-slate-900">Clases Registradas ({gym.classes.length})</CardTitle>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    Clases ofertadas por el gimnasio para reserva en la plataforma.
+                  <div className="flex items-center gap-2">
+                    <CardTitle className="text-base text-slate-900 dark:text-white font-bold">
+                      Catálogo de Clases y Publicación en App
+                    </CardTitle>
+                    <Badge variant="outline" className="text-xs font-mono">
+                      {gym.classes.length} clases
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Gestiona los horarios, tarifas y el estado de publicación en la app móvil de GymBooking.
                   </p>
                 </div>
-                <Button
-                  size="sm"
-                  onClick={() => setClassModalOpen(true)}
-                  className="flex items-center gap-1.5 cursor-pointer rounded-xl font-semibold shadow-2xs self-start sm:self-auto"
-                >
-                  <Plus className="h-3.5 w-3.5" />
-                  Añadir clase
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-4">
-              {gym.classes.length === 0 ? (
-                <div className="py-8 text-center space-y-3">
-                  <p className="text-xs text-muted-foreground italic">
-                    Aún no se han dado de alta clases para este gimnasio.
-                  </p>
+
+                <div className="flex flex-wrap items-center gap-2">
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => setClassModalOpen(true)}
-                    className="gap-1.5 cursor-pointer rounded-xl text-xs"
+                    onClick={() => setIsAppPreviewOpen(true)}
+                    className="flex items-center gap-1.5 cursor-pointer rounded-xl font-bold border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 bg-blue-50/50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 shadow-2xs"
+                  >
+                    <Smartphone className="h-4 w-4" />
+                    <span>Vista previa en App</span>
+                  </Button>
+
+                  {gym.classes.some((c) => c.publication_status !== 'published') && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={handlePublishAllClasses}
+                      disabled={publishingAllClasses}
+                      className="flex items-center gap-1.5 cursor-pointer rounded-xl font-bold border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 bg-emerald-50/50 dark:bg-emerald-950/30 hover:bg-emerald-100 shadow-2xs"
+                    >
+                      {publishingAllClasses ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      ) : (
+                        <Sparkles className="h-3.5 w-3.5" />
+                      )}
+                      <span>Publicar todo en App</span>
+                    </Button>
+                  )}
+
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      setEditingClass(null)
+                      setClassModalOpen(true)
+                    }}
+                    className="flex items-center gap-1.5 cursor-pointer rounded-xl font-semibold shadow-2xs bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    <span>Añadir clase</span>
+                  </Button>
+                </div>
+              </div>
+
+              {/* KPI Status Badges */}
+              <div className="flex flex-wrap items-center gap-2 pt-3 mt-1 border-t border-slate-100 dark:border-slate-800">
+                <span className="text-xs text-slate-500 font-medium">Estado en la App:</span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  {gym.classes.filter((c) => c.publication_status === 'published').length} en directo en App
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800">
+                  {gym.classes.filter((c) => c.publication_status !== 'published').length} borradores / no publicadas
+                </span>
+              </div>
+            </CardHeader>
+
+            <CardContent className="pt-4">
+              {gym.classes.length === 0 ? (
+                <div className="py-12 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-950/50 text-blue-600 flex items-center justify-center mx-auto">
+                    <Smartphone className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200">
+                    Aún no hay clases registradas para este gimnasio
+                  </h4>
+                  <p className="text-xs text-muted-foreground max-w-sm mx-auto">
+                    Añade las disciplinas y horarios del gimnasio para publicarlas en la app móvil y abrir reservas.
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      setEditingClass(null)
+                      setClassModalOpen(true)
+                    }}
+                    className="gap-1.5 cursor-pointer rounded-xl text-xs bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     <Plus className="h-3.5 w-3.5" />
                     Registrar primera clase
                   </Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {gym.classes.map((cls) => (
-                    <div key={cls.id} className="p-3.5 rounded-lg border bg-card space-y-2">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h4 className="font-semibold text-sm">{cls.name}</h4>
-                          <span className="text-xs text-muted-foreground">
-                            {cls.discipline?.name || 'General'} • {cls.duration_minutes || 60} min
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                  {gym.classes.map((cls) => {
+                    const isPublished = cls.publication_status === 'published'
+                    const schedules = (cls as any).class_schedules || []
+                    const DAY_MAP: Record<number, string> = { 1: 'Lun', 2: 'Mar', 3: 'Mié', 4: 'Jue', 5: 'Vie', 6: 'Sáb', 0: 'Dom' }
+                    const daysText = schedules.length > 0
+                      ? schedules.map((s: any) => DAY_MAP[s.day_of_week] || 'D').join(', ')
+                      : 'Horario flexible'
+                    const timeText = schedules[0]?.start_time
+                      ? `${schedules[0].start_time.slice(0, 5)} - ${schedules[0].end_time.slice(0, 5)}`
+                      : `${cls.duration_minutes || 60} min`
+
+                    return (
+                      <div
+                        key={cls.id}
+                        className={`p-4 rounded-xl border transition-all space-y-3 ${
+                          isPublished
+                            ? 'bg-card border-slate-200 dark:border-slate-800 shadow-2xs hover:border-blue-400'
+                            : 'bg-amber-50/30 dark:bg-amber-950/10 border-amber-200/80 dark:border-amber-900/40'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+                                {cls.discipline?.name || 'General'}
+                              </span>
+                              <span className="text-slate-300 dark:text-slate-700">•</span>
+                              <span className="text-[11px] text-muted-foreground capitalize">
+                                {cls.level || 'Todos los niveles'}
+                              </span>
+                            </div>
+                            <h4 className="font-bold text-sm text-slate-900 dark:text-white mt-0.5 leading-snug">
+                              {cls.name}
+                            </h4>
+                          </div>
+
+                          <Badge
+                            variant={isPublished ? 'success' : 'secondary'}
+                            className={`text-2xs font-bold uppercase tracking-wider ${
+                              isPublished
+                                ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
+                                : 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30'
+                            }`}
+                          >
+                            {isPublished ? '🟢 En App' : '🟡 Borrador'}
+                          </Badge>
+                        </div>
+
+                        {/* Schedule badge */}
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 text-xs flex items-center justify-between">
+                          <span className="flex items-center gap-1.5 font-semibold text-slate-700 dark:text-slate-300">
+                            <Calendar className="h-3.5 w-3.5 text-blue-500 shrink-0" />
+                            {daysText}
+                          </span>
+                          <span className="flex items-center gap-1 text-muted-foreground font-mono">
+                            <Clock className="h-3 w-3" />
+                            {timeText}
                           </span>
                         </div>
-                        <Badge
-                          variant={
-                            cls.publication_status === 'published'
-                              ? 'success'
-                              : cls.publication_status === 'verified'
-                              ? 'info'
-                              : 'secondary'
-                          }
-                          className="text-2xs"
-                        >
-                          {cls.publication_status}
-                        </Badge>
-                      </div>
 
-                      <div className="flex items-center justify-between text-xs text-muted-foreground pt-1 border-t">
-                        <span>Nivel: <strong className="capitalize">{cls.level || 'Todos'}</strong></span>
-                        <span>Precio: <strong>{cls.price ? `${cls.price}€` : 'Incluido'}</strong></span>
+                        <div className="flex items-center justify-between text-xs text-muted-foreground pt-1">
+                          <span>Aforo: <strong>{cls.capacity ? `${cls.capacity} plazas` : 'Libre'}</strong></span>
+                          <span>Tarifa: <strong>{cls.price ? `${cls.price}€` : 'Pase Gym'}</strong></span>
+                        </div>
+
+                        {/* Card actions toolbar */}
+                        <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-1">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleTogglePublish(cls.id, cls.publication_status)}
+                            disabled={togglingClassId === cls.id}
+                            className={`h-7 px-2.5 text-xs font-bold rounded-lg cursor-pointer transition-colors ${
+                              isPublished
+                                ? 'text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-950/40'
+                                : 'text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-950/40 bg-emerald-50/60 dark:bg-emerald-950/30'
+                            }`}
+                          >
+                            {togglingClassId === cls.id ? (
+                              <Loader2 className="h-3 w-3 animate-spin mr-1" />
+                            ) : isPublished ? (
+                              'Pausar en App'
+                            ) : (
+                              '🚀 Publicar en App'
+                            )}
+                          </Button>
+
+                          <div className="flex items-center gap-1">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => {
+                                setEditingClass(cls)
+                                setClassModalOpen(true)
+                              }}
+                              className="h-7 px-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 cursor-pointer"
+                              title="Editar clase y horario"
+                            >
+                              <Edit className="h-3.5 w-3.5 mr-1" />
+                              Editar
+                            </Button>
+
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleDeleteClass(cls.id, cls.name)}
+                              className="h-7 px-2 text-xs text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30 cursor-pointer"
+                              title="Eliminar clase"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </Button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               )}
             </CardContent>
@@ -1742,12 +1940,17 @@ export function GymDetailClient({
       {/* 7. Class Form Modal */}
       <ClassFormModal
         isOpen={classModalOpen}
-        onClose={() => setClassModalOpen(false)}
+        onClose={() => {
+          setClassModalOpen(false)
+          setEditingClass(null)
+        }}
         onSuccess={() => {
           setClassModalOpen(false)
+          setEditingClass(null)
           refreshGymData()
         }}
         preselectedGymId={gym.id}
+        initialClass={editingClass}
       />
 
       {/* 8. Executive Report & Printable PDF Modal */}
@@ -1755,6 +1958,22 @@ export function GymDetailClient({
         gym={gym}
         isOpen={isExecutiveReportOpen}
         onClose={() => setIsExecutiveReportOpen(false)}
+      />
+
+      {/* 9. Mobile App Simulator & Publication Modal */}
+      <AppPreviewModal
+        gym={{
+          id: gym.id,
+          name: gym.name,
+          city: gym.city,
+          address: gym.address,
+          classes: gym.classes as any,
+        }}
+        isOpen={isAppPreviewOpen}
+        onClose={() => setIsAppPreviewOpen(false)}
+        onPublishAllSuccess={() => {
+          refreshGymData()
+        }}
       />
     </div>
   )
