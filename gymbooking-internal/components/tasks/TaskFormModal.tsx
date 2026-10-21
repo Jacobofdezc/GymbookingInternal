@@ -21,15 +21,23 @@ interface TaskFormModalProps {
   isOpen: boolean
   onClose: () => void
   onSuccess?: () => void
+  initialDueDate?: string
+  preselectedGymId?: string
 }
 
-export function TaskFormModal({ isOpen, onClose, onSuccess }: TaskFormModalProps) {
+export function TaskFormModal({
+  isOpen,
+  onClose,
+  onSuccess,
+  initialDueDate,
+  preselectedGymId,
+}: TaskFormModalProps) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [gymId, setGymId] = useState('')
+  const [gymId, setGymId] = useState(preselectedGymId || '')
   const [assigneeId, setAssigneeId] = useState('')
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'urgent'>('medium')
-  const [dueDate, setDueDate] = useState(() => new Date().toISOString().split('T')[0])
+  const [dueDate, setDueDate] = useState(() => initialDueDate || new Date().toISOString().split('T')[0])
 
   const [gyms, setGyms] = useState<Array<{ id: string; name: string }>>([])
   const [profiles, setProfiles] = useState<Array<{ id: string; full_name: string }>>([])
@@ -56,13 +64,13 @@ export function TaskFormModal({ isOpen, onClose, onSuccess }: TaskFormModalProps
     if (isOpen) {
       setTitle('')
       setDescription('')
-      setGymId('')
+      setGymId(preselectedGymId || '')
       setAssigneeId('')
       setPriority('medium')
-      setDueDate(new Date().toISOString().split('T')[0])
+      setDueDate(initialDueDate || new Date().toISOString().split('T')[0])
       setNotification(null)
     }
-  }, [isOpen])
+  }, [isOpen, initialDueDate, preselectedGymId])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

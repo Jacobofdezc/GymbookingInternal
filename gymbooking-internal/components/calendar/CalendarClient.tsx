@@ -21,7 +21,9 @@ import {
   Grid3X3,
   ExternalLink,
   Download,
+  Plus,
 } from 'lucide-react'
+import { TaskFormModal } from '@/components/tasks/TaskFormModal'
 
 export type CalendarEventType = 'task' | 'followup' | 'interaction'
 
@@ -75,6 +77,8 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
   const [viewMode, setViewMode] = useState<'month' | 'week' | 'agenda'>('month')
   const [typeFilter, setTypeFilter] = useState<'all' | CalendarEventType>('all')
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false)
+  const [selectedDateForTask, setSelectedDateForTask] = useState<string | undefined>()
 
   // Filter events
   const filteredEvents = useMemo(() => {
@@ -363,6 +367,18 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
 
         <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
           <Button
+            size="sm"
+            onClick={() => {
+              setSelectedDateForTask(new Date().toISOString().split('T')[0])
+              setIsTaskModalOpen(true)
+            }}
+            className="gap-1.5 text-xs h-9 rounded-xl font-bold shadow-xs cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Programar Tarea
+          </Button>
+
+          <Button
             variant="outline"
             size="sm"
             onClick={handleExportIcs}
@@ -530,7 +546,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
               return (
                 <div
                   key={day.dateString + idx}
-                  className={`min-h-[110px] p-2 transition-colors flex flex-col justify-between ${
+                  className={`min-h-[110px] p-2 transition-colors flex flex-col justify-between group ${
                     day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/50'
                   } ${day.isToday ? 'bg-blue-50/20' : ''}`}
                 >
@@ -547,11 +563,25 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                       {day.dayNumber}
                     </span>
 
-                    {dayEvents.length > 0 && (
-                      <span className="text-[10px] font-semibold text-gray-400">
-                        {dayEvents.length}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1">
+                      {dayEvents.length > 0 && (
+                        <span className="text-[10px] font-semibold text-gray-400">
+                          {dayEvents.length}
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedDateForTask(day.dateString)
+                          setIsTaskModalOpen(true)
+                        }}
+                        title={`Programar tarea para ${day.dateString}`}
+                        className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded transition-all cursor-pointer"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Day Events Chips */}
@@ -666,6 +696,17 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                     })
                   )}
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedDateForTask(day.dateString)
+                    setIsTaskModalOpen(true)
+                  }}
+                  className="w-full mt-2 py-1 px-2 rounded-xl border border-dashed border-slate-200 hover:border-blue-300 bg-slate-50/50 hover:bg-blue-50 text-[11px] font-semibold text-slate-500 hover:text-blue-600 flex items-center justify-center gap-1 transition-all cursor-pointer"
+                >
+                  <Plus className="w-3 h-3" /> Añadir tarea
+                </button>
               </div>
             )
           })}
@@ -755,6 +796,17 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           )}
         </div>
       )}
+
+      {/* Quick Task Creation Modal */}
+      <TaskFormModal
+        isOpen={isTaskModalOpen}
+        onClose={() => setIsTaskModalOpen(false)}
+        initialDueDate={selectedDateForTask}
+        onSuccess={() => {
+          setIsTaskModalOpen(false)
+          router.refresh()
+        }}
+      />
     </div>
   )
 }

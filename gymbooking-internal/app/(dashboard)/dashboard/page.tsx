@@ -130,6 +130,46 @@ export default async function DashboardPage() {
     (g) => g.onboarding_status?.slug === 'active'
   ).length
 
+  // Funnel breakdown by commercial pipeline stages
+  const funnelBreakdown = [
+    {
+      stageKey: 'prospect',
+      name: 'Prospección',
+      count: allGyms.filter((g) => ['prospect', 'identified'].includes(g.commercial_status?.slug)).length,
+      color: '#64748B',
+    },
+    {
+      stageKey: 'contacted',
+      name: 'Primer Contacto',
+      count: allGyms.filter((g) => ['contacted', 'first_contact', 'waiting_response'].includes(g.commercial_status?.slug)).length,
+      color: '#3B82F6',
+    },
+    {
+      stageKey: 'meeting',
+      name: 'Reunión Realizada',
+      count: allGyms.filter((g) => ['meeting_scheduled', 'meeting_done', 'meeting_pending'].includes(g.commercial_status?.slug)).length,
+      color: '#8B5CF6',
+    },
+    {
+      stageKey: 'negotiation',
+      name: 'Negociación / Oferta',
+      count: allGyms.filter((g) => ['negotiation', 'negotiating', 'proposal_sent'].includes(g.commercial_status?.slug)).length,
+      color: '#F59E0B',
+    },
+    {
+      stageKey: 'confirmed',
+      name: 'Acuerdo Cerrado',
+      count: confirmedGymsCount,
+      color: '#10B981',
+    },
+    {
+      stageKey: 'active',
+      name: 'Publicado y Activo',
+      count: activeGymsCount,
+      color: '#059669',
+    },
+  ]
+
   // Upcoming followups (next 7 days)
   const upcomingFollowups = allGyms
     .filter((g) => {
@@ -163,6 +203,7 @@ export default async function DashboardPage() {
     overdueTasksCount: overdueTasksRes.count || 0,
     openIssuesCount: openIssuesRes.count || 0,
     pendingTasksCount: pendingTasksRes.count || 0,
+    funnelBreakdown,
     upcomingFollowups,
     tasksDueToday: (tasksDueTodayRes.data as any[]) || [],
     recentActivity: (recentActivityRes.data as any[]) || [],

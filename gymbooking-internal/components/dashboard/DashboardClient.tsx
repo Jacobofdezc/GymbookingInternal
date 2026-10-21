@@ -33,6 +33,13 @@ import {
   Loader2,
 } from 'lucide-react'
 
+export interface PipelineFunnelStep {
+  stageKey: string
+  name: string
+  count: number
+  color: string
+}
+
 export interface DashboardStats {
   totalGyms: number
   commercialInProcessCount: number
@@ -41,6 +48,7 @@ export interface DashboardStats {
   overdueTasksCount: number
   openIssuesCount: number
   pendingTasksCount: number
+  funnelBreakdown?: PipelineFunnelStep[]
   upcomingFollowups: Array<{
     id: string
     name: string
@@ -397,6 +405,86 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           </CardContent>
         </Card>
       </div>
+
+      {/* Pipeline Funnel & Stage Breakdown */}
+      {stats.funnelBreakdown && stats.funnelBreakdown.length > 0 && (
+        <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-100 bg-slate-50/60 p-5">
+            <div>
+              <CardTitle className="text-base font-black text-slate-900 flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-blue-600" />
+                Embudo de Conversión Comercial
+              </CardTitle>
+              <p className="text-xs text-slate-500 font-medium mt-0.5">
+                Progreso de los centros deportivos a través de las etapas del ciclo comercial y activación
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="text-xs font-bold rounded-xl border-slate-200/90 shadow-2xs hover:bg-white text-slate-700 hover:text-blue-600 self-start sm:self-auto cursor-pointer"
+            >
+              <Link href="/pipeline">
+                Ver Tablero Kanban
+                <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+              </Link>
+            </Button>
+          </CardHeader>
+
+          <CardContent className="p-5 space-y-4">
+            {/* Step Cards Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {stats.funnelBreakdown.map((step, idx) => {
+                const percentage =
+                  stats.totalGyms > 0 ? Math.round((step.count / stats.totalGyms) * 100) : 0
+
+                return (
+                  <div
+                    key={step.stageKey}
+                    className="p-3.5 rounded-xl border border-slate-200/70 bg-slate-50/50 hover:bg-white hover:border-slate-300 hover:shadow-2xs transition-all space-y-2 group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors">
+                        Etapa 0{idx + 1}
+                      </span>
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: step.color }}
+                      />
+                    </div>
+
+                    <div>
+                      <div className="text-2xl font-black text-slate-900 tracking-tight">
+                        {step.count}
+                      </div>
+                      <span className="text-xs font-bold text-slate-700 block truncate" title={step.name}>
+                        {step.name}
+                      </span>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                        <span>Del total</span>
+                        <span className="font-bold text-slate-700">{percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-200/70 h-1.5 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-300"
+                          style={{
+                            width: `${percentage}%`,
+                            backgroundColor: step.color,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Two Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
