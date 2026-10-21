@@ -47,35 +47,35 @@ export const KNOWLEDGE_CATEGORY_MAP: Record<
 > = {
   product: {
     label: 'Producto',
-    badge: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+    badge: 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
   },
   sales: {
     label: 'Ventas y Comercial',
-    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    badge: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
   },
   operations: {
     label: 'Operaciones',
-    badge: 'bg-amber-50 text-amber-700 border-amber-200',
+    badge: 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800',
   },
   technology: {
     label: 'Tecnología',
-    badge: 'bg-blue-50 text-blue-700 border-blue-200',
+    badge: 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800',
   },
   marketing: {
     label: 'Marketing',
-    badge: 'bg-purple-50 text-purple-700 border-purple-200',
+    badge: 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800',
   },
   administration: {
     label: 'Administración',
-    badge: 'bg-teal-50 text-teal-700 border-teal-200',
+    badge: 'bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800',
   },
   decisions: {
     label: 'Decisiones',
-    badge: 'bg-rose-50 text-rose-700 border-rose-200',
+    badge: 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800',
   },
   procedures: {
     label: 'Procedimientos',
-    badge: 'bg-slate-100 text-slate-700 border-slate-200',
+    badge: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
   },
 }
 

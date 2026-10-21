@@ -546,7 +546,7 @@ export function GymDetailClient({
       )}
 
       {/* Gym Header Card */}
-      <Card className="shadow-2xs overflow-hidden rounded-2xl border-slate-200/80 bg-white">
+      <Card className="shadow-2xs overflow-hidden rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900">
         <div className="p-6">
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
             <div className="space-y-2">
@@ -688,7 +688,7 @@ export function GymDetailClient({
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-t border-slate-100 overflow-x-auto bg-slate-50/70 p-1.5 gap-1 shadow-inner">
+        <div className="flex border-t border-slate-100 dark:border-slate-800 overflow-x-auto bg-slate-50/70 dark:bg-slate-900/80 p-1.5 gap-1 shadow-inner">
           {[
             { id: 'resumen', label: 'Resumen' },
             { id: 'contactos', label: `Contactos (${gym.gym_contacts.length})` },
@@ -706,8 +706,8 @@ export function GymDetailClient({
                 onClick={() => setActiveTab(tab.id as TabType)}
                 className={`px-3.5 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all duration-150 cursor-pointer ${
                   isActive
-                    ? 'bg-white text-blue-600 shadow-2xs border border-slate-200/80'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                    ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-2xs border border-slate-200/80 dark:border-slate-700'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60'
                 }`}
               >
                 {tab.label}
@@ -724,51 +724,51 @@ export function GymDetailClient({
         <div className="space-y-6">
           {/* Metric KPI cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 bg-white hover:border-slate-300 transition-colors">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                 Total Interacciones
               </span>
-              <span className="text-3xl font-black text-slate-900 mt-1 block tracking-tight">
+              <span className="text-3xl font-black text-slate-900 dark:text-slate-100 mt-1 block tracking-tight">
                 {gym.interactions.length}
               </span>
-              <span className="text-2xs text-slate-400 mt-1 block font-medium">
+              <span className="text-2xs text-slate-400 dark:text-slate-500 mt-1 block font-medium">
                 Última:{' '}
                 {gym.last_contact_date ? formatRelative(gym.last_contact_date) : 'Sin registro'}
               </span>
             </Card>
 
-            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 bg-white hover:border-slate-300 transition-colors">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                 Tareas Pendientes
               </span>
-              <span className="text-3xl font-black mt-1 block tracking-tight text-amber-600">
+              <span className="text-3xl font-black mt-1 block tracking-tight text-amber-600 dark:text-amber-400">
                 {pendingTasks.length}
               </span>
-              <span className="text-2xs text-slate-400 mt-1 block font-medium">
+              <span className="text-2xs text-slate-400 dark:text-slate-500 mt-1 block font-medium">
                 {gym.tasks.length - pendingTasks.length} completadas
               </span>
             </Card>
 
-            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 bg-white hover:border-slate-300 transition-colors">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                 Clases Verificadas
               </span>
-              <span className="text-3xl font-black mt-1 block tracking-tight text-emerald-600">
+              <span className="text-3xl font-black mt-1 block tracking-tight text-emerald-600 dark:text-emerald-400">
                 {verifiedClasses.length} / {gym.classes_expected || gym.classes.length}
               </span>
-              <span className="text-2xs text-slate-400 mt-1 block font-medium">
+              <span className="text-2xs text-slate-400 dark:text-slate-500 mt-1 block font-medium">
                 {gym.classes.length} clases recibidas
               </span>
             </Card>
 
-            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 bg-white hover:border-slate-300 transition-colors">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+            <Card className="p-4.5 shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
+              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                 Progreso Onboarding
               </span>
-              <span className="text-3xl font-black mt-1 block tracking-tight text-blue-600">
+              <span className="text-3xl font-black mt-1 block tracking-tight text-blue-600 dark:text-blue-400">
                 {onboardingPercent}%
               </span>
-              <span className="text-2xs text-slate-400 mt-1 block font-medium">
+              <span className="text-2xs text-slate-400 dark:text-slate-500 mt-1 block font-medium">
                 {completedOnboardingItems.length} de {gym.gym_onboarding_items.length} tareas
               </span>
             </Card>

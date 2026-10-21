@@ -323,7 +323,7 @@ export function GymListClient() {
       </div>
 
       {/* Quick Filter Tabs */}
-      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/80 rounded-2xl border border-slate-200/80 overflow-x-auto shadow-2xs">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/80 dark:bg-slate-900/80 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-x-auto shadow-2xs">
         {QUICK_TABS.map((tab) => {
           const isActive = quickTab === tab.id
           return (
@@ -335,8 +335,8 @@ export function GymListClient() {
               }}
               className={`px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all duration-150 cursor-pointer ${
                 isActive
-                  ? 'bg-white text-slate-900 font-bold shadow-2xs border border-slate-200/70'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium border border-transparent'
+                  ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-bold shadow-2xs border border-slate-200/70 dark:border-slate-700'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 font-medium border border-transparent'
               }`}
             >
               {tab.label}
@@ -346,7 +346,7 @@ export function GymListClient() {
       </div>
 
       {/* Filter Bar */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-2xs space-y-3">
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
           {/* Search bar */}
           <div className="lg:col-span-2 relative">
@@ -358,12 +358,12 @@ export function GymListClient() {
                 setPage(1)
               }}
               placeholder="Buscar por nombre, ciudad..."
-              className="pl-9 rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white text-xs h-9 transition-colors"
+              className="pl-9 rounded-xl border-slate-200/90 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-900 focus:bg-white dark:focus:bg-slate-900 text-xs h-9 transition-colors"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-700 cursor-pointer"
+                className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -378,7 +378,7 @@ export function GymListClient() {
                 setCommercialStatusId(e.target.value)
                 setPage(1)
               }}
-              className="flex h-9 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+              className="flex h-9 w-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Estado comercial...</option>
               {commercialStatuses.map((st) => (
@@ -397,7 +397,7 @@ export function GymListClient() {
                 setOnboardingStatusId(e.target.value)
                 setPage(1)
               }}
-              className="flex h-9 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+              className="flex h-9 w-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Onboarding...</option>
               {onboardingStatuses.map((st) => (
@@ -416,7 +416,7 @@ export function GymListClient() {
                 setCityFilter(e.target.value)
                 setPage(1)
               }}
-              className="flex h-9 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+              className="flex h-9 w-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Todas las ciudades</option>
               {cities.map((city) => (
@@ -435,7 +435,7 @@ export function GymListClient() {
                 setOwnerFilter(e.target.value)
                 setPage(1)
               }}
-              className="flex h-9 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+              className="flex h-9 w-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-2xs transition-colors focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Responsable...</option>
               {owners.map((owner) => (
@@ -448,13 +448,13 @@ export function GymListClient() {
         </div>
 
         {hasActiveFilters && (
-          <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100 font-medium">
+          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800 font-medium">
             <span>Filtros avanzados activos</span>
             <Button
               variant="ghost"
               size="sm"
               onClick={clearFilters}
-              className="h-6 px-2 text-xs flex items-center gap-1 text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg cursor-pointer font-semibold"
+              className="h-6 px-2 text-xs flex items-center gap-1 text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg cursor-pointer font-semibold"
             >
               <X className="h-3 w-3" />
               Limpiar filtros
@@ -464,12 +464,12 @@ export function GymListClient() {
       </div>
 
       {/* Gyms Table */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead
-                className="cursor-pointer font-bold text-slate-600 hover:text-slate-900 transition-colors"
+                className="cursor-pointer font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
                 onClick={() => handleSort('name')}
               >
                 <div className="flex items-center space-x-1.5">
@@ -477,10 +477,10 @@ export function GymListClient() {
                   <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
                 </div>
               </TableHead>
-              <TableHead className="font-bold text-slate-600">Estado Comercial</TableHead>
-              <TableHead className="font-bold text-slate-600">Onboarding</TableHead>
+              <TableHead className="font-bold text-slate-600 dark:text-slate-400">Estado Comercial</TableHead>
+              <TableHead className="font-bold text-slate-600 dark:text-slate-400">Onboarding</TableHead>
               <TableHead
-                className="cursor-pointer font-bold text-slate-600 hover:text-slate-900 transition-colors"
+                className="cursor-pointer font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
                 onClick={() => handleSort('priority')}
               >
                 <div className="flex items-center space-x-1.5">
@@ -488,9 +488,9 @@ export function GymListClient() {
                   <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
                 </div>
               </TableHead>
-              <TableHead className="font-bold text-slate-600">Responsable</TableHead>
+              <TableHead className="font-bold text-slate-600 dark:text-slate-400">Responsable</TableHead>
               <TableHead
-                className="cursor-pointer font-bold text-slate-600 hover:text-slate-900 transition-colors"
+                className="cursor-pointer font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
                 onClick={() => handleSort('last_contact_date')}
               >
                 <div className="flex items-center space-x-1.5">
@@ -499,7 +499,7 @@ export function GymListClient() {
                 </div>
               </TableHead>
               <TableHead
-                className="cursor-pointer font-bold text-slate-600 hover:text-slate-900 transition-colors"
+                className="cursor-pointer font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
                 onClick={() => handleSort('next_followup_date')}
               >
                 <div className="flex items-center space-x-1.5">
@@ -507,7 +507,7 @@ export function GymListClient() {
                   <ArrowUpDown className="h-3.5 w-3.5 text-slate-400" />
                 </div>
               </TableHead>
-              <TableHead className="text-right font-bold text-slate-600">Acciones</TableHead>
+              <TableHead className="text-right font-bold text-slate-600 dark:text-slate-400">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -563,15 +563,15 @@ export function GymListClient() {
                   <TableRow
                     key={gym.id}
                     onClick={() => router.push(`/gyms/${gym.id}`)}
-                    className="cursor-pointer transition-colors hover:bg-slate-50/80 group"
+                    className="cursor-pointer transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/60 group"
                   >
                     {/* Name + City */}
                     <TableCell>
                       <div>
-                        <span className="font-bold text-sm text-slate-900 group-hover:text-blue-600 transition-colors">
+                        <span className="font-bold text-sm text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                           {gym.name}
                         </span>
-                        <div className="flex items-center space-x-2 text-xs text-slate-500 font-medium mt-0.5">
+                        <div className="flex items-center space-x-2 text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                           {gym.city && <span>{gym.city}</span>}
                           {gym.phone && <span>• {gym.phone}</span>}
                         </div>
@@ -609,10 +609,10 @@ export function GymListClient() {
                     <TableCell>
                       {gym.owner ? (
                         <div className="flex items-center space-x-2 text-xs">
-                          <div className="h-6 w-6 rounded-full bg-blue-50 text-blue-700 border border-blue-200/50 flex items-center justify-center font-bold text-2xs">
+                          <div className="h-6 w-6 rounded-full bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-200/50 dark:border-blue-800/50 flex items-center justify-center font-bold text-2xs">
                             {gym.owner.full_name.slice(0, 2).toUpperCase()}
                           </div>
-                          <span className="truncate max-w-[120px] font-medium text-slate-700">{gym.owner.full_name}</span>
+                          <span className="truncate max-w-[120px] font-medium text-slate-700 dark:text-slate-300">{gym.owner.full_name}</span>
                         </div>
                       ) : (
                         <span className="text-xs text-slate-400 font-medium">—</span>
@@ -620,7 +620,7 @@ export function GymListClient() {
                     </TableCell>
 
                     {/* Last contact */}
-                    <TableCell className="text-xs text-slate-500 font-medium">
+                    <TableCell className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                       {gym.last_contact_date ? formatDate(gym.last_contact_date) : '—'}
                     </TableCell>
 
@@ -630,8 +630,8 @@ export function GymListClient() {
                         <div
                           className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border ${
                             isOverdue
-                              ? 'text-rose-700 bg-rose-50 border-rose-200/80 shadow-2xs'
-                              : 'text-slate-700 bg-slate-50 border-slate-200/60'
+                              ? 'text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/50 border-rose-200/80 dark:border-rose-800/60 shadow-2xs'
+                              : 'text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 border-slate-200/60 dark:border-slate-700'
                           }`}
                         >
                           {isOverdue && <AlertCircle className="h-3.5 w-3.5 text-rose-500 shrink-0" />}
@@ -649,7 +649,7 @@ export function GymListClient() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg cursor-pointer"
+                          className="h-8 w-8 text-slate-400 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50 rounded-lg cursor-pointer"
                           asChild
                           title="Ver detalle"
                         >
@@ -661,7 +661,7 @@ export function GymListClient() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg cursor-pointer"
+                          className="h-8 w-8 text-slate-400 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg cursor-pointer"
                           asChild
                           title="Editar"
                         >
@@ -674,7 +674,7 @@ export function GymListClient() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg cursor-pointer"
+                            className="h-8 w-8 text-slate-400 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-lg cursor-pointer"
                             onClick={() => setGymToDelete(gym)}
                             title="Eliminar"
                           >
@@ -692,37 +692,37 @@ export function GymListClient() {
 
         {/* Pagination bar */}
         {!loading && gyms.length > 0 && (
-          <div className="flex items-center justify-between border-t border-slate-200/80 bg-slate-50/50 px-4 py-3 text-xs text-slate-500 font-medium">
+          <div className="flex items-center justify-between border-t border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 py-3 text-xs text-slate-500 dark:text-slate-400 font-medium">
             <div>
               Mostrando{' '}
-              <span className="font-bold text-slate-800">
+              <span className="font-bold text-slate-800 dark:text-slate-200">
                 {(page - 1) * pageSize + 1}
               </span>{' '}
               a{' '}
-              <span className="font-bold text-slate-800">
+              <span className="font-bold text-slate-800 dark:text-slate-200">
                 {Math.min(page * pageSize, gyms.length)}
               </span>{' '}
-              de <span className="font-bold text-slate-800">{gyms.length}</span> gimnasios
+              de <span className="font-bold text-slate-800 dark:text-slate-200">{gyms.length}</span> gimnasios
             </div>
 
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
                 size="sm"
-                className="h-7 px-2.5 rounded-xl border-slate-200 shadow-2xs font-semibold"
+                className="h-7 px-2.5 rounded-xl border-slate-200 dark:border-slate-700 shadow-2xs font-semibold"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1}
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:ml-1">Anterior</span>
               </Button>
-              <span className="text-xs font-bold text-slate-700 px-1">
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300 px-1">
                 Pág. {page} / {totalPages}
               </span>
               <Button
                 variant="outline"
                 size="sm"
-                className="h-7 px-2.5 rounded-xl border-slate-200 shadow-2xs font-semibold"
+                className="h-7 px-2.5 rounded-xl border-slate-200 dark:border-slate-700 shadow-2xs font-semibold"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages}
               >

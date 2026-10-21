@@ -194,13 +194,13 @@ export function TaskListClient() {
       {/* Top Header & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Tabs: Mis tareas vs Todas las tareas */}
-        <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-2xl border border-slate-200/80 shadow-2xs">
+        <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
           <button
             onClick={() => setViewTab('mine')}
             className={`px-4 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
               viewTab === 'mine'
-                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-2xs border border-slate-200/70 dark:border-slate-700'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Mis tareas
@@ -209,8 +209,8 @@ export function TaskListClient() {
             onClick={() => setViewTab('all')}
             className={`px-4 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
               viewTab === 'all'
-                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-2xs border border-slate-200/70 dark:border-slate-700'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Todas las tareas
@@ -225,7 +225,7 @@ export function TaskListClient() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-3">
+      <div className="bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-3">
         {/* Sub-filters chips */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs scrollbar-none">
           <button
@@ -233,8 +233,8 @@ export function TaskListClient() {
             className={cn(
               'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'all'
-                ? 'bg-slate-900 text-white shadow-2xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
+                ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xs'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
             )}
           >
             Todas
@@ -244,8 +244,8 @@ export function TaskListClient() {
             className={cn(
               'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'today'
-                ? 'bg-slate-900 text-white shadow-2xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
+                ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xs'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
             )}
           >
             Hoy
@@ -255,8 +255,8 @@ export function TaskListClient() {
             className={cn(
               'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'this_week'
-                ? 'bg-slate-900 text-white shadow-2xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
+                ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xs'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
             )}
           >
             Esta semana
@@ -267,7 +267,7 @@ export function TaskListClient() {
               'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 text-xs',
               subFilter === 'overdue'
                 ? 'bg-rose-600 text-white shadow-2xs'
-                : 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200/60'
+                : 'bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/50 border border-rose-200/60 dark:border-rose-800/60'
             )}
           >
             <AlertTriangle className="h-3 w-3" />
@@ -278,8 +278,8 @@ export function TaskListClient() {
             className={cn(
               'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'unassigned'
-                ? 'bg-slate-900 text-white shadow-2xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
+                ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xs'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
             )}
           >
             Sin responsable
@@ -290,7 +290,7 @@ export function TaskListClient() {
               'px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-xs',
               subFilter === 'blocked'
                 ? 'bg-amber-600 text-white shadow-2xs'
-                : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/60'
+                : 'bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 border border-amber-200/60 dark:border-amber-800/60'
             )}
           >
             Bloqueadas
@@ -298,7 +298,7 @@ export function TaskListClient() {
         </div>
 
         {/* Inputs row */}
-        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-100">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
           <div className="flex flex-wrap items-center gap-2 flex-1 min-w-[260px]">
             {/* Search */}
             <div className="relative w-64 min-w-[200px]">
@@ -308,7 +308,7 @@ export function TaskListClient() {
                 placeholder="Buscar por título de tarea..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-8 h-8 text-xs rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white"
+                className="pl-8 h-8 text-xs rounded-xl border-slate-200/90 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-900 focus:bg-white dark:focus:bg-slate-900"
               />
             </div>
 
@@ -318,7 +318,7 @@ export function TaskListClient() {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="h-8 rounded-xl border border-slate-200/90 bg-white px-2.5 text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:border-blue-500 cursor-pointer"
+                  className="h-8 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 px-2.5 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-2xs focus:outline-none focus:border-blue-500 cursor-pointer"
                 >
                   <option value="all">Todos los estados</option>
                   <option value="pending">Pendiente</option>
@@ -335,7 +335,7 @@ export function TaskListClient() {
               <select
                 value={priorityFilter}
                 onChange={(e) => setPriorityFilter(e.target.value)}
-                className="h-8 rounded-xl border border-slate-200/90 bg-white px-2.5 text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:border-blue-500 cursor-pointer"
+                className="h-8 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 px-2.5 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-2xs focus:outline-none focus:border-blue-500 cursor-pointer"
               >
                 <option value="all">Todas las prioridades</option>
                 <option value="urgent">Urgente</option>
@@ -351,7 +351,7 @@ export function TaskListClient() {
                 variant="ghost"
                 size="sm"
                 onClick={resetFilters}
-                className="h-8 text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-xl font-semibold cursor-pointer"
+                className="h-8 text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl font-semibold cursor-pointer"
               >
                 <RotateCcw className="h-3 w-3 mr-1" />
                 Limpiar filtros
@@ -360,14 +360,14 @@ export function TaskListClient() {
           </div>
 
           {/* Counter */}
-          <div className="text-xs text-slate-500 font-bold bg-slate-50 border border-slate-200/60 px-2.5 py-1 rounded-xl">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-bold bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700 px-2.5 py-1 rounded-xl">
             {totalTasks} {totalTasks === 1 ? 'tarea encontrada' : 'tareas encontradas'}
           </div>
         </div>
       </div>
 
       {/* Task List Table / Rows */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs overflow-hidden">
         {isLoading ? (
           <div className="p-4 space-y-3">
             {[1, 2, 3, 4, 5].map((i) => (
@@ -504,7 +504,7 @@ export function TaskListClient() {
                       className={cn(
                         'flex items-center gap-1 text-xs shrink-0 min-w-[85px] justify-end',
                         overdue
-                          ? 'text-rose-600 font-semibold bg-rose-50 px-1.5 py-0.5 rounded border border-rose-200'
+                          ? 'text-rose-600 dark:text-rose-300 font-semibold bg-rose-50 dark:bg-rose-950/50 px-1.5 py-0.5 rounded border border-rose-200 dark:border-rose-800'
                           : 'text-muted-foreground'
                       )}
                       title={`Fecha límite: ${task.due_date || 'Sin fecha'}`}

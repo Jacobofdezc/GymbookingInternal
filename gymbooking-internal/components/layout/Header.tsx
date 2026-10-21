@@ -96,27 +96,27 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
     : 'Miembro'
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/80 bg-white/80 px-4 md:px-6 backdrop-blur-md transition-colors">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 px-4 md:px-6 backdrop-blur-md transition-colors">
       {/* Left side: Mobile Toggle & Page Title */}
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
           onClick={onOpenMobileMenu}
-          className="md:hidden text-slate-600 hover:text-slate-900 rounded-xl"
+          className="md:hidden text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl"
           aria-label="Abrir navegación lateral"
         >
           <Menu className="h-5 w-5" />
         </Button>
 
         <div className="flex flex-col">
-          <h1 className="text-base md:text-lg font-bold text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-base md:text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight leading-tight">
             {currentTitle}
           </h1>
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-normal">
+          <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-400 font-normal">
             <span>GymBooking</span>
             <span>/</span>
-            <span className="capitalize text-slate-600 font-medium">
+            <span className="capitalize text-slate-600 dark:text-slate-300 font-medium">
               {pathname.split('/')[1] || 'Dashboard'}
             </span>
           </div>
@@ -130,13 +130,13 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent('open-command-menu'))}
-            className="flex items-center gap-2 rounded-xl border border-slate-200/90 bg-slate-100/60 hover:bg-slate-100/90 hover:border-slate-300 px-3 py-1.5 text-xs text-slate-500 hover:text-slate-700 transition-all w-56 justify-between cursor-pointer shadow-2xs"
+            className="flex items-center gap-2 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900 hover:bg-slate-100/90 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 px-3 py-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all w-56 justify-between cursor-pointer shadow-2xs"
           >
             <div className="flex items-center gap-2">
               <Search className="h-3.5 w-3.5 text-slate-400" />
               <span>Buscar gimnasio, lead...</span>
             </div>
-            <kbd className="rounded-md bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-500 border border-slate-200 shadow-2xs">
+            <kbd className="rounded-md bg-white dark:bg-slate-800 px-1.5 py-0.5 text-[10px] font-bold text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shadow-2xs">
               ⌘K
             </kbd>
           </button>
@@ -153,23 +153,23 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
-              className="flex items-center gap-2.5 px-2 py-1.5 h-auto text-left hover:bg-slate-100/80 rounded-xl focus-visible:ring-1 focus-visible:ring-blue-600 transition-colors"
+              className="flex items-center gap-2.5 px-2 py-1.5 h-auto text-left hover:bg-slate-100/80 dark:hover:bg-slate-900 rounded-xl focus-visible:ring-1 focus-visible:ring-blue-600 transition-colors"
             >
-              <Avatar className="h-8 w-8 border border-slate-200/90 shadow-2xs">
+              <Avatar className="h-8 w-8 border border-slate-200/90 dark:border-slate-700 shadow-2xs">
                 <AvatarImage
                   src={userProfile?.avatar_url || ''}
                   alt={userProfile?.full_name || 'Avatar'}
                 />
-                <AvatarFallback className="bg-blue-50 text-blue-700 text-xs font-bold border border-blue-200/50">
+                <AvatarFallback className="bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 text-xs font-bold border border-blue-200/50 dark:border-blue-800/50">
                   {getInitials(userProfile?.full_name, userProfile?.email)}
                 </AvatarFallback>
               </Avatar>
 
               <div className="hidden sm:flex flex-col text-left">
-                <span className="text-xs font-semibold text-slate-900 leading-none">
+                <span className="text-xs font-semibold text-slate-900 dark:text-slate-100 leading-none">
                   {userProfile?.full_name || userProfile?.email?.split('@')[0] || 'Usuario'}
                 </span>
-                <span className="text-[11px] text-slate-500 capitalize mt-0.5 font-medium">
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 capitalize mt-0.5 font-medium">
                   {roleLabel}
                 </span>
               </div>
@@ -178,13 +178,13 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="w-56 rounded-2xl border border-slate-200/90 bg-white p-1.5 shadow-xl" align="end" forceMount>
+          <DropdownMenuContent className="w-56 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-1.5 shadow-xl" align="end" forceMount>
             <DropdownMenuLabel className="font-normal px-2.5 py-2">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-bold text-slate-900 leading-none">
+                <p className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-none">
                   {userProfile?.full_name || 'Usuario'}
                 </p>
-                <p className="text-xs text-slate-500 leading-none truncate">
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-none truncate">
                   {userProfile?.email}
                 </p>
                 <div className="pt-1.5">
@@ -195,24 +195,24 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
               </div>
             </DropdownMenuLabel>
 
-            <DropdownMenuSeparator className="bg-slate-100" />
+            <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800" />
 
             <DropdownMenuGroup className="space-y-0.5">
-              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 hover:text-slate-900 hover:bg-slate-100/70">
+              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800">
                 <Link href="/settings" className="flex items-center">
                   <Settings className="mr-2 h-4 w-4 text-slate-400" />
                   <span>Configuración</span>
                 </Link>
               </DropdownMenuItem>
 
-              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 hover:text-slate-900 hover:bg-slate-100/70">
+              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800">
                 <Link href="/team" className="flex items-center">
                   <Building className="mr-2 h-4 w-4 text-slate-400" />
                   <span>Organización y Equipo</span>
                 </Link>
               </DropdownMenuItem>
 
-              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 hover:text-slate-900 hover:bg-slate-100/70">
+              <DropdownMenuItem asChild className="rounded-xl px-2.5 py-2 text-xs font-medium cursor-pointer text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800">
                 <Link href="/knowledge" className="flex items-center">
                   <HelpCircle className="mr-2 h-4 w-4 text-slate-400" />
                   <span>Ayuda & Documentación</span>
@@ -220,12 +220,12 @@ export function Header({ userProfile, onOpenMobileMenu }: HeaderProps) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
 
-            <DropdownMenuSeparator className="bg-slate-100" />
+            <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800" />
 
             <DropdownMenuItem
               onClick={handleSignOut}
               disabled={isSigningOut}
-              className="rounded-xl px-2.5 py-2 text-xs font-medium text-rose-600 focus:text-rose-600 focus:bg-rose-50 cursor-pointer"
+              className="rounded-xl px-2.5 py-2 text-xs font-medium text-rose-600 dark:text-rose-400 focus:text-rose-600 dark:focus:text-rose-300 focus:bg-rose-50 dark:focus:bg-rose-950/50 cursor-pointer"
             >
               <LogOut className="mr-2 h-4 w-4 text-rose-500" />
               <span>{isSigningOut ? 'Cerrando sesión...' : 'Cerrar sesión'}</span>

@@ -426,16 +426,16 @@ export function SettingsClient({
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Top Header */}
       <div>
-        <h1 className="text-2xl font-black tracking-tight text-slate-900">
+        <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100">
           Configuración
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
           Ajustes de cuenta, preferencias de organización, estados y parámetros del sistema.
         </p>
       </div>
 
       <Tabs defaultValue="profile" className="space-y-6">
-        <TabsList className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80 shadow-2xs flex-wrap h-auto gap-1">
+        <TabsList className="bg-slate-100/90 dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs flex-wrap h-auto gap-1">
           <TabsTrigger value="profile" className="text-xs font-bold gap-2 rounded-xl cursor-pointer">
             <User className="w-3.5 h-3.5" />
             Perfil
@@ -484,12 +484,12 @@ export function SettingsClient({
 
         {/* TAB 1: PERFIL */}
         <TabsContent value="profile" className="space-y-6">
-          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-6 space-y-6">
-            <div className="border-b border-slate-100 pb-4">
-              <h3 className="text-base font-bold text-slate-900">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs p-6 space-y-6">
+            <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                 Información personal
               </h3>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                 Datos visibles para otros miembros del equipo en el CRM.
               </p>
             </div>
@@ -498,14 +498,14 @@ export function SettingsClient({
               <div
                 className={`flex items-center gap-2 p-3 text-xs rounded-xl border ${
                   profileMessage.type === 'success'
-                    ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                    : 'bg-red-50 text-red-800 border-red-200'
+                    ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-900/60'
+                    : 'bg-red-50 dark:bg-red-950/50 text-red-800 dark:text-red-200 border-red-200 dark:border-red-900/60'
                 }`}
               >
                 {profileMessage.type === 'success' ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 ) : (
-                  <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+                  <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
                 )}
                 <span>{profileMessage.text}</span>
               </div>
@@ -526,10 +526,10 @@ export function SettingsClient({
                   )}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
                     {currentUser.full_name}
                   </h4>
-                  <p className="text-xs text-gray-400 capitalize">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">
                     Rol: {currentUser.role} • Organización: {organization.name}
                   </p>
                 </div>
@@ -539,7 +539,7 @@ export function SettingsClient({
                 <div>
                   <Label
                     htmlFor="full-name"
-                    className="text-xs font-semibold text-gray-700"
+                    className="text-xs font-semibold text-slate-700 dark:text-slate-300"
                   >
                     Nombre completo
                   </Label>
@@ -556,11 +556,11 @@ export function SettingsClient({
                   <div className="flex items-center justify-between">
                     <Label
                       htmlFor="email"
-                      className="text-xs font-semibold text-gray-700"
+                      className="text-xs font-semibold text-slate-700 dark:text-slate-300"
                     >
                       Correo electrónico
                     </Label>
-                    <span className="text-[10px] text-gray-400">
+                    <span className="text-[10px] text-slate-400 dark:text-slate-500">
                       Identificador de acceso
                     </span>
                   </div>
@@ -568,7 +568,7 @@ export function SettingsClient({
                     id="email"
                     value={currentUser.email}
                     disabled
-                    className="mt-1 bg-gray-50/70 text-gray-500 cursor-not-allowed text-sm rounded-xl"
+                    className="mt-1 bg-slate-50/70 dark:bg-slate-950/70 text-slate-500 dark:text-slate-400 cursor-not-allowed text-sm rounded-xl"
                   />
                 </div>
               </div>
@@ -595,12 +595,12 @@ export function SettingsClient({
         {isAdmin && (
           <TabsContent value="organization" className="space-y-6">
             {/* Org General Settings */}
-            <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-4">
-              <div className="border-b border-gray-100 pb-3">
-                <h3 className="text-base font-bold text-gray-900">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs p-6 space-y-4">
+              <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                   Datos de la Organización
                 </h3>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Nombre e identificador del espacio de trabajo.
                 </p>
               </div>
@@ -609,11 +609,11 @@ export function SettingsClient({
                 <div
                   className={`flex items-center gap-2 p-3 text-xs rounded-xl border ${
                     orgMessage.type === 'success'
-                      ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                      : 'bg-red-50 text-red-800 border-red-200'
+                      ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-900/60'
+                      : 'bg-red-50 dark:bg-red-950/50 text-red-800 dark:text-red-200 border-red-200 dark:border-red-900/60'
                   }`}
                 >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>{orgMessage.text}</span>
                 </div>
               )}
@@ -623,7 +623,7 @@ export function SettingsClient({
                   <div>
                     <Label
                       htmlFor="org-name"
-                      className="text-xs font-semibold text-gray-700"
+                      className="text-xs font-semibold text-slate-700 dark:text-slate-300"
                     >
                       Nombre de la empresa
                     </Label>
@@ -638,7 +638,7 @@ export function SettingsClient({
                   <div>
                     <Label
                       htmlFor="org-slug"
-                      className="text-xs font-semibold text-gray-700"
+                      className="text-xs font-semibold text-slate-700 dark:text-slate-300"
                     >
                       Slug (Identificador URL)
                     </Label>
@@ -646,7 +646,7 @@ export function SettingsClient({
                       id="org-slug"
                       value={organization.slug}
                       disabled
-                      className="mt-1 bg-gray-50 text-gray-400 cursor-not-allowed text-sm rounded-xl"
+                      className="mt-1 bg-slate-50/70 dark:bg-slate-950/70 text-slate-400 dark:text-slate-500 cursor-not-allowed text-sm rounded-xl"
                     />
                   </div>
                 </div>
@@ -669,17 +669,17 @@ export function SettingsClient({
             </div>
 
             {/* Demo Data Seeder Box */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50/50 rounded-2xl border border-blue-200/80 p-5 space-y-3">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50/50 dark:from-blue-950/40 dark:to-indigo-950/30 rounded-2xl border border-blue-200/80 dark:border-blue-900/60 p-5 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 bg-blue-100 text-blue-700 rounded-lg">
-                    <Sparkles className="w-5 h-5 text-amber-600" />
+                  <div className="p-2 bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 rounded-lg">
+                    <Sparkles className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 text-sm">
+                    <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm">
                       Poblado de Datos de Demostración
                     </h4>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-slate-600 dark:text-slate-300">
                       Carga un lote de 6 gimnasios con contactos directores, tareas, etapas del embudo comercial e incidencias técnicas.
                     </p>
                   </div>
@@ -701,8 +701,8 @@ export function SettingsClient({
               </div>
 
               {seedNotice && (
-                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="p-3 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/60 rounded-xl text-xs text-emerald-800 dark:text-emerald-200 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   <span>{seedNotice}</span>
                 </div>
               )}
@@ -714,24 +714,24 @@ export function SettingsClient({
         {isAdmin && (
           <TabsContent value="statuses" className="space-y-6">
             {/* Commercial Statuses Management */}
-            <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-4">
-              <div className="border-b border-gray-100 pb-3 flex items-center justify-between">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs p-6 space-y-4">
+              <div className="border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center justify-between">
                 <div>
-                  <h3 className="text-base font-bold text-gray-900">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                     Estados Comerciales (Pipeline de Gimnasios)
                   </h3>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     Define las fases del embudo comercial, reordena etapas y añade nuevos estados.
                   </p>
                 </div>
               </div>
 
               {/* List */}
-              <div className="divide-y divide-gray-100 border border-gray-100 rounded-xl overflow-hidden">
+              <div className="divide-y divide-slate-100 dark:divide-slate-800 border border-slate-100 dark:border-slate-800 rounded-xl overflow-hidden">
                 {commercialStatuses.map((st, idx) => (
                   <div
                     key={st.id}
-                    className="p-3.5 flex items-center justify-between bg-white hover:bg-gray-50/50 transition-colors"
+                    className="p-3.5 flex items-center justify-between bg-white dark:bg-slate-900 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <div className="flex flex-col gap-0.5">
@@ -739,7 +739,7 @@ export function SettingsClient({
                           type="button"
                           onClick={() => handleMoveCommercial(idx, 'up')}
                           disabled={idx === 0}
-                          className="p-0.5 text-gray-400 hover:text-gray-700 disabled:opacity-20 cursor-pointer"
+                          className="p-0.5 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 disabled:opacity-20 cursor-pointer"
                           title="Subir posición"
                         >
                           <ArrowUp className="w-3.5 h-3.5" />
@@ -748,7 +748,7 @@ export function SettingsClient({
                           type="button"
                           onClick={() => handleMoveCommercial(idx, 'down')}
                           disabled={idx === commercialStatuses.length - 1}
-                          className="p-0.5 text-gray-400 hover:text-gray-700 disabled:opacity-20 cursor-pointer"
+                          className="p-0.5 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 disabled:opacity-20 cursor-pointer"
                           title="Bajar posición"
                         >
                           <ArrowDown className="w-3.5 h-3.5" />
@@ -761,17 +761,17 @@ export function SettingsClient({
                       />
 
                       <div>
-                        <span className="text-sm font-bold text-gray-800">
+                        <span className="text-sm font-bold text-slate-800 dark:text-slate-100">
                           {st.name}
                         </span>
                         <div className="flex items-center gap-2 mt-0.5">
                           {st.is_pipeline_stage && (
-                            <span className="text-[10px] bg-blue-50 text-blue-700 border border-blue-200 px-1.5 py-0.2 rounded font-medium">
+                            <span className="text-[10px] bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 px-1.5 py-0.2 rounded font-medium">
                               En Pipeline
                             </span>
                           )}
                           {!st.is_active && (
-                            <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.2 rounded font-medium">
+                            <span className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-1.5 py-0.2 rounded font-medium">
                               Inactivo
                             </span>
                           )}
@@ -785,7 +785,7 @@ export function SettingsClient({
                         variant="ghost"
                         size="sm"
                         onClick={() => handleToggleCommercialActive(st)}
-                        className="text-xs h-7 text-gray-500 rounded-lg cursor-pointer"
+                        className="text-xs h-7 text-slate-500 dark:text-slate-400 rounded-lg cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800"
                       >
                         {st.is_active ? 'Desactivar' : 'Activar'}
                       </Button>
@@ -795,8 +795,8 @@ export function SettingsClient({
               </div>
 
               {/* Add form */}
-              <div className="bg-gray-50 p-4 rounded-xl space-y-3">
-                <span className="text-xs font-bold text-gray-700 block">
+              <div className="bg-slate-50 dark:bg-slate-950/50 p-4 rounded-xl border border-slate-200/70 dark:border-slate-800 space-y-3">
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
                   Añadir nuevo estado comercial
                 </span>
                 <div className="flex flex-wrap items-center gap-3">
@@ -804,7 +804,7 @@ export function SettingsClient({
                     value={newCommName}
                     onChange={(e) => setNewCommName(e.target.value)}
                     placeholder="Nombre del estado (Ej. Negociación avanzada)"
-                    className="text-xs max-w-xs bg-white rounded-xl"
+                    className="text-xs max-w-xs rounded-xl"
                   />
 
                   {/* Color picker circles */}
@@ -815,7 +815,7 @@ export function SettingsClient({
                         type="button"
                         onClick={() => setNewCommColor(col)}
                         className={`w-5 h-5 rounded-full transition-transform cursor-pointer ${
-                          newCommColor === col ? 'scale-125 ring-2 ring-gray-800' : ''
+                          newCommColor === col ? 'scale-125 ring-2 ring-slate-800 dark:ring-slate-100' : ''
                         }`}
                         style={{ backgroundColor: col }}
                       />
@@ -837,28 +837,28 @@ export function SettingsClient({
             </div>
 
             {/* Onboarding Statuses Management */}
-            <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-4">
-              <div className="border-b border-gray-100 pb-3">
-                <h3 className="text-base font-bold text-gray-900">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs p-6 space-y-4">
+              <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                   Estados de Onboarding
                 </h3>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Fases de integración técnica, carga de clases y publicación.
                 </p>
               </div>
 
-              <div className="divide-y divide-gray-100 border border-gray-100 rounded-xl overflow-hidden">
+              <div className="divide-y divide-slate-100 dark:divide-slate-800 border border-slate-100 dark:border-slate-800 rounded-xl overflow-hidden">
                 {onboardingStatuses.map((st) => (
                   <div
                     key={st.id}
-                    className="p-3.5 flex items-center justify-between bg-white hover:bg-gray-50/50 transition-colors"
+                    className="p-3.5 flex items-center justify-between bg-white dark:bg-slate-900 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <span
                         className="w-3.5 h-3.5 rounded-full shrink-0 shadow-2xs"
                         style={{ backgroundColor: st.color }}
                       />
-                      <span className="text-sm font-bold text-gray-800">
+                      <span className="text-sm font-bold text-slate-800 dark:text-slate-100">
                         {st.name}
                       </span>
                     </div>
@@ -866,8 +866,8 @@ export function SettingsClient({
                     <span
                       className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
                         st.is_active
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          : 'bg-gray-100 text-gray-500'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                       }`}
                     >
                       {st.is_active ? 'Activo' : 'Inactivo'}
@@ -877,12 +877,12 @@ export function SettingsClient({
               </div>
 
               {/* Add Onboarding status */}
-              <div className="bg-gray-50 p-4 rounded-xl flex flex-wrap items-center gap-3">
+              <div className="bg-slate-50 dark:bg-slate-950/50 p-4 rounded-xl border border-slate-200/70 dark:border-slate-800 flex flex-wrap items-center gap-3">
                 <Input
                   value={newOnbName}
                   onChange={(e) => setNewOnbName(e.target.value)}
                   placeholder="Nuevo estado de onboarding..."
-                  className="text-xs max-w-xs bg-white rounded-xl"
+                  className="text-xs max-w-xs rounded-xl"
                 />
                 <Button
                   type="button"
@@ -902,12 +902,12 @@ export function SettingsClient({
         {/* TAB 4: DISCIPLINAS (Admin Only) */}
         {isAdmin && (
           <TabsContent value="disciplines" className="space-y-6">
-            <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-4">
-              <div className="border-b border-gray-100 pb-3">
-                <h3 className="text-base font-bold text-gray-900">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs p-6 space-y-4">
+              <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                   Disciplinas Deportivas
                 </h3>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Catálogo de actividades disponibles para asociar a gimnasios y clases.
                 </p>
               </div>
@@ -916,13 +916,13 @@ export function SettingsClient({
                 {disciplines.map((d) => (
                   <span
                     key={d.id}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border bg-blue-50 text-blue-700 border-blue-200 shadow-2xs"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold border bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 shadow-2xs"
                   >
                     <span>{d.name}</span>
                     <button
                       type="button"
                       onClick={() => handleDeleteDiscipline(d)}
-                      className="text-gray-400 hover:text-red-600 font-bold ml-1 cursor-pointer transition-colors"
+                      className="text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 font-bold ml-1 cursor-pointer transition-colors"
                       title="Eliminar disciplina"
                     >
                       ×
@@ -931,12 +931,12 @@ export function SettingsClient({
                 ))}
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-xl flex items-center gap-3 max-w-md">
+              <div className="bg-slate-50 dark:bg-slate-950/50 p-4 rounded-xl border border-slate-200/70 dark:border-slate-800 flex items-center gap-3 max-w-md">
                 <Input
                   value={newDisciplineName}
                   onChange={(e) => setNewDisciplineName(e.target.value)}
                   placeholder="Ej. CrossFit, Pádel, Yoga..."
-                  className="text-xs bg-white rounded-xl"
+                  className="text-xs rounded-xl"
                 />
                 <Button
                   type="button"
@@ -955,26 +955,26 @@ export function SettingsClient({
 
         {/* TAB 5: ACCESO Y SEGURIDAD */}
         <TabsContent value="security" className="space-y-6">
-          <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6 space-y-6">
-            <div className="border-b border-gray-100 pb-4">
-              <h3 className="text-base font-bold text-gray-900">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs p-6 space-y-6">
+            <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                 Sesión y Seguridad de la cuenta
               </h3>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Control de sesión activa y parámetros de autenticación.
               </p>
             </div>
 
             <div className="space-y-4">
-              <div className="bg-gray-50 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="bg-slate-50 dark:bg-slate-950/50 border border-slate-200/60 dark:border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h4 className="text-xs font-bold text-gray-900">
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">
                     Sesión iniciada
                   </h4>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    Conectado como <strong className="text-gray-800">{currentUser.email}</strong>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    Conectado como <strong className="text-slate-800 dark:text-slate-200">{currentUser.email}</strong>
                   </p>
-                  <span className="text-[11px] text-gray-400 block mt-1">
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500 block mt-1">
                     Rol activo: {currentUser.role} • Organización ID: {organization.id}
                   </span>
                 </div>
@@ -985,7 +985,7 @@ export function SettingsClient({
                   size="sm"
                   onClick={handleSignOut}
                   disabled={loggingOut}
-                  className="text-xs text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 gap-1.5 self-start sm:self-auto rounded-xl cursor-pointer"
+                  className="text-xs text-red-600 dark:text-red-400 border-red-200 dark:border-red-900/60 hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-700 dark:hover:text-red-300 gap-1.5 self-start sm:self-auto rounded-xl cursor-pointer"
                 >
                   {loggingOut ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -996,9 +996,9 @@ export function SettingsClient({
                 </Button>
               </div>
 
-              <div className="border border-gray-100 rounded-xl p-4 text-xs text-gray-500 space-y-2">
-                <div className="flex items-center gap-2 text-gray-800 font-semibold">
-                  <Lock className="w-4 h-4 text-blue-600" />
+              <div className="border border-slate-200/70 dark:border-slate-800 rounded-xl p-4 text-xs text-slate-500 dark:text-slate-400 space-y-2">
+                <div className="flex items-center gap-2 text-slate-800 dark:text-slate-200 font-semibold">
+                  <Lock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span>Políticas de acceso</span>
                 </div>
                 <p>

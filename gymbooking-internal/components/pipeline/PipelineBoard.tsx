@@ -266,7 +266,7 @@ export function PipelineBoard() {
   return (
     <div className="flex flex-col h-full space-y-4">
       {/* Filters Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
         <div className="flex flex-wrap items-center gap-2.5 flex-1 min-w-[280px]">
           {/* Search Input */}
           <div className="relative w-64 min-w-[200px]">
@@ -276,7 +276,7 @@ export function PipelineBoard() {
               placeholder="Buscar por gimnasio o ciudad..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 h-9 text-xs rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white transition-colors"
+              className="pl-9 h-9 text-xs rounded-xl border-slate-200/90 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-900 focus:bg-white dark:focus:bg-slate-900 transition-colors"
             />
           </div>
 
@@ -286,7 +286,7 @@ export function PipelineBoard() {
             <select
               value={selectedOwner}
               onChange={(e) => setSelectedOwner(e.target.value)}
-              className="h-9 rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+              className="h-9 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-2xs focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Todos los responsables</option>
               <option value="unassigned">Sin responsable</option>
@@ -304,7 +304,7 @@ export function PipelineBoard() {
             <select
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
-              className="h-9 rounded-xl border border-slate-200/90 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+              className="h-9 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-2xs focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             >
               <option value="all">Todas las prioridades</option>
               <option value="urgent">Urgente</option>
@@ -320,7 +320,7 @@ export function PipelineBoard() {
               variant="ghost"
               size="sm"
               onClick={resetFilters}
-              className="h-9 text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-xl font-semibold cursor-pointer"
+              className="h-9 text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl font-semibold cursor-pointer"
             >
               <RotateCcw className="h-3.5 w-3.5 mr-1" />
               Limpiar
@@ -329,8 +329,8 @@ export function PipelineBoard() {
         </div>
 
         {/* Counter badge */}
-        <div className="flex items-center gap-2 text-xs font-bold shrink-0 bg-slate-100/80 border border-slate-200/70 text-slate-700 px-3 py-1.5 rounded-xl shadow-2xs">
-          <Building2 className="h-4 w-4 text-blue-600" />
+        <div className="flex items-center gap-2 text-xs font-bold shrink-0 bg-slate-100/80 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700 text-slate-700 dark:text-slate-200 px-3 py-1.5 rounded-xl shadow-2xs">
+          <Building2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
           <span>
             {totalGyms} {totalGyms === 1 ? 'gimnasio' : 'gimnasios'} en pipeline
           </span>

@@ -11,6 +11,7 @@ import { InteractionForm } from '@/components/interactions/InteractionForm'
 import { TaskFormModal } from '@/components/tasks/TaskFormModal'
 import { IssueForm } from '@/components/issues/IssueForm'
 import { AddToCalendarButton } from '@/components/calendar/AddToCalendarButton'
+import { StatusBadge } from '@/components/gyms/StatusBadge'
 import { seedDemoDataForOrganization } from '@/services/demo/demo-seed.service'
 import {
   AlertTriangle,
@@ -254,80 +255,80 @@ export function DashboardClient({ stats }: DashboardClientProps) {
       {/* Top KPI Cards (2 rows of 3) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Card 1: Total gimnasios */}
-        <Card className="hover:border-blue-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border border-slate-200/90 rounded-2xl">
+        <Card className="hover:border-blue-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Total gimnasios registrados
             </CardTitle>
-            <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600 border border-blue-200/60 shadow-2xs">
+            <div className="p-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-800/60 shadow-2xs">
               <Building2 className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black tracking-tight text-slate-900">
+            <div className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">
               {stats.totalGyms}
             </div>
-            <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
-              <span className="font-semibold text-slate-700">{stats.pendingTasksCount}</span> tareas pendientes globales
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+              <span className="font-semibold text-slate-700 dark:text-slate-300">{stats.pendingTasksCount}</span> tareas pendientes globales
             </p>
           </CardContent>
         </Card>
 
         {/* Card 2: Gimnasios en proceso comercial */}
-        <Card className="hover:border-indigo-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border border-slate-200/90 rounded-2xl">
+        <Card className="hover:border-indigo-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               En proceso comercial
             </CardTitle>
-            <div className="p-2.5 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200/60 shadow-2xs">
+            <div className="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60 shadow-2xs">
               <TrendingUp className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black tracking-tight text-slate-900">
+            <div className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">
               {stats.commercialInProcessCount}
             </div>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Contactados, reuniones o propuestas
             </p>
           </CardContent>
         </Card>
 
         {/* Card 3: Gimnasios confirmados */}
-        <Card className="hover:border-amber-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border border-slate-200/90 rounded-2xl">
+        <Card className="hover:border-amber-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Gimnasios confirmados
             </CardTitle>
-            <div className="p-2.5 rounded-xl bg-amber-50 text-amber-600 border border-amber-200/60 shadow-2xs">
+            <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/70 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/60 shadow-2xs">
               <CheckCircle2 className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black tracking-tight text-slate-900">
+            <div className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">
               {stats.confirmedGymsCount}
             </div>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Acuerdo cerrado, listos para onboarding
             </p>
           </CardContent>
         </Card>
 
         {/* Card 4: Activos en plataforma */}
-        <Card className="hover:border-emerald-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border border-slate-200/90 rounded-2xl">
+        <Card className="hover:border-emerald-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Activos en plataforma
             </CardTitle>
-            <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 shadow-2xs">
+            <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/60 shadow-2xs">
               <Dumbbell className="h-5 w-5" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black tracking-tight text-slate-900">
+            <div className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-100">
               {stats.activeGymsCount}
             </div>
-            <p className="text-xs text-emerald-700 mt-1 font-semibold flex items-center gap-1">
+            <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-1 font-semibold flex items-center gap-1">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
               Publicados y recibiendo reservas
             </p>
@@ -336,21 +337,21 @@ export function DashboardClient({ stats }: DashboardClientProps) {
 
         {/* Card 5: Tareas vencidas */}
         <Card
-          className={`hover:border-rose-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border rounded-2xl ${
+          className={`hover:border-rose-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white dark:bg-slate-900 border rounded-2xl ${
             stats.overdueTasksCount > 0
-              ? 'border-rose-300 bg-rose-50/15'
-              : 'border-slate-200/90'
+              ? 'border-rose-300 dark:border-rose-900/60 bg-rose-50/15 dark:bg-rose-950/20'
+              : 'border-slate-200/90 dark:border-slate-800'
           }`}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Tareas vencidas
             </CardTitle>
             <div
               className={`p-2.5 rounded-xl border shadow-2xs ${
                 stats.overdueTasksCount > 0
-                  ? 'bg-rose-50 text-rose-600 border-rose-200/60'
-                  : 'bg-slate-50 text-slate-500 border-slate-200/60'
+                  ? 'bg-rose-50 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400 border-rose-200/60 dark:border-rose-800/60'
+                  : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200/60 dark:border-slate-700'
               }`}
             >
               <AlertTriangle className="h-5 w-5" />
@@ -359,12 +360,12 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           <CardContent>
             <div
               className={`text-3xl font-black tracking-tight ${
-                stats.overdueTasksCount > 0 ? 'text-rose-600' : 'text-slate-900'
+                stats.overdueTasksCount > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-slate-100'
               }`}
             >
               {stats.overdueTasksCount}
             </div>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               {stats.overdueTasksCount > 0 ? 'Requieren atención inmediata' : 'Al día, sin retrasos'}
             </p>
           </CardContent>
@@ -372,21 +373,21 @@ export function DashboardClient({ stats }: DashboardClientProps) {
 
         {/* Card 6: Incidencias abiertas */}
         <Card
-          className={`hover:border-amber-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white border rounded-2xl ${
+          className={`hover:border-amber-400/80 transition-all duration-200 shadow-2xs hover:shadow-md bg-white dark:bg-slate-900 border rounded-2xl ${
             stats.openIssuesCount > 0
-              ? 'border-amber-300 bg-amber-50/15'
-              : 'border-slate-200/90'
+              ? 'border-amber-300 dark:border-amber-900/60 bg-amber-50/15 dark:bg-amber-950/20'
+              : 'border-slate-200/90 dark:border-slate-800'
           }`}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <CardTitle className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
               Incidencias abiertas
             </CardTitle>
             <div
               className={`p-2.5 rounded-xl border shadow-2xs ${
                 stats.openIssuesCount > 0
-                  ? 'bg-amber-50 text-amber-700 border-amber-200/60'
-                  : 'bg-slate-50 text-slate-500 border-slate-200/60'
+                  ? 'bg-amber-50 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 border-amber-200/60 dark:border-amber-800/60'
+                  : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200/60 dark:border-slate-700'
               }`}
             >
               <ShieldAlert className="h-5 w-5" />
@@ -395,12 +396,12 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           <CardContent>
             <div
               className={`text-3xl font-black tracking-tight ${
-                stats.openIssuesCount > 0 ? 'text-amber-700' : 'text-slate-900'
+                stats.openIssuesCount > 0 ? 'text-amber-700 dark:text-amber-400' : 'text-slate-900 dark:text-slate-100'
               }`}
             >
               {stats.openIssuesCount}
             </div>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               {stats.openIssuesCount > 0 ? 'Pendientes de resolución' : 'Sin problemas activos'}
             </p>
           </CardContent>
@@ -409,14 +410,14 @@ export function DashboardClient({ stats }: DashboardClientProps) {
 
       {/* Pipeline Funnel & Stage Breakdown */}
       {stats.funnelBreakdown && stats.funnelBreakdown.length > 0 && (
-        <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
-          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-100 bg-slate-50/60 p-5">
+        <Card className="shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/60 p-5">
             <div>
-              <CardTitle className="text-base font-black text-slate-900 flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-blue-600" />
+              <CardTitle className="text-base font-black text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 Embudo de Conversión Comercial
               </CardTitle>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                 Progreso de los centros deportivos a través de las etapas del ciclo comercial y activación
               </p>
             </div>
@@ -424,7 +425,7 @@ export function DashboardClient({ stats }: DashboardClientProps) {
               variant="outline"
               size="sm"
               asChild
-              className="text-xs font-bold rounded-xl border-slate-200/90 shadow-2xs hover:bg-white text-slate-700 hover:text-blue-600 self-start sm:self-auto cursor-pointer"
+              className="text-xs font-bold rounded-xl border-slate-200/90 dark:border-slate-700 shadow-2xs hover:bg-white dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 self-start sm:self-auto cursor-pointer"
             >
               <Link href="/pipeline">
                 Ver Tablero Kanban
@@ -443,10 +444,10 @@ export function DashboardClient({ stats }: DashboardClientProps) {
                 return (
                   <div
                     key={step.stageKey}
-                    className="p-3.5 rounded-xl border border-slate-200/70 bg-slate-50/50 hover:bg-white hover:border-slate-300 hover:shadow-2xs transition-all space-y-2 group"
+                    className="p-3.5 rounded-xl border border-slate-200/70 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/60 hover:bg-white dark:hover:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-2xs transition-all space-y-2 group"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors">
+                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">
                         Etapa 0{idx + 1}
                       </span>
                       <span
@@ -456,20 +457,20 @@ export function DashboardClient({ stats }: DashboardClientProps) {
                     </div>
 
                     <div>
-                      <div className="text-2xl font-black text-slate-900 tracking-tight">
+                      <div className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">
                         {step.count}
                       </div>
-                      <span className="text-xs font-bold text-slate-700 block truncate" title={step.name}>
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block truncate" title={step.name}>
                         {step.name}
                       </span>
                     </div>
 
                     <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[10px] text-slate-400 font-medium">
+                      <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-400 font-medium">
                         <span>Del total</span>
-                        <span className="font-bold text-slate-700">{percentage}%</span>
+                        <span className="font-bold text-slate-700 dark:text-slate-300">{percentage}%</span>
                       </div>
-                      <div className="w-full bg-slate-200/70 h-1.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-slate-200/70 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-300"
                           style={{
@@ -492,18 +493,18 @@ export function DashboardClient({ stats }: DashboardClientProps) {
         {/* LEFT COLUMN */}
         <div className="space-y-6">
           {/* Próximos seguimientos */}
-          <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 bg-slate-50/60 p-4.5">
+          <Card className="shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/60 p-4.5">
               <div>
-                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-blue-600" />
+                <CardTitle className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   Próximos seguimientos
                 </CardTitle>
-                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                   Gimnasios con fecha de contacto en los próximos 7 días
                 </p>
               </div>
-              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white text-slate-600 hover:text-slate-900">
+              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
                 <Link href="/interactions">
                   Ver todas
                   <ArrowRight className="h-3.5 w-3.5 ml-1" />
@@ -512,26 +513,26 @@ export function DashboardClient({ stats }: DashboardClientProps) {
             </CardHeader>
             <CardContent className="p-4 space-y-2">
               {stats.upcomingFollowups.length === 0 ? (
-                <div className="py-8 text-center text-xs text-slate-400 font-medium">
+                <div className="py-8 text-center text-xs text-slate-400 dark:text-slate-500 font-medium">
                   No hay seguimientos programados en los próximos 7 días.
                 </div>
               ) : (
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-slate-100 dark:divide-slate-800">
                   {stats.upcomingFollowups.map((gym) => (
                     <div
                       key={gym.id}
-                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 px-2.5 rounded-xl transition-colors"
+                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 dark:hover:bg-slate-800/60 px-2.5 rounded-xl transition-colors"
                     >
                       <div className="min-w-0">
                         <Link
                           href={`/gyms/${gym.id}`}
-                          className="font-bold text-slate-800 hover:text-blue-600 transition-colors line-clamp-1 flex items-center gap-1.5"
+                          className="font-bold text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors line-clamp-1 flex items-center gap-1.5"
                         >
                           <Building2 className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                           {gym.name}
                         </Link>
                         {gym.next_action && (
-                          <p className="text-xs text-slate-500 line-clamp-1 mt-0.5 font-medium">
+                          <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5 font-medium">
                             Acción: {gym.next_action}
                           </p>
                         )}
@@ -543,7 +544,7 @@ export function DashboardClient({ stats }: DashboardClientProps) {
                             {formatDate(gym.next_followup_date)}
                           </span>
                           {gym.owner && (
-                            <span className="text-xs text-slate-500 font-medium flex items-center gap-1 justify-end">
+                            <span className="text-xs text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1 justify-end">
                               <User className="h-3 w-3 text-slate-400" />
                               {gym.owner.full_name}
                             </span>
@@ -570,18 +571,18 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           </Card>
 
           {/* Tareas que vencen hoy */}
-          <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 bg-slate-50/60 p-4.5">
+          <Card className="shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/60 p-4.5">
               <div>
-                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-blue-600" />
+                <CardTitle className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   Tareas que vencen hoy
                 </CardTitle>
-                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                   Obligaciones con fecha límite para el día de hoy
                 </p>
               </div>
-              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white text-slate-600 hover:text-slate-900">
+              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
                 <Link href="/tasks">
                   Ver tareas
                   <ArrowRight className="h-3.5 w-3.5 ml-1" />
@@ -590,34 +591,34 @@ export function DashboardClient({ stats }: DashboardClientProps) {
             </CardHeader>
             <CardContent className="p-4 space-y-2">
               {stats.tasksDueToday.length === 0 ? (
-                <div className="py-8 text-center text-xs text-slate-400 font-medium">
+                <div className="py-8 text-center text-xs text-slate-400 dark:text-slate-500 font-medium">
                   No hay tareas que venzan hoy.
                 </div>
               ) : (
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-slate-100 dark:divide-slate-800">
                   {stats.tasksDueToday.map((task) => (
                     <div
                       key={task.id}
-                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 px-2.5 rounded-xl transition-colors"
+                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 dark:hover:bg-slate-800/60 px-2.5 rounded-xl transition-colors"
                     >
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
                           <Badge variant={priorityBadges[task.priority]?.variant || 'outline'}>
                             {priorityBadges[task.priority]?.label || task.priority}
                           </Badge>
-                          <span className="font-bold text-slate-800 line-clamp-1">
+                          <span className="font-bold text-slate-800 dark:text-slate-200 line-clamp-1">
                             {task.title}
                           </span>
                         </div>
                         {task.gym && (
-                          <span className="text-xs text-slate-500 font-medium mt-0.5 block">
+                          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5 block">
                             Gimnasio: {task.gym.name}
                           </span>
                         )}
                       </div>
 
                       <div className="text-right shrink-0">
-                        <span className="text-xs text-slate-500 font-medium">
+                        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                           {task.assignee?.full_name || 'Sin asignar'}
                         </span>
                       </div>
@@ -632,36 +633,36 @@ export function DashboardClient({ stats }: DashboardClientProps) {
         {/* RIGHT COLUMN */}
         <div className="space-y-6">
           {/* Actividad reciente */}
-          <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 bg-slate-50/60 p-4.5">
+          <Card className="shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/60 p-4.5">
               <div>
-                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <Activity className="h-4 w-4 text-blue-600" />
+                <CardTitle className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  <Activity className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   Actividad reciente
                 </CardTitle>
-                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                   Últimas acciones registradas en el registro de auditoría
                 </p>
               </div>
             </CardHeader>
             <CardContent className="p-4.5">
               {stats.recentActivity.length === 0 ? (
-                <div className="py-8 text-center text-xs text-slate-400 font-medium">
+                <div className="py-8 text-center text-xs text-slate-400 dark:text-slate-500 font-medium">
                   Aún no se ha registrado actividad reciente en el sistema.
                 </div>
               ) : (
-                <div className="relative pl-6 space-y-4 border-l-2 border-slate-100 ml-2 py-1">
+                <div className="relative pl-6 space-y-4 border-l-2 border-slate-100 dark:border-slate-800 ml-2 py-1">
                   {stats.recentActivity.map((log) => (
                     <div key={log.id} className="relative group">
-                      <div className="absolute -left-[31px] top-1 h-3 w-3 rounded-full bg-blue-600 ring-4 ring-white shadow-2xs" />
+                      <div className="absolute -left-[31px] top-1 h-3 w-3 rounded-full bg-blue-600 dark:bg-blue-500 ring-4 ring-white dark:ring-slate-900 shadow-2xs" />
                       <div className="text-xs">
-                        <span className="font-bold text-slate-900">
+                        <span className="font-bold text-slate-900 dark:text-slate-100">
                           {log.actor?.full_name || 'Sistema'}
                         </span>{' '}
-                        <span className="text-slate-600">
+                        <span className="text-slate-600 dark:text-slate-300">
                           {formatActivityAction(log.action, log.entity_type)}
                         </span>
-                        <div className="text-[11px] text-slate-400 font-medium mt-0.5">
+                        <div className="text-[11px] text-slate-400 dark:text-slate-400 font-medium mt-0.5">
                           {formatDate(log.created_at)}
                         </div>
                       </div>
@@ -673,18 +674,18 @@ export function DashboardClient({ stats }: DashboardClientProps) {
           </Card>
 
           {/* Últimos gimnasios añadidos */}
-          <Card className="shadow-2xs rounded-2xl border-slate-200/80 bg-white overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 bg-slate-50/60 p-4.5">
+          <Card className="shadow-2xs rounded-2xl border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/60 p-4.5">
               <div>
-                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <Building2 className="h-4 w-4 text-blue-600" />
+                <CardTitle className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                  <Building2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                   Últimos gimnasios añadidos
                 </CardTitle>
-                <p className="text-xs text-slate-500 font-medium mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                   Nuevas altas en la base de datos
                 </p>
               </div>
-              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white text-slate-600 hover:text-slate-900">
+              <Button variant="ghost" size="sm" asChild className="text-xs font-semibold rounded-xl hover:bg-white dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
                 <Link href="/gyms">
                   Ver todos
                   <ArrowRight className="h-3.5 w-3.5 ml-1" />
@@ -693,41 +694,33 @@ export function DashboardClient({ stats }: DashboardClientProps) {
             </CardHeader>
             <CardContent className="p-4">
               {stats.latestGyms.length === 0 ? (
-                <div className="py-8 text-center text-xs text-slate-400 font-medium">
+                <div className="py-8 text-center text-xs text-slate-400 dark:text-slate-500 font-medium">
                   No hay gimnasios registrados aún.
                 </div>
               ) : (
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-slate-100 dark:divide-slate-800">
                   {stats.latestGyms.map((gym) => (
                     <div
                       key={gym.id}
-                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 px-2.5 rounded-xl transition-colors"
+                      className="py-2.5 flex items-center justify-between gap-3 text-sm hover:bg-slate-50/80 dark:hover:bg-slate-800/60 px-2.5 rounded-xl transition-colors"
                     >
                       <div>
                         <Link
                           href={`/gyms/${gym.id}`}
-                          className="font-bold text-slate-900 hover:text-blue-600 transition-colors line-clamp-1"
+                          className="font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors line-clamp-1"
                         >
                           {gym.name}
                         </Link>
-                        <p className="text-xs text-slate-500 font-medium">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                           {gym.city || 'Ciudad no especificada'}
                         </p>
                       </div>
 
                       <div className="text-right shrink-0">
                         {gym.commercial_status && (
-                          <span
-                            className="inline-block text-[11px] px-2.5 py-0.5 rounded-full font-bold border border-slate-200/60"
-                            style={{
-                              backgroundColor: `${gym.commercial_status.color}20`,
-                              color: gym.commercial_status.color,
-                            }}
-                          >
-                            {gym.commercial_status.name}
-                          </span>
+                          <StatusBadge status={gym.commercial_status} type="commercial" size="sm" />
                         )}
-                        <span className="text-[11px] text-slate-400 font-medium block mt-0.5">
+                        <span className="text-[11px] text-slate-400 dark:text-slate-400 font-medium block mt-0.5">
                           {formatDate(gym.created_at)}
                         </span>
                       </div>

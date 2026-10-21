@@ -38,19 +38,19 @@ import {
 const ROLE_BADGE_MAP: Record<UserRole, { label: string; badgeClass: string }> = {
   admin: {
     label: 'Administrador',
-    badgeClass: 'bg-purple-50 text-purple-700 border-purple-200',
+    badgeClass: 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800',
   },
   commercial: {
     label: 'Comercial',
-    badgeClass: 'bg-blue-50 text-blue-700 border-blue-200',
+    badgeClass: 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800',
   },
   operations: {
     label: 'Operaciones',
-    badgeClass: 'bg-amber-50 text-amber-700 border-amber-200',
+    badgeClass: 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800',
   },
   viewer: {
     label: 'Observador',
-    badgeClass: 'bg-slate-100 text-slate-700 border-slate-200',
+    badgeClass: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
   },
 }
 
@@ -226,13 +226,13 @@ export function TeamPageClient({
 
     if (days < 0) {
       return (
-        <span className="text-[11px] text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded font-medium">
+        <span className="text-[11px] text-red-600 dark:text-red-300 bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900/60 px-2 py-0.5 rounded font-medium">
           Expirada
         </span>
       )
     }
     return (
-      <span className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-medium flex items-center gap-1">
+      <span className="text-[11px] text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-900/60 px-2 py-0.5 rounded font-medium flex items-center gap-1">
         <Clock className="w-3 h-3" />
         Expira en {days} {days === 1 ? 'día' : 'días'}
       </span>
@@ -244,11 +244,11 @@ export function TeamPageClient({
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900 flex items-center gap-2">
-            <Users className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <Users className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             Equipo y Permisos
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
             Administra los usuarios con acceso al CRM, asigna roles y gestiona invitaciones.
           </p>
         </div>
@@ -266,35 +266,35 @@ export function TeamPageClient({
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
             Miembros Totales
           </span>
-          <span className="text-2xl font-black text-slate-900 mt-1 block">
+          <span className="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">
             {stats.total}
           </span>
         </div>
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs">
-          <span className="text-xs font-bold text-purple-600 uppercase tracking-wider block">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <span className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">
             Administradores
           </span>
-          <span className="text-2xl font-black text-slate-900 mt-1 block">
+          <span className="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">
             {stats.admins}
           </span>
         </div>
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs">
-          <span className="text-xs font-bold text-blue-600 uppercase tracking-wider block">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">
             Equipo Comercial
           </span>
-          <span className="text-2xl font-black text-slate-900 mt-1 block">
+          <span className="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">
             {stats.commercials}
           </span>
         </div>
-        <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs">
-          <span className="text-xs font-bold text-amber-600 uppercase tracking-wider block">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+          <span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">
             Invitaciones Pendientes
           </span>
-          <span className="text-2xl font-black text-slate-900 mt-1 block">
+          <span className="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">
             {stats.pendingInvites}
           </span>
         </div>
@@ -304,27 +304,27 @@ export function TeamPageClient({
         <div
           className={`flex items-center gap-2 p-3 text-sm rounded-xl border ${
             message.type === 'success'
-              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-              : 'bg-red-50 text-red-800 border-red-200'
+              ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200 border-emerald-200 dark:border-emerald-900/60'
+              : 'bg-red-50 dark:bg-red-950/50 text-red-800 dark:text-red-200 border-red-200 dark:border-red-900/60'
           }`}
         >
           {message.type === 'success' ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
           ) : (
-            <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+            <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" />
           )}
           <span>{message.text}</span>
         </div>
       )}
 
       {/* Section 1: Team Members Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
-        <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-50/50">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs overflow-hidden">
+        <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-50/50 dark:bg-slate-950/60">
           <div>
-            <h2 className="text-base font-bold text-slate-900">
+            <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
               Miembros de la organización ({filteredMembers.length})
             </h2>
-            <p className="text-xs text-slate-500 font-medium mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
               Usuarios con credenciales de acceso activas en GymBooking
             </p>
           </div>
@@ -337,12 +337,12 @@ export function TeamPageClient({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Buscar por nombre o correo..."
-                className="pl-8 text-xs bg-white rounded-xl h-8"
+                className="pl-8 text-xs rounded-xl h-8"
               />
             </div>
 
             <Select value={roleFilter} onValueChange={setRoleFilter}>
-              <SelectTrigger className="w-32 h-8 text-xs bg-white rounded-xl">
+              <SelectTrigger className="w-32 h-8 text-xs rounded-xl">
                 <SelectValue placeholder="Rol" />
               </SelectTrigger>
               <SelectContent>
@@ -357,8 +357,8 @@ export function TeamPageClient({
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600">
-            <thead className="bg-slate-50/80 text-[11px] font-bold text-slate-500 uppercase border-b border-slate-100">
+          <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+            <thead className="bg-slate-50/80 dark:bg-slate-950/80 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase border-b border-slate-100 dark:border-slate-800">
               <tr>
                 <th className="px-5 py-3">Miembro</th>
                 <th className="px-5 py-3">Rol asignado</th>
@@ -367,7 +367,7 @@ export function TeamPageClient({
                 {isAdmin && <th className="px-5 py-3 text-right">Acciones</th>}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
               {filteredMembers.map((member) => {
                 const roleBadge = ROLE_BADGE_MAP[member.role] || ROLE_BADGE_MAP.viewer
                 const isSelf = member.id === currentUser.id
@@ -376,7 +376,7 @@ export function TeamPageClient({
                 return (
                   <tr
                     key={member.id}
-                    className="hover:bg-gray-50/50 transition-colors"
+                    className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors"
                   >
                     {/* User info */}
                     <td className="px-5 py-4">
@@ -395,16 +395,16 @@ export function TeamPageClient({
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-gray-900">
+                            <span className="font-bold text-gray-900 dark:text-slate-100">
                               {member.full_name}
                             </span>
                             {isSelf && (
-                              <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.2 rounded font-semibold">
+                              <span className="text-[10px] bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 px-1.5 py-0.2 rounded font-semibold border border-blue-200 dark:border-blue-800">
                                 Tú
                               </span>
                             )}
                           </div>
-                          <span className="text-xs text-gray-400 block">
+                          <span className="text-xs text-gray-400 dark:text-slate-400 block">
                             {member.email}
                           </span>
                         </div>
@@ -421,7 +421,7 @@ export function TeamPageClient({
                           }
                           disabled={isUpdating}
                         >
-                          <SelectTrigger className="w-40 h-8 text-xs bg-white rounded-xl">
+                          <SelectTrigger className="w-40 h-8 text-xs rounded-xl">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -444,12 +444,12 @@ export function TeamPageClient({
                     {/* Status badge */}
                     <td className="px-5 py-4">
                       {member.is_active ? (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-2.5 py-0.5 rounded-full">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                           Activo
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-100 border border-gray-200 px-2.5 py-0.5 rounded-full">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 dark:text-slate-400 bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 px-2.5 py-0.5 rounded-full">
                           <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
                           Inactivo
                         </span>
@@ -457,7 +457,7 @@ export function TeamPageClient({
                     </td>
 
                     {/* Joined Date */}
-                    <td className="px-5 py-4 text-xs text-gray-500 whitespace-nowrap">
+                    <td className="px-5 py-4 text-xs text-gray-500 dark:text-slate-400 whitespace-nowrap">
                       {formatDate(member.created_at)}
                     </td>
 
@@ -472,8 +472,8 @@ export function TeamPageClient({
                             disabled={isUpdating}
                             className={`text-xs h-8 rounded-xl cursor-pointer ${
                               member.is_active
-                                ? 'text-gray-500 hover:text-red-600 hover:bg-red-50'
-                                : 'text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50'
+                                ? 'text-gray-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40'
+                                : 'text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40'
                             }`}
                           >
                             {isUpdating ? (
@@ -491,7 +491,7 @@ export function TeamPageClient({
                             )}
                           </Button>
                         ) : (
-                          <span className="text-xs text-gray-400">—</span>
+                          <span className="text-xs text-gray-400 dark:text-slate-500">—</span>
                         )}
                       </td>
                     )}
@@ -505,26 +505,26 @@ export function TeamPageClient({
 
       {/* Section 2: Pending Invitations (Admin only) */}
       {isAdmin && (
-        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
-          <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs overflow-hidden">
+          <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-950/60">
             <div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">
                 Invitaciones pendientes ({invitations.length})
               </h2>
-              <p className="text-xs text-slate-500 font-medium mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
                 Invitaciones con token de acceso para incorporación al CRM
               </p>
             </div>
           </div>
 
           {invitations.length === 0 ? (
-            <div className="p-8 text-center text-xs text-slate-400 font-medium">
+            <div className="p-8 text-center text-xs text-slate-400 dark:text-slate-500 font-medium">
               No hay invitaciones pendientes en este momento.
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-600">
-                <thead className="bg-slate-50/80 text-[11px] font-bold text-slate-500 uppercase border-b border-slate-100">
+              <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+                <thead className="bg-slate-50/80 dark:bg-slate-950/80 text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase border-b border-slate-100 dark:border-slate-800">
                   <tr>
                     <th className="px-5 py-3">Correo invitado</th>
                     <th className="px-5 py-3">Rol asignado</th>
@@ -533,7 +533,7 @@ export function TeamPageClient({
                     <th className="px-5 py-3 text-right">Acción</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
                   {invitations.map((inv) => {
                     const roleBadge =
                       ROLE_BADGE_MAP[inv.role] || ROLE_BADGE_MAP.viewer
@@ -542,12 +542,12 @@ export function TeamPageClient({
                     return (
                       <tr
                         key={inv.id}
-                        className="hover:bg-gray-50/50 transition-colors"
+                        className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors"
                       >
                         <td className="px-5 py-3.5">
                           <div className="flex items-center gap-2">
-                            <Mail className="w-4 h-4 text-gray-400" />
-                            <span className="font-semibold text-gray-800">
+                            <Mail className="w-4 h-4 text-gray-400 dark:text-slate-500" />
+                            <span className="font-semibold text-gray-800 dark:text-slate-200">
                               {inv.email}
                             </span>
                           </div>
@@ -568,16 +568,16 @@ export function TeamPageClient({
                             variant="outline"
                             size="sm"
                             onClick={() => handleCopyInviteLink(token)}
-                            className="text-xs h-7 gap-1.5 rounded-lg border-slate-200 hover:bg-slate-50 cursor-pointer"
+                            className="text-xs h-7 gap-1.5 rounded-lg border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 cursor-pointer"
                           >
                             {copiedToken === token ? (
                               <>
-                                <Check className="w-3 h-3 text-emerald-600" />
-                                <span className="text-emerald-700 font-semibold">¡Copiado!</span>
+                                <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                                <span className="text-emerald-700 dark:text-emerald-300 font-semibold">¡Copiado!</span>
                               </>
                             ) : (
                               <>
-                                <Copy className="w-3 h-3 text-slate-500" />
+                                <Copy className="w-3 h-3 text-slate-500 dark:text-slate-400" />
                                 <span>Copiar enlace</span>
                               </>
                             )}
@@ -589,7 +589,7 @@ export function TeamPageClient({
                             size="sm"
                             onClick={() => handleRevokeInvitation(inv.id)}
                             disabled={revokingId === inv.id}
-                            className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 h-8 gap-1 rounded-lg cursor-pointer"
+                            className="text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/40 h-8 gap-1 rounded-lg cursor-pointer"
                           >
                             {revokingId === inv.id ? (
                               <Loader2 className="w-3.5 h-3.5 animate-spin" />

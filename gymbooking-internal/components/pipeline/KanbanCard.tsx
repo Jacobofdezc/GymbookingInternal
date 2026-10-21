@@ -25,10 +25,10 @@ interface KanbanCardProps {
 }
 
 export const PRIORITY_CONFIG = {
-  low: { label: 'Baja', variant: 'outline' as const, className: 'bg-slate-50 text-slate-600 border-slate-200' },
-  medium: { label: 'Media', variant: 'outline' as const, className: 'bg-blue-50 text-blue-700 border-blue-200' },
-  high: { label: 'Alta', variant: 'outline' as const, className: 'bg-amber-50 text-amber-700 border-amber-200' },
-  urgent: { label: 'Urgente', variant: 'destructive' as const, className: 'bg-rose-50 text-rose-700 border-rose-200 font-semibold' },
+  low: { label: 'Baja', variant: 'outline' as const, className: 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700' },
+  medium: { label: 'Media', variant: 'outline' as const, className: 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800' },
+  high: { label: 'Alta', variant: 'outline' as const, className: 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800' },
+  urgent: { label: 'Urgente', variant: 'destructive' as const, className: 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800 font-semibold' },
 }
 
 export function KanbanCard({ gym, statusId, isOverlay = false }: KanbanCardProps) {
@@ -73,10 +73,10 @@ export function KanbanCard({ gym, statusId, isOverlay = false }: KanbanCardProps
       ref={setNodeRef}
       style={style}
       className={cn(
-        'group relative flex flex-col gap-2.5 rounded-xl border border-slate-200/90 bg-white p-3.5 shadow-2xs transition-all duration-150',
+        'group relative flex flex-col gap-2.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 shadow-2xs transition-all duration-150',
         'hover:border-blue-500/50 hover:shadow-md hover:-translate-y-0.5',
         isDragging && 'opacity-30 ring-2 ring-blue-500 ring-offset-1 shadow-lg',
-        isOverlay && 'rotate-1 scale-105 shadow-2xl border-blue-500 cursor-grabbing bg-white ring-2 ring-blue-500/20'
+        isOverlay && 'rotate-1 scale-105 shadow-2xl border-blue-500 cursor-grabbing bg-white dark:bg-slate-900 ring-2 ring-blue-500/20'
       )}
     >
       {/* Top row: Gym name, drag handle & priority */}
@@ -124,8 +124,8 @@ export function KanbanCard({ gym, statusId, isOverlay = false }: KanbanCardProps
 
       {/* Next action truncated */}
       {gym.next_action && (
-        <div className="rounded-lg bg-slate-50 p-2 text-xs text-slate-800 flex items-start gap-1.5 border border-slate-200/60">
-          <ArrowRight className="h-3.5 w-3.5 shrink-0 text-blue-600 mt-0.5" />
+        <div className="rounded-lg bg-slate-50 dark:bg-slate-800/80 p-2 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-1.5 border border-slate-200/60 dark:border-slate-700">
+          <ArrowRight className="h-3.5 w-3.5 shrink-0 text-blue-600 dark:text-blue-400 mt-0.5" />
           <span className="line-clamp-2 leading-relaxed" title={gym.next_action}>
             {gym.next_action}
           </span>
@@ -147,7 +147,7 @@ export function KanbanCard({ gym, statusId, isOverlay = false }: KanbanCardProps
             className={cn(
               'flex items-center gap-1 font-medium',
               followupOverdue
-                ? 'text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded border border-rose-200'
+                ? 'text-rose-600 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/50 px-1.5 py-0.5 rounded border border-rose-200 dark:border-rose-800'
                 : 'text-muted-foreground'
             )}
             title={`Próximo seguimiento: ${gym.next_followup_date}${followupOverdue ? ' (¡Vencido!)' : ''}`}

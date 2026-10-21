@@ -15,7 +15,7 @@ export function AppLayout({ userProfile, children }: AppLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-slate-50/80 antialiased font-sans text-slate-900">
+    <div className="flex h-screen w-full overflow-hidden bg-slate-50/80 dark:bg-slate-950 antialiased font-sans text-slate-900 dark:text-slate-100">
       {/* Desktop Sidebar */}
       <div className="hidden md:flex md:w-64 md:flex-col md:shrink-0">
         <Sidebar userProfile={userProfile} />
@@ -31,7 +31,7 @@ export function AppLayout({ userProfile, children }: AppLayoutProps) {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 transform bg-white transition-transform duration-250 ease-in-out md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 transform bg-white dark:bg-slate-950 transition-transform duration-250 ease-in-out md:hidden ${
           mobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
         }`}
       >

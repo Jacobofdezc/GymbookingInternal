@@ -112,11 +112,11 @@ export function DocumentPreviewModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="bg-white rounded-2xl w-full max-w-5xl h-[90vh] shadow-2xl flex flex-col overflow-hidden border border-gray-100">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-5xl h-[90vh] shadow-2xl flex flex-col overflow-hidden border border-gray-100 dark:border-slate-800">
         {/* Header Bar */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-200 bg-gray-50/75">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-200 dark:border-slate-800 bg-gray-50/75 dark:bg-slate-950/80">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="p-2 bg-white rounded-lg border border-gray-200/80 shrink-0">
+            <div className="p-2 bg-white dark:bg-slate-800 rounded-lg border border-gray-200/80 dark:border-slate-700 shrink-0">
               {isPdf ? (
                 <FileText className="w-5 h-5 text-rose-500" />
               ) : isImage ? (
@@ -126,18 +126,18 @@ export function DocumentPreviewModal({
               )}
             </div>
             <div className="min-w-0">
-              <h3 className="font-bold text-gray-900 text-sm truncate max-w-md sm:max-w-xl">
+              <h3 className="font-bold text-gray-900 dark:text-slate-100 text-sm truncate max-w-md sm:max-w-xl">
                 {doc.name}
               </h3>
-              <div className="flex items-center gap-2 text-xs text-gray-500 mt-0.5">
+              <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-slate-400 mt-0.5">
                 <span>{doc.file_name}</span>
                 <span>•</span>
                 <span>{formatBytes(doc.size_bytes)}</span>
                 {doc.gym && (
                   <>
                     <span>•</span>
-                    <span className="flex items-center gap-1 text-gray-700 font-medium">
-                      <Building2 className="w-3 h-3 text-gray-400" />
+                    <span className="flex items-center gap-1 text-gray-700 dark:text-slate-300 font-medium">
+                      <Building2 className="w-3 h-3 text-gray-400 dark:text-slate-500" />
                       {doc.gym.name}
                     </span>
                   </>
@@ -158,7 +158,7 @@ export function DocumentPreviewModal({
                   title="Copiar enlace firmado (válido por 1 hora)"
                 >
                   {copied ? (
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   ) : (
                     <Copy className="w-3.5 h-3.5" />
                   )}
@@ -195,7 +195,7 @@ export function DocumentPreviewModal({
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors ml-1"
+              className="p-1.5 rounded-lg text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors ml-1"
               title="Cerrar vista previa"
             >
               <X className="w-5 h-5" />
@@ -204,23 +204,23 @@ export function DocumentPreviewModal({
         </div>
 
         {/* Content Preview Canvas */}
-        <div className="flex-1 bg-gray-100/70 overflow-hidden relative flex items-center justify-center">
+        <div className="flex-1 bg-gray-100/70 dark:bg-slate-950/70 overflow-hidden relative flex items-center justify-center">
           {loading && (
             <div className="text-center space-y-3">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto" />
-              <p className="text-xs text-gray-500 font-medium">
+              <Loader2 className="w-8 h-8 animate-spin text-blue-600 dark:text-blue-400 mx-auto" />
+              <p className="text-xs text-gray-500 dark:text-slate-400 font-medium">
                 Generando enlace de acceso seguro...
               </p>
             </div>
           )}
 
           {error && !loading && (
-            <div className="max-w-md bg-white p-6 rounded-2xl shadow-sm border border-red-200 text-center space-y-3 mx-4">
+            <div className="max-w-md bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-red-200 dark:border-red-900/50 text-center space-y-3 mx-4">
               <ShieldAlert className="w-10 h-10 text-red-500 mx-auto" />
-              <h4 className="font-bold text-gray-900 text-sm">
+              <h4 className="font-bold text-gray-900 dark:text-slate-100 text-sm">
                 Error al abrir el documento
               </h4>
-              <p className="text-xs text-gray-500">{error}</p>
+              <p className="text-xs text-gray-500 dark:text-slate-400">{error}</p>
               <Button
                 variant="outline"
                 size="sm"
@@ -255,35 +255,35 @@ export function DocumentPreviewModal({
               <img
                 src={signedUrl}
                 alt={doc.name}
-                className="max-w-full max-h-full object-contain rounded-lg shadow-md border border-gray-200 bg-white"
+                className="max-w-full max-h-full object-contain rounded-lg shadow-md border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900"
               />
             </div>
           )}
 
           {signedUrl && !loading && !isPdf && !isImage && (
-            <div className="max-w-md bg-white p-8 rounded-2xl shadow-sm border border-gray-200 text-center space-y-4 mx-4">
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto">
+            <div className="max-w-md bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-800 text-center space-y-4 mx-4">
+              <div className="w-16 h-16 bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mx-auto">
                 <FileSpreadsheet className="w-8 h-8" />
               </div>
               <div>
-                <h4 className="font-bold text-gray-900 text-base">{doc.name}</h4>
-                <p className="text-xs text-gray-500 mt-1">
+                <h4 className="font-bold text-gray-900 dark:text-slate-100 text-base">{doc.name}</h4>
+                <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">
                   Este formato no soporta vista previa directa en el navegador. Puedes descargarlo para abrirlo con la aplicación correspondiente.
                 </p>
               </div>
 
-              <div className="bg-gray-50 p-3 rounded-xl border border-gray-100 text-left text-xs space-y-1.5 text-gray-600">
+              <div className="bg-gray-50 dark:bg-slate-800/60 p-3 rounded-xl border border-gray-100 dark:border-slate-800 text-left text-xs space-y-1.5 text-gray-600 dark:text-slate-300">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Tipo:</span>
-                  <span className="font-medium">{doc.content_type || ext.toUpperCase()}</span>
+                  <span className="text-gray-400 dark:text-slate-500">Tipo:</span>
+                  <span className="font-medium text-slate-800 dark:text-slate-200">{doc.content_type || ext.toUpperCase()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Tamaño:</span>
-                  <span className="font-medium">{formatBytes(doc.size_bytes)}</span>
+                  <span className="text-gray-400 dark:text-slate-500">Tamaño:</span>
+                  <span className="font-medium text-slate-800 dark:text-slate-200">{formatBytes(doc.size_bytes)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Fecha de subida:</span>
-                  <span className="font-medium">
+                  <span className="text-gray-400 dark:text-slate-500">Fecha de subida:</span>
+                  <span className="font-medium text-slate-800 dark:text-slate-200">
                     {new Date(doc.created_at).toLocaleDateString('es-ES')}
                   </span>
                 </div>

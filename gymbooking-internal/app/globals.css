@@ -115,11 +115,33 @@ h1, h2, h3, h4, h5, h6 {
 .status-discarded { background-color: #fee2e2; color: #b91c1c; }
 .status-paused { background-color: #f1f5f9; color: #64748b; }
 
+/* Dark mode overrides for status badge colors */
+.dark .status-identified { background-color: rgba(51, 65, 85, 0.45); color: #cbd5e1; border: 1px solid rgba(71, 85, 105, 0.6); }
+.dark .status-contacted { background-color: rgba(30, 58, 138, 0.4); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
+.dark .status-interested { background-color: rgba(6, 78, 59, 0.4); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.4); }
+.dark .status-negotiation { background-color: rgba(113, 63, 18, 0.4); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.4); }
+.dark .status-confirmed { background-color: rgba(6, 95, 70, 0.4); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+.dark .status-discarded { background-color: rgba(153, 27, 27, 0.4); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+.dark .status-paused { background-color: rgba(51, 65, 85, 0.45); color: #94a3b8; border: 1px solid rgba(71, 85, 105, 0.5); }
+
 /* Priority colors */
 .priority-low { background-color: #f1f5f9; color: #475569; }
 .priority-medium { background-color: #dbeafe; color: #1d4ed8; }
 .priority-high { background-color: #ffedd5; color: #c2410c; }
 .priority-urgent { background-color: #fee2e2; color: #b91c1c; }
+
+/* Dark mode overrides for priority colors */
+.dark .priority-low { background-color: rgba(51, 65, 85, 0.45); color: #cbd5e1; border: 1px solid rgba(71, 85, 105, 0.6); }
+.dark .priority-medium { background-color: rgba(30, 58, 138, 0.4); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
+.dark .priority-high { background-color: rgba(124, 45, 18, 0.4); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.4); }
+.dark .priority-urgent { background-color: rgba(153, 27, 27, 0.4); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: hsl(217 33% 25%);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(217 33% 40%);
+}
 
 /* Tiptap editor */
 .tiptap-content {

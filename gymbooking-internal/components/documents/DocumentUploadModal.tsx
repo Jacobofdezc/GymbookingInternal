@@ -202,18 +202,18 @@ export function DocumentUploadModal({
     >
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold tracking-tight text-gray-900">
+          <DialogTitle className="text-xl font-bold tracking-tight text-gray-900 dark:text-slate-100">
             Subir nuevo documento
           </DialogTitle>
-          <DialogDescription className="text-sm text-gray-500">
+          <DialogDescription className="text-sm text-gray-500 dark:text-slate-400">
             Archivos adjuntos para gestión interna, acuerdos o información de gimnasios (máx. 50 MB).
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           {error && (
-            <div className="flex items-center gap-2 p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg">
-              <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+            <div className="flex items-center gap-2 p-3 text-sm text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 rounded-lg">
+              <AlertCircle className="w-4 h-4 shrink-0 text-red-600 dark:text-red-400" />
               <span>{error}</span>
             </div>
           )}
@@ -227,10 +227,10 @@ export function DocumentUploadModal({
             onClick={() => fileInputRef.current?.click()}
             className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors duration-200 ${
               dragActive
-                ? 'border-blue-500 bg-blue-50/50'
+                ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/30'
                 : file
-                ? 'border-emerald-400 bg-emerald-50/30'
-                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50/60'
+                ? 'border-emerald-400 bg-emerald-50/30 dark:bg-emerald-950/30'
+                : 'border-gray-200 dark:border-slate-800 hover:border-gray-300 dark:hover:border-slate-700 hover:bg-gray-50/60 dark:hover:bg-slate-800/40'
             }`}
           >
             <input
@@ -247,14 +247,14 @@ export function DocumentUploadModal({
             {file ? (
               <div className="flex items-center justify-between gap-3 text-left">
                 <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="p-2.5 bg-emerald-100 text-emerald-700 rounded-lg shrink-0">
+                  <div className="p-2.5 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 rounded-lg shrink-0">
                     <FileText className="w-5 h-5" />
                   </div>
                   <div className="truncate">
-                    <p className="text-sm font-semibold text-gray-800 truncate">
+                    <p className="text-sm font-semibold text-gray-800 dark:text-slate-100 truncate">
                       {file.name}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-slate-400">
                       {(file.size / (1024 * 1024)).toFixed(2)} MB
                     </p>
                   </div>
@@ -266,20 +266,20 @@ export function DocumentUploadModal({
                     setFile(null)
                     if (fileInputRef.current) fileInputRef.current.value = ''
                   }}
-                  className="p-1 text-gray-400 hover:text-gray-600 rounded-md"
+                  className="p-1 text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-slate-200 rounded-md"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
             ) : (
               <div className="flex flex-col items-center">
-                <div className="p-3 bg-blue-50 text-blue-600 rounded-full mb-3">
+                <div className="p-3 bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 rounded-full mb-3">
                   <UploadCloud className="w-6 h-6" />
                 </div>
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-sm font-medium text-gray-700 dark:text-slate-300">
                   Arrastra tu archivo aquí o haz clic para explorar
                 </p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-gray-400 dark:text-slate-500 mt-1">
                   PDF, DOCX, XLSX, PNG, JPG hasta 50 MB
                 </p>
               </div>
@@ -289,7 +289,7 @@ export function DocumentUploadModal({
           {/* Form fields */}
           <div className="space-y-3">
             <div>
-              <Label htmlFor="doc-name" className="text-xs font-semibold text-gray-700">
+              <Label htmlFor="doc-name" className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                 Nombre del documento *
               </Label>
               <Input
@@ -304,7 +304,7 @@ export function DocumentUploadModal({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label htmlFor="doc-category" className="text-xs font-semibold text-gray-700">
+                <Label htmlFor="doc-category" className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                   Categoría
                 </Label>
                 <Select
@@ -325,7 +325,7 @@ export function DocumentUploadModal({
               </div>
 
               <div>
-                <Label htmlFor="doc-visibility" className="text-xs font-semibold text-gray-700">
+                <Label htmlFor="doc-visibility" className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                   Visibilidad
                 </Label>
                 <Select
@@ -347,7 +347,7 @@ export function DocumentUploadModal({
             </div>
 
             <div>
-              <Label htmlFor="doc-gym" className="text-xs font-semibold text-gray-700">
+              <Label htmlFor="doc-gym" className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                 Vincular a gimnasio (opcional)
               </Label>
               <Select value={gymId} onValueChange={setGymId}>
@@ -366,7 +366,7 @@ export function DocumentUploadModal({
             </div>
 
             <div>
-              <Label htmlFor="doc-desc" className="text-xs font-semibold text-gray-700">
+              <Label htmlFor="doc-desc" className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                 Descripción / Notas adicionales
               </Label>
               <Textarea
@@ -382,11 +382,11 @@ export function DocumentUploadModal({
           {/* Progress bar */}
           {uploading && (
             <div className="space-y-1.5 pt-1">
-              <div className="flex justify-between text-xs font-medium text-gray-600">
+              <div className="flex justify-between text-xs font-medium text-gray-600 dark:text-slate-400">
                 <span>Subiendo archivo...</span>
                 <span>{progress}%</span>
               </div>
-              <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-gray-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
                 <div
                   className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
@@ -396,8 +396,8 @@ export function DocumentUploadModal({
           )}
 
           {success && (
-            <div className="flex items-center gap-2 p-3 text-sm text-emerald-800 bg-emerald-50 rounded-lg">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="flex items-center gap-2 p-3 text-sm text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/50 rounded-lg">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <span>¡Documento subido con éxito!</span>
             </div>
           )}

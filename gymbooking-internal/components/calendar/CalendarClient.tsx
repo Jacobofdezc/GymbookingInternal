@@ -328,7 +328,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
       return {
         label: 'Tarea',
         chipClass:
-          'bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200 border',
+          'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/60 border-blue-200 dark:border-blue-800 border',
         dotClass: 'bg-blue-500',
         icon: CalendarCheck,
       }
@@ -337,7 +337,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
       return {
         label: 'Seguimiento',
         chipClass:
-          'bg-purple-50 text-purple-700 hover:bg-purple-100 border-purple-200 border',
+          'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border-purple-200 dark:border-purple-800 border',
         dotClass: 'bg-purple-500',
         icon: Building2,
       }
@@ -345,7 +345,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
     return {
       label: 'Interacción',
       chipClass:
-        'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-emerald-200 border',
+        'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border-emerald-200 dark:border-emerald-800 border',
       dotClass: 'bg-emerald-500',
       icon: PhoneCall,
     }
@@ -356,11 +356,11 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900 flex items-center gap-2">
-            <CalendarIcon className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <CalendarIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
             Calendario de Actividades
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
             Vencimientos de tareas, fechas de seguimiento comercial e interacciones programadas.
           </p>
         </div>
@@ -383,21 +383,21 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             size="sm"
             onClick={handleExportIcs}
             disabled={filteredEvents.length === 0}
-            className="gap-1.5 text-xs h-9 bg-white shadow-2xs hover:bg-slate-50 text-slate-700 rounded-xl border-slate-200/90 font-semibold cursor-pointer"
+            className="gap-1.5 text-xs h-9 bg-white dark:bg-slate-900 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-xl border-slate-200/90 dark:border-slate-800 font-semibold cursor-pointer"
             title="Exportar a Google Calendar / Apple / Outlook"
           >
-            <Download className="w-3.5 h-3.5 text-blue-600" />
+            <Download className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
             Exportar iCal (.ics)
           </Button>
 
           {/* View mode toggle buttons */}
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-2xl border border-slate-200/80 shadow-2xs">
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
           <button
             onClick={() => setViewMode('month')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               viewMode === 'month'
-                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-2xs border border-slate-200/70 dark:border-slate-700'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Grid3X3 className="w-3.5 h-3.5" />
@@ -407,8 +407,8 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             onClick={() => setViewMode('week')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               viewMode === 'week'
-                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-2xs border border-slate-200/70 dark:border-slate-700'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Columns className="w-3.5 h-3.5" />
@@ -418,8 +418,8 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             onClick={() => setViewMode('agenda')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               viewMode === 'agenda'
-                ? 'bg-white text-slate-900 shadow-2xs border border-slate-200/70'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-2xs border border-slate-200/70 dark:border-slate-700'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <List className="w-3.5 h-3.5" />
@@ -430,7 +430,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
     </div>
 
       {/* Navigation and Filter Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Navigation & Month Name */}
         <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
           <div className="flex items-center gap-1.5">
@@ -438,7 +438,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
               variant="outline"
               size="sm"
               onClick={handlePrev}
-              className="h-8 w-8 p-0 rounded-xl border-slate-200/90 shadow-2xs cursor-pointer hover:bg-slate-50"
+              className="h-8 w-8 p-0 rounded-xl border-slate-200/90 dark:border-slate-800 shadow-2xs cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
               title="Anterior"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -447,7 +447,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
               variant="outline"
               size="sm"
               onClick={handleToday}
-              className="h-8 px-3 text-xs font-bold rounded-xl border-slate-200/90 shadow-2xs cursor-pointer hover:bg-slate-50"
+              className="h-8 px-3 text-xs font-bold rounded-xl border-slate-200/90 dark:border-slate-800 shadow-2xs cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
             >
               Hoy
             </Button>
@@ -455,14 +455,14 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
               variant="outline"
               size="sm"
               onClick={handleNext}
-              className="h-8 w-8 p-0 rounded-xl border-slate-200/90 shadow-2xs cursor-pointer hover:bg-slate-50"
+              className="h-8 w-8 p-0 rounded-xl border-slate-200/90 dark:border-slate-800 shadow-2xs cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
               title="Siguiente"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
 
-          <h2 className="text-base sm:text-lg font-black text-slate-900 capitalize tracking-tight">
+          <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-slate-100 capitalize tracking-tight">
             {viewMode === 'month' &&
               `${MONTH_NAMES[currentDate.getMonth()]} ${currentDate.getFullYear()}`}
             {viewMode === 'week' &&
@@ -479,8 +479,8 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             onClick={() => setTypeFilter('all')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               typeFilter === 'all'
-                ? 'bg-slate-900 text-white shadow-2xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
+                ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xs'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Todos ({initialEvents.length})
@@ -490,7 +490,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               typeFilter === 'task'
                 ? 'bg-blue-600 text-white shadow-2xs'
-                : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200/60'
+                : 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-200/60 dark:border-blue-800/60'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
@@ -501,7 +501,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               typeFilter === 'followup'
                 ? 'bg-purple-600 text-white shadow-2xs'
-                : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200/60'
+                : 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200/60 dark:border-purple-800/60'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
@@ -512,7 +512,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               typeFilter === 'interaction'
                 ? 'bg-emerald-600 text-white shadow-2xs'
-                : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200/60'
+                : 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200/60 dark:border-emerald-800/60'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -523,14 +523,14 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
 
       {/* VIEW: MONTH */}
       {viewMode === 'month' && (
-        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs overflow-hidden">
           {/* Day of Week Header */}
-          <div className="grid grid-cols-7 border-b border-gray-200 text-center bg-gray-50/80 py-2.5">
+          <div className="grid grid-cols-7 border-b border-gray-200 dark:border-slate-800 text-center bg-gray-50/80 dark:bg-slate-950/80 py-2.5">
             {DAY_NAMES.map((name, i) => (
               <span
                 key={name}
                 className={`text-xs font-bold tracking-wider uppercase ${
-                  i >= 5 ? 'text-gray-400' : 'text-gray-600'
+                  i >= 5 ? 'text-gray-400 dark:text-slate-500' : 'text-gray-600 dark:text-slate-300'
                 }`}
               >
                 {name}
@@ -539,7 +539,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
           </div>
 
           {/* Days Grid */}
-          <div className="grid grid-cols-7 divide-x divide-y divide-gray-100">
+          <div className="grid grid-cols-7 divide-x divide-y divide-gray-100 dark:divide-slate-800">
             {monthGridDays.map((day, idx) => {
               const dayEvents = eventsByDate.get(day.dateString) || []
 
@@ -547,8 +547,8 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                 <div
                   key={day.dateString + idx}
                   className={`min-h-[110px] p-2 transition-colors flex flex-col justify-between group ${
-                    day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/50'
-                  } ${day.isToday ? 'bg-blue-50/20' : ''}`}
+                    day.isCurrentMonth ? 'bg-white dark:bg-slate-900' : 'bg-gray-50/50 dark:bg-slate-950/60'
+                  } ${day.isToday ? 'bg-blue-50/20 dark:bg-blue-950/30' : ''}`}
                 >
                   <div className="flex items-center justify-between mb-1">
                     <span
@@ -556,8 +556,8 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                         day.isToday
                           ? 'bg-blue-600 text-white'
                           : day.isCurrentMonth
-                          ? 'text-gray-800'
-                          : 'text-gray-300'
+                          ? 'text-gray-800 dark:text-slate-200'
+                          : 'text-gray-300 dark:text-slate-600'
                       }`}
                     >
                       {day.dayNumber}
@@ -631,22 +631,22 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             return (
               <div
                 key={day.dateString}
-                className={`bg-white rounded-2xl border ${
+                className={`bg-white dark:bg-slate-900 rounded-2xl border ${
                   day.isToday
-                    ? 'border-blue-400 ring-2 ring-blue-100 shadow-sm'
-                    : 'border-gray-200/80 shadow-xs'
+                    ? 'border-blue-400 ring-2 ring-blue-100 dark:ring-blue-900/40 shadow-sm'
+                    : 'border-gray-200/80 dark:border-slate-800 shadow-xs'
                 } p-4 flex flex-col min-h-[380px]`}
               >
                 {/* Column Day Header */}
-                <div className="pb-3 border-b border-gray-100 mb-3 text-center">
-                  <span className="text-xs font-semibold text-gray-500 uppercase block">
+                <div className="pb-3 border-b border-gray-100 dark:border-slate-800 mb-3 text-center">
+                  <span className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase block">
                     {day.dayName}
                   </span>
                   <span
                     className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-extrabold mt-1 ${
                       day.isToday
                         ? 'bg-blue-600 text-white'
-                        : 'text-gray-900 bg-gray-50'
+                        : 'text-gray-900 dark:text-slate-100 bg-gray-50 dark:bg-slate-800'
                     }`}
                   >
                     {day.dayNumber}
@@ -656,7 +656,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                 {/* Event list */}
                 <div className="space-y-2 flex-1 overflow-y-auto">
                   {dayEvents.length === 0 ? (
-                    <p className="text-xs text-gray-300 text-center pt-8">
+                    <p className="text-xs text-gray-300 dark:text-slate-600 text-center pt-8">
                       Sin eventos
                     </p>
                   ) : (
@@ -668,7 +668,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                         <Link
                           key={ev.id}
                           href={ev.link}
-                          className="block p-2.5 rounded-xl border border-gray-100 hover:border-gray-300 bg-gray-50/50 hover:bg-white shadow-2xs hover:shadow-xs transition-all text-left group"
+                          className="block p-2.5 rounded-xl border border-gray-100 dark:border-slate-800 hover:border-gray-300 dark:hover:border-slate-700 bg-gray-50/50 dark:bg-slate-950/60 hover:bg-white dark:hover:bg-slate-900 shadow-2xs hover:shadow-xs transition-all text-left group"
                         >
                           <div className="flex items-center justify-between gap-1 mb-1">
                             <span
@@ -677,16 +677,16 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                               {badge.label}
                             </span>
                             {ev.priority && (
-                              <span className="text-[10px] text-gray-400 capitalize">
+                              <span className="text-[10px] text-gray-400 dark:text-slate-400 capitalize">
                                 {ev.priority}
                               </span>
                             )}
                           </div>
-                          <h4 className="text-xs font-bold text-gray-800 group-hover:text-blue-600 line-clamp-2">
+                          <h4 className="text-xs font-bold text-gray-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 line-clamp-2">
                             {ev.title}
                           </h4>
                           {ev.gymName && (
-                            <span className="text-[11px] text-gray-500 flex items-center gap-1 mt-1 truncate">
+                            <span className="text-[11px] text-gray-500 dark:text-slate-400 flex items-center gap-1 mt-1 truncate">
                               <Building2 className="w-3 h-3 text-gray-400 shrink-0" />
                               <span className="truncate">{ev.gymName}</span>
                             </span>
@@ -703,7 +703,7 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                     setSelectedDateForTask(day.dateString)
                     setIsTaskModalOpen(true)
                   }}
-                  className="w-full mt-2 py-1 px-2 rounded-xl border border-dashed border-slate-200 hover:border-blue-300 bg-slate-50/50 hover:bg-blue-50 text-[11px] font-semibold text-slate-500 hover:text-blue-600 flex items-center justify-center gap-1 transition-all cursor-pointer"
+                  className="w-full mt-2 py-1 px-2 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700 bg-slate-50/50 dark:bg-slate-850 hover:bg-blue-50 dark:hover:bg-blue-950/50 text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 flex items-center justify-center gap-1 transition-all cursor-pointer"
                 >
                   <Plus className="w-3 h-3" /> Añadir tarea
                 </button>
@@ -717,12 +717,12 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
       {viewMode === 'agenda' && (
         <div className="space-y-6">
           {agendaEvents.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-gray-200/80 p-12 text-center">
-              <CalendarCheck className="w-10 h-10 mx-auto text-gray-300 mb-2" />
-              <h3 className="text-base font-semibold text-gray-900">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200/80 dark:border-slate-800 p-12 text-center">
+              <CalendarCheck className="w-10 h-10 mx-auto text-gray-300 dark:text-slate-600 mb-2" />
+              <h3 className="text-base font-semibold text-gray-900 dark:text-slate-100">
                 No hay actividades programadas
               </h3>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">
                 No hay tareas o seguimientos con fecha prevista en los próximos 30 días.
               </p>
             </div>
@@ -730,15 +730,15 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
             agendaEvents.map((group) => (
               <div key={group.date} className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-gray-500 capitalize">
+                  <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-slate-400 capitalize">
                     {group.formatted}
                   </span>
-                  <span className="text-xs bg-gray-100 text-gray-600 font-semibold px-2 py-0.5 rounded-full">
+                  <span className="text-xs bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300 font-semibold px-2 py-0.5 rounded-full">
                     {group.events.length}
                   </span>
                 </div>
 
-                <div className="bg-white rounded-2xl border border-gray-200/80 shadow-xs divide-y divide-gray-100 overflow-hidden">
+                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200/80 dark:border-slate-800 shadow-xs divide-y divide-gray-100 dark:divide-slate-800 overflow-hidden">
                   {group.events.map((ev) => {
                     const badge = getEventBadge(ev)
                     const Icon = badge.icon
@@ -746,11 +746,11 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                     return (
                       <div
                         key={ev.id}
-                        className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 hover:bg-gray-50/50 transition-colors"
+                        className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition-colors"
                       >
                         <div className="flex items-start gap-3">
-                          <div className="p-2.5 rounded-xl bg-gray-50 text-gray-700 shrink-0 mt-0.5">
-                            <Icon className="w-4 h-4 text-blue-600" />
+                          <div className="p-2.5 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-700 dark:text-slate-200 shrink-0 mt-0.5">
+                            <Icon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                           </div>
                           <div>
                             <div className="flex items-center gap-2 mb-0.5">
@@ -760,12 +760,12 @@ export function CalendarClient({ initialEvents }: CalendarClientProps) {
                                 {badge.label}
                               </span>
                               {ev.status && (
-                                <span className="text-[10px] text-gray-400 capitalize">
+                                <span className="text-[10px] text-gray-400 dark:text-slate-400 capitalize">
                                   • {ev.status}
                                 </span>
                               )}
                             </div>
-                            <h4 className="text-sm font-bold text-gray-900">
+                            <h4 className="text-sm font-bold text-gray-900 dark:text-slate-100">
                               {ev.title}
                             </h4>
                             {ev.gymName && (

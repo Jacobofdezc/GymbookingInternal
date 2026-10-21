@@ -109,13 +109,13 @@ export function InteractionListClient() {
     string,
     { label: string; icon: React.ComponentType<{ className?: string }>; color: string }
   > = {
-    call: { label: 'Llamada', icon: Phone, color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/40' },
-    email: { label: 'Email', icon: Mail, color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/40' },
-    whatsapp: { label: 'WhatsApp', icon: MessageCircle, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40' },
-    meeting_in_person: { label: 'Presencial', icon: Building2, color: 'text-amber-600 bg-amber-50 dark:bg-amber-950/40' },
-    video_call: { label: 'Videollamada', icon: Video, color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950/40' },
-    other_platform: { label: 'Otra', icon: ExternalLink, color: 'text-slate-600 bg-slate-50 dark:bg-slate-950/40' },
-    internal_note: { label: 'Nota interna', icon: MessageSquare, color: 'text-zinc-600 bg-zinc-50 dark:bg-zinc-950/40' },
+    call: { label: 'Llamada', icon: Phone, color: 'text-blue-600 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-800/60' },
+    email: { label: 'Email', icon: Mail, color: 'text-purple-600 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 border border-purple-200/60 dark:border-purple-800/60' },
+    whatsapp: { label: 'WhatsApp', icon: MessageCircle, color: 'text-emerald-600 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/60 dark:border-emerald-800/60' },
+    meeting_in_person: { label: 'Presencial', icon: Building2, color: 'text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/60 dark:border-amber-800/60' },
+    video_call: { label: 'Videollamada', icon: Video, color: 'text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60' },
+    other_platform: { label: 'Otra', icon: ExternalLink, color: 'text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700' },
+    internal_note: { label: 'Nota interna', icon: MessageSquare, color: 'text-zinc-600 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700' },
   }
 
   const exportToCSV = () => {
@@ -165,8 +165,8 @@ export function InteractionListClient() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900">Interacciones</h1>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100">Interacciones</h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">
             Historial de comunicaciones, llamadas, notas y compromisos comerciales
           </p>
         </div>
@@ -176,7 +176,7 @@ export function InteractionListClient() {
             size="sm"
             onClick={() => refetch()}
             disabled={isFetching}
-            className="cursor-pointer rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50"
+            className="cursor-pointer rounded-xl border-slate-200/90 dark:border-slate-800 shadow-2xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
           >
             <RefreshCw className={`h-3.5 w-3.5 mr-1.5 ${isFetching ? 'animate-spin' : ''}`} />
             Actualizar
@@ -186,7 +186,7 @@ export function InteractionListClient() {
             size="sm"
             onClick={exportToCSV}
             disabled={filteredInteractions.length === 0}
-            className="cursor-pointer rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50"
+            className="cursor-pointer rounded-xl border-slate-200/90 dark:border-slate-800 shadow-2xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
           >
             <Download className="h-3.5 w-3.5 mr-1.5" />
             Exportar CSV
@@ -205,7 +205,7 @@ export function InteractionListClient() {
       <NotificationAlert notification={notification} onClose={() => setNotification(null)} />
 
       {/* Filters Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
           <Input
@@ -215,7 +215,7 @@ export function InteractionListClient() {
               setGymSearch(e.target.value)
               setCurrentPage(1)
             }}
-            className="pl-8 text-xs rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white"
+            className="pl-8 text-xs rounded-xl border-slate-200/90 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-900 focus:bg-white dark:focus:bg-slate-900"
           />
         </div>
 
@@ -225,7 +225,7 @@ export function InteractionListClient() {
             setTypeFilter(e.target.value)
             setCurrentPage(1)
           }}
-          className="text-xs rounded-xl border-slate-200/90 bg-white"
+          className="text-xs rounded-xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200"
         >
           <option value="all">Todos los canales</option>
           <option value="call">Llamada</option>
@@ -243,7 +243,7 @@ export function InteractionListClient() {
             setRegisteredByFilter(e.target.value)
             setCurrentPage(1)
           }}
-          className="text-xs rounded-xl border-slate-200/90 bg-white"
+          className="text-xs rounded-xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200"
         >
           <option value="all">Registrado por: Todos</option>
           {registeredByUsers.map((u) => (
@@ -262,7 +262,7 @@ export function InteractionListClient() {
               setDateFrom(e.target.value)
               setCurrentPage(1)
             }}
-            className="text-xs h-9 rounded-xl border-slate-200/90 bg-white"
+            className="text-xs h-9 rounded-xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200"
           />
         </div>
 
@@ -275,13 +275,13 @@ export function InteractionListClient() {
               setDateTo(e.target.value)
               setCurrentPage(1)
             }}
-            className="text-xs h-9 rounded-xl border-slate-200/90 bg-white"
+            className="text-xs h-9 rounded-xl border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden">
         {isLoading ? (
           <div className="p-8 space-y-4">
             <div className="flex items-center justify-center gap-2 text-muted-foreground py-8">

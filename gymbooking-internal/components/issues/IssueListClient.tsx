@@ -216,8 +216,8 @@ export function IssueListClient() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900">Incidencias</h1>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
+          <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-slate-100">Incidencias</h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">
             Gestión y seguimiento de problemas técnicos, comerciales y operativos
           </p>
         </div>
@@ -227,7 +227,7 @@ export function IssueListClient() {
             size="sm"
             onClick={() => refetch()}
             disabled={isFetching}
-            className="cursor-pointer rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50"
+            className="cursor-pointer rounded-xl border-slate-200/90 dark:border-slate-700 shadow-2xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
           >
             <RefreshCw className={`h-3.5 w-3.5 mr-1.5 ${isFetching ? 'animate-spin' : ''}`} />
             Actualizar
@@ -237,7 +237,7 @@ export function IssueListClient() {
             size="sm"
             onClick={exportToCSV}
             disabled={filteredIssues.length === 0}
-            className="cursor-pointer rounded-xl border-slate-200/90 shadow-2xs font-semibold hover:bg-slate-50"
+            className="cursor-pointer rounded-xl border-slate-200/90 dark:border-slate-700 shadow-2xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
           >
             <Download className="h-3.5 w-3.5 mr-1.5" />
             Exportar CSV
@@ -256,7 +256,7 @@ export function IssueListClient() {
       <NotificationAlert notification={notification} onClose={() => setNotification(null)} />
 
       {/* Tabs */}
-      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200/80 overflow-x-auto shadow-2xs">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-x-auto shadow-2xs">
         {(
           [
             { key: 'open', label: 'Abiertas', count: counts.open },
@@ -271,16 +271,16 @@ export function IssueListClient() {
             onClick={() => setActiveTab(tab.key)}
             className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition-all duration-150 cursor-pointer ${
               activeTab === tab.key
-                ? 'bg-white text-slate-900 font-bold shadow-2xs border border-slate-200/70'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold shadow-2xs border border-slate-200/70 dark:border-slate-700'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white/60 dark:hover:bg-slate-800/60 font-medium'
             }`}
           >
             <span>{tab.label}</span>
             <span
               className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
                 activeTab === tab.key
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-200/80 text-slate-600'
+                  ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900'
+                  : 'bg-slate-200/80 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
               }`}
             >
               {tab.count}
@@ -290,21 +290,21 @@ export function IssueListClient() {
       </div>
 
       {/* Filters Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs">
         <div className="relative md:col-span-1">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
           <Input
             placeholder="Buscar incidencia..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-8 text-xs rounded-xl border-slate-200/90 bg-slate-50/50 hover:bg-white focus:bg-white"
+            className="pl-8 text-xs rounded-xl border-slate-200/90 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-950/60 hover:bg-white dark:hover:bg-slate-900 focus:bg-white dark:focus:bg-slate-900"
           />
         </div>
 
         <Select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="text-xs rounded-xl border-slate-200/90 bg-white"
+          className="text-xs rounded-xl"
         >
           <option value="all">Todos los tipos</option>
           <option value="technical_error">Error técnico</option>
@@ -321,7 +321,7 @@ export function IssueListClient() {
         <Select
           value={priorityFilter}
           onChange={(e) => setPriorityFilter(e.target.value)}
-          className="text-sm"
+          className="text-xs rounded-xl"
         >
           <option value="all">Todas las prioridades</option>
           <option value="urgent">Urgente</option>
@@ -333,7 +333,7 @@ export function IssueListClient() {
         <Select
           value={assigneeFilter}
           onChange={(e) => setAssigneeFilter(e.target.value)}
-          className="text-sm"
+          className="text-xs rounded-xl"
         >
           <option value="all">Todos los asignados</option>
           {filterAssignees.map((a) => (
@@ -346,7 +346,7 @@ export function IssueListClient() {
         <Select
           value={gymFilter}
           onChange={(e) => setGymFilter(e.target.value)}
-          className="text-sm"
+          className="text-xs rounded-xl"
         >
           <option value="all">Todos los gimnasios</option>
           {filterGyms.map((g) => (
@@ -358,7 +358,7 @@ export function IssueListClient() {
       </div>
 
       {/* Issues Table */}
-      <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden">
         {isLoading ? (
           <div className="p-8 space-y-4">
             <div className="flex items-center justify-center gap-2 text-muted-foreground py-8">
